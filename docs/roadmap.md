@@ -31,8 +31,10 @@ place the logic lives.
       exhausted retries, streaming, malformed SSE lines). A FakeLLMProvider
       in `tests/` validates the interface needs no transport complexity
       to satisfy.
-- [ ] **Step 6** — Port `summarize_messages` → `summarization/`, built on
-      `llm/`.
+- [x] **Step 6** — Port `summarize_messages` → `summarization/`, built on
+      `llm/` (ADR 0007). Depends only on `LLMProvider`, never
+      `GroqProvider`; verified with a direct legacy-vs-new prompt
+      comparison across 4 scenarios.
 - [ ] **Step 7** — Port PDF/vision extraction → `ingestion/`.
 - [ ] **Step 8** — Cutover: wire `app.py` to `contextshift/` one route at a
       time (8a–8f), via a new application-layer adapter module.

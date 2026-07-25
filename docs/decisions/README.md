@@ -34,3 +34,4 @@ history of *why* stays intact.
 - [0004 — The ContextStrategy interface](0004-context-strategy-interface.md)
 - [0005 — Structural Protocols, not ABCs, for pluggable interfaces](0005-protocol-over-abc.md)
 - [0006 — The LLMProvider interface](0006-llm-provider-interface.md)
+- [0007 — The Summarizer domain service](0007-summarizer-domain-service.md)

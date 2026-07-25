@@ -56,6 +56,33 @@ Core Types              core/ — plain, dependency-free domain types
 A machine-readable version of this diagram lives in
 [`diagrams/layer-diagram.mmd`](diagrams/layer-diagram.mmd).
 
+### Internal layering within the ContextShift Library
+
+As of Step 6, the library's subpackages settled into four distinct
+responsibilities, each answering a different question:
+
+```
+Context Engineering (strategies/)     "what context should the model see?"
+            │
+LLM Services (summarization/)         "what should I ask the model?"
+            │
+LLM Infrastructure (llm/)             "how do I talk to a model?"
+            │
+Transport (HTTP, inside llm/*.py)     "how do bytes move across the network?"
+```
+
+Strategies decide what context to build; summarization decides what to
+ask a model in service of some goal (today, compression); providers
+decide how to actually talk to a specific model; transport is the wire
+protocol underneath a provider. Each layer depends only on the one below
+it (`summarization/` depends on `llm/`'s `LLMProvider` interface, never
+on `GroqProvider` or on HTTP directly), and nothing above the transport
+layer knows transport-level details exist -- `PinnedRecencyStrategy` has
+no idea an HTTP request is even possible, and `Summarizer` has no idea
+Groq exists. This is the same one-directional dependency principle as
+the outer Application → Adapters → Library → Core layering above,
+applied a second time, inside the library itself.
+
 ## Dependency rules
 
 1. **Dependencies flow one direction only**, top to bottom in the diagram
