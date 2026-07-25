@@ -42,9 +42,24 @@ place the logic lives.
       (`LLMProvider` is text-only, ADR 0006; no `VisionProvider` exists).
       Remains in `utils/file_processor.py`, a named gap blocking Step 9's
       `utils/` deletion until vision capability is deliberately designed.
-- [ ] **Step 8** — Cutover: wire `app.py` to `contextshift/` one route at a
-      time (8a–8f), via a new application-layer adapter module.
-- [ ] **Step 9** — Delete the now-dead `utils/` package.
+- [x] **Step 8** — Cutover, scope revised (ADR 0009): `app.py` now runs on
+      `contextshift/` for context building, tokenization, summarization,
+      text LLM calls, and PDF extraction. Image analysis deliberately
+      **not** cut over -- `/upload`'s image branch still calls
+      `utils/file_processor.py::analyze_image_with_groq` directly,
+      unchanged, per your explicit redirect not to force it into
+      `LLMProvider` just to complete the original plan. New
+      `adapters.py` (repo root, not in `contextshift/`) does ORM↔`core.Message`
+      translation and constructs configured library objects from
+      `Config`.
+- [ ] **Post-Step-8 architecture review** — multimodal support, analysis
+      only (no `VisionProvider` implementation). See
+      `docs/decisions/0010-multimodal-architecture-review.md` once
+      written. Required before Step 9 can proceed on `utils/file_processor.py`.
+- [ ] **Step 9** — Delete `utils/token_manager.py`, `utils/context_builder.py`,
+      `utils/summarizer.py` (fully dead after Step 8). `utils/file_processor.py`
+      stays, in whole or in part, until the multimodal review lands and
+      vision capability (if warranted) has a home in `contextshift/`.
 - [ ] **Step 10** (optional) — Package `contextshift/` as installable
       (`pyproject.toml`, `pip install -e .`).
 

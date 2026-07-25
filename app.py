@@ -3,9 +3,11 @@ import json
 from flask_cors import CORS
 from models import db, Message
 from config import Config
-from utils import token_manager, summarizer, context_builder
 from utils import file_processor
 import os
+
+import adapters
+from contextshift import ingestion
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -39,35 +41,37 @@ def chat():
         try:
             with app.app_context():
                 # 1. Save user message
-                user_tokens = token_manager.estimate_tokens(user_message_text)
+                tokenizer = adapters.build_tokenizer()
+                user_tokens = tokenizer.estimate_tokens(user_message_text)
                 user_msg = Message(role="user", content=user_message_text, token_count=user_tokens)
                 db.session.add(user_msg)
                 db.session.commit()
-                
+
                 # 2. Build context
                 all_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-                context = context_builder.build_context(all_messages)
-                
-                # 3. Stream from Groq
+                context = adapters.build_chat_context(all_messages)
+
+                # 3. Stream from the provider
+                provider = adapters.build_provider()
                 accumulated_response = []
-                for chunk in summarizer.call_groq_stream(context):
+                for chunk in provider.stream(context):
                     accumulated_response.append(chunk)
                     yield f"data: {chunk}\n\n"
-                
+
                 full_text = "".join(accumulated_response)
-                
+
                 # 4. Save assistant response
-                assistant_tokens = token_manager.estimate_tokens(full_text)
+                assistant_tokens = tokenizer.estimate_tokens(full_text)
                 assistant_msg = Message(role="assistant", content=full_text, token_count=assistant_tokens)
                 db.session.add(assistant_msg)
                 db.session.commit()
-                
+
                 # 5. Get updated stats and send final chunk
                 all_messages_updated = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-                stats = token_manager.get_token_stats(all_messages_updated)
-                
+                stats = adapters.compute_token_stats(all_messages_updated)
+
                 yield f"data: [STATS]{json.dumps(stats)}\n\n"
-                
+
         except Exception as e:
             yield f"data: [ERROR]{str(e)}\n\n"
 
@@ -83,15 +87,15 @@ def summarize():
             return jsonify({"message": "Not enough messages to summarize (need at least one exchange)"}), 200
         
         # 2. Call summarizer
-        summary_text = summarizer.summarize_messages(to_summarize)
+        summary_text = adapters.build_summarizer().summarize(adapters.to_core_messages(to_summarize))
         summary_content = f"[SUMMARY] {summary_text}"
-        
+
         # 3. Archive the summarized messages
         for msg in to_summarize:
             msg.is_archived = True
-        
+
         # 4. Save summary as system message
-        summary_tokens = token_manager.estimate_tokens(summary_content)
+        summary_tokens = adapters.build_tokenizer().estimate_tokens(summary_content)
         summary_msg = Message(role="system", content=summary_content, token_count=summary_tokens)
         db.session.add(summary_msg)
         db.session.commit()
@@ -123,7 +127,7 @@ def prune():
 @app.route('/messages', methods=['GET'])
 def get_messages():
     active_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-    stats = token_manager.get_token_stats(active_messages)
+    stats = adapters.compute_token_stats(active_messages)
     return jsonify({
         "messages": [m.to_dict() for m in active_messages],
         "token_stats": stats
@@ -200,7 +204,7 @@ def upload_file():
         MAX_CONTENT_CHARS = 6000
 
         if filename.endswith('.pdf') or mime_type == 'application/pdf':
-            extracted_text = file_processor.extract_text_from_pdf(file_bytes)
+            extracted_text = ingestion.extract_text_from_pdf(file_bytes)
 
             # Truncate if too long
             if len(extracted_text) > MAX_CONTENT_CHARS:
@@ -214,16 +218,19 @@ def upload_file():
                 user_message_text = f"{label}\n\n---\n*Extracted PDF content:*\n{extracted_text}\n\nPlease analyze the content above."
 
             # Save as user message and get AI response
-            user_tokens = token_manager.estimate_tokens(user_message_text)
+            user_tokens = adapters.build_tokenizer().estimate_tokens(user_message_text)
             user_msg = Message(role="user", content=user_message_text, token_count=user_tokens)
             db.session.add(user_msg)
             db.session.commit()
 
             all_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-            context = context_builder.build_context(all_messages)
-            assistant_response = summarizer.call_groq(context)
+            context = adapters.build_chat_context(all_messages)
+            assistant_response = adapters.build_provider().complete(context)
 
         elif mime_type.startswith('image/') or any(filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']):
+            # Image analysis stays on the legacy implementation for now --
+            # no dedicated vision capability exists in contextshift/ yet.
+            # See docs/decisions/0008-ingestion-vs-ai-boundary.md.
             # Map extension to mime type if not provided
             if not mime_type.startswith('image/'):
                 ext_map = {'.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
@@ -248,7 +255,7 @@ def upload_file():
             else:
                 user_message_text = f"{label}\n\nPlease analyze this image."
 
-            user_tokens = token_manager.estimate_tokens(user_message_text)
+            user_tokens = adapters.build_tokenizer().estimate_tokens(user_message_text)
             user_msg = Message(role="user", content=user_message_text, token_count=user_tokens)
             db.session.add(user_msg)
             db.session.commit()
@@ -257,13 +264,13 @@ def upload_file():
             return jsonify({"error": "Unsupported file type. Please upload an image (JPG, PNG, GIF, WEBP) or a PDF."}), 400
 
         # Save assistant response
-        assistant_tokens = token_manager.estimate_tokens(assistant_response)
+        assistant_tokens = adapters.build_tokenizer().estimate_tokens(assistant_response)
         assistant_msg = Message(role="assistant", content=assistant_response, token_count=assistant_tokens)
         db.session.add(assistant_msg)
         db.session.commit()
 
         all_messages_updated = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-        stats = token_manager.get_token_stats(all_messages_updated)
+        stats = adapters.compute_token_stats(all_messages_updated)
 
         return jsonify({
             "response": assistant_response,

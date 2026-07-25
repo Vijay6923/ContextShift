@@ -36,3 +36,4 @@ history of *why* stays intact.
 - [0006 — The LLMProvider interface](0006-llm-provider-interface.md)
 - [0007 — The Summarizer domain service](0007-summarizer-domain-service.md)
 - [0008 — The ingestion/AI boundary, and what Step 7 deliberately leaves unported](0008-ingestion-vs-ai-boundary.md)
+- [0009 — Application cutover scope and the adapter's design (Step 8)](0009-step8-application-cutover.md)

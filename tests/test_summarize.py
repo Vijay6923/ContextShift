@@ -1,5 +1,6 @@
 from conftest import seed_message
 from models import Message
+from fakes import FakeLLMProvider
 
 
 def test_summarize_with_no_messages_reports_not_enough(client):
@@ -19,7 +20,7 @@ def test_summarize_with_one_message_reports_not_enough(client, app_ctx):
 
 
 def test_summarize_archives_originals_and_stores_summary(client, app_ctx, monkeypatch):
-    monkeypatch.setattr("utils.summarizer.call_groq", lambda messages, max_tokens=512: "This is a summary.")
+    monkeypatch.setattr("adapters.build_provider", lambda: FakeLLMProvider(complete_response="This is a summary."))
 
     seed_message("user", "what's the capital of France?")
     seed_message("assistant", "Paris.")
@@ -41,7 +42,7 @@ def test_summarize_archives_originals_and_stores_summary(client, app_ctx, monkey
 
 
 def test_summarize_excludes_pinned_messages(client, app_ctx, monkeypatch):
-    monkeypatch.setattr("utils.summarizer.call_groq", lambda messages, max_tokens=512: "Summary.")
+    monkeypatch.setattr("adapters.build_provider", lambda: FakeLLMProvider(complete_response="Summary."))
 
     seed_message("user", "pinned question", is_pinned=True)
     seed_message("assistant", "pinned answer", is_pinned=True)

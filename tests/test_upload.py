@@ -1,6 +1,7 @@
 import io
 
 from models import Message
+from fakes import FakeLLMProvider
 
 
 def test_upload_rejects_missing_file(client):
@@ -31,12 +32,12 @@ def test_upload_rejects_oversized_file(client):
 
 def test_upload_pdf_happy_path(client, app_ctx, monkeypatch):
     monkeypatch.setattr(
-        "utils.file_processor.extract_text_from_pdf",
+        "contextshift.ingestion.extract_text_from_pdf",
         lambda file_bytes: "Extracted PDF text.",
     )
     monkeypatch.setattr(
-        "utils.summarizer.call_groq",
-        lambda messages, max_tokens=1024: "AI response about the PDF.",
+        "adapters.build_provider",
+        lambda: FakeLLMProvider(complete_response="AI response about the PDF."),
     )
 
     data = {

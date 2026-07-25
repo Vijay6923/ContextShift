@@ -1,10 +1,6 @@
 from app import app as flask_app
 from models import Message
-
-
-def fake_call_groq_stream(messages, max_tokens=1024):
-    for chunk in ["Hello", " world"]:
-        yield chunk
+from fakes import FakeLLMProvider
 
 
 def test_chat_rejects_empty_message(client):
@@ -15,7 +11,8 @@ def test_chat_rejects_empty_message(client):
 
 
 def test_chat_streams_response_and_persists_messages(client, monkeypatch):
-    monkeypatch.setattr("utils.summarizer.call_groq_stream", fake_call_groq_stream)
+    fake_provider = FakeLLMProvider(stream_chunks=["Hello", " world"])
+    monkeypatch.setattr("adapters.build_provider", lambda: fake_provider)
 
     response = client.post("/chat", json={"message": "hello there"})
     body = response.get_data(as_text=True)
