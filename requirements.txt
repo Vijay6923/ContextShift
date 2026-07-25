@@ -1,0 +1,8 @@
+flask
+flask-cors
+flask-sqlalchemy
+python-dotenv
+requests
+PyPDF2
+Pillow
+gunicorn
