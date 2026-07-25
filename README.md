@@ -1,5 +1,7 @@
 # ContextShift
 
+🚀 **Live App Demo:** [https://context-shift.vercel.app/](https://context-shift.vercel.app/)
+
 ContextShift is an intelligent chat application powered by Groq and Flask, designed to handle long conversations through smart context management (summarization, pruning, and pinning).
 
 ## Features
