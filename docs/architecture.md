@@ -3,23 +3,21 @@
 ## Purpose
 
 ContextShift is not a chatbot. The chatbot (the Flask app in this repo) is a
-demonstration and visualization client for the actual project: **a framework
+demonstration and example client for the actual project: **a framework
 for experimenting with and comparing LLM context-window management
 strategies** — sliding windows, pinning, summarization, semantic retrieval,
 importance scoring, and hybrids of these.
 
-The premise the project exists to demonstrate and eventually measure:
-**a large context window is not the same thing as memory.** Sending an
-entire conversation history to a model doesn't solve long-conversation
-coherence; it just delays the point where a management strategy becomes
-necessary. ContextShift makes that management explicit, observable, and
-— as the migration in progress completes — pluggable and measurable.
+The premise the project exists to demonstrate: **a large context window is
+not the same thing as memory.** Sending an entire conversation history to a
+model doesn't solve long-conversation coherence; it just delays the point
+where a management strategy becomes necessary. ContextShift makes that
+management explicit, observable, pluggable, and measurable.
 
-The long-term goal is for `contextshift/` to stand alone as an installable
-Python library that a researcher or another engineer can use without the
-Flask app existing at all: in a CLI batch-evaluation harness, a notebook,
-or someone else's application entirely. Every design decision in this
-document is filtered through one question:
+`contextshift/` is a standalone Python library that a researcher or another
+engineer can use without the Flask app existing at all: in a CLI batch
+evaluation harness, a notebook, or a different application entirely. Every
+design decision in this document is filtered through one question:
 
 > If the web application disappeared tomorrow, would the `contextshift`
 > library still be useful to another developer or researcher?
@@ -31,13 +29,13 @@ library.
 
 ```
 Application            app.py, models.py, config.py — Flask, SQLAlchemy,
-                        HTTP routing, persistence, the demo UI
+                        HTTP routing, persistence, the example chat UI
 
       ↓ (imports)
 
-Adapters                translates between application-specific types
-                        (SQLAlchemy ORM rows) and library-neutral types
-                        (contextshift.core.Message). Lives on the
+Adapters                adapters.py — translates between application-specific
+                        types (SQLAlchemy ORM rows, Config) and library-neutral
+                        types (contextshift.core.Message). Lives on the
                         application side of the boundary.
 
       ↓ (imports)
@@ -58,8 +56,8 @@ A machine-readable version of this diagram lives in
 
 ### Internal layering within the ContextShift Library
 
-As of Step 6, the library's subpackages settled into four distinct
-responsibilities, each answering a different question:
+The library's subpackages form four distinct responsibilities, each
+answering a different question:
 
 ```
 Context Engineering (strategies/)     "what context should the model see?"
@@ -77,7 +75,7 @@ decide how to actually talk to a specific model; transport is the wire
 protocol underneath a provider. Each layer depends only on the one below
 it (`summarization/` depends on `llm/`'s `LLMProvider` interface, never
 on `GroqProvider` or on HTTP directly), and nothing above the transport
-layer knows transport-level details exist -- `PinnedRecencyStrategy` has
+layer knows transport-level details exist — `PinnedRecencyStrategy` has
 no idea an HTTP request is even possible, and `Summarizer` has no idea
 Groq exists. This is the same one-directional dependency principle as
 the outer Application → Adapters → Library → Core layering above,
@@ -87,58 +85,53 @@ applied a second time, inside the library itself.
 
 1. **Dependencies flow one direction only**, top to bottom in the diagram
    above. `contextshift/` never imports from `app.py`, `models.py`,
-   `config.py`, or any adapter — the library must have zero awareness that
-   a Flask application exists, let alone this one.
+   `config.py`, or `adapters.py` — the library has zero awareness that a
+   Flask application exists, let alone this one.
 2. **`contextshift/` has zero dependency on Flask or SQLAlchemy**, or on
    any other application/web framework. Its only third-party dependencies
-   are the ones a strategy or provider genuinely needs (e.g. an HTTP
-   client for an LLM provider).
+   are the ones a subpackage genuinely needs (e.g. `requests` for the Groq
+   provider, `PyPDF2`/`Pillow` for document ingestion).
 3. **Adapters are application-layer code**, not library code, precisely
    because an adapter's job is to know about *both* sides of the boundary
    (an ORM row and a `core.Message`) — code that knows about both sides
    cannot live inside the side that's supposed to know about neither.
    See [`decisions/0001-library-independence-and-adapter-placement.md`](decisions/0001-library-independence-and-adapter-placement.md).
 4. **Within `contextshift/`, `core/` is the dependency sink.** Every other
-   subpackage *may* depend on `core/`; `core/` depends on nothing else in
-   the package. As actually built (Steps 2-4): `strategies/` depends on
-   `core/`; `tokenizers/` depends on nothing in this package at all --
-   `estimate_tokens` operates on a plain `str`, not a `Message`, so it
-   doesn't even need `core/`. `strategies/` does **not** currently depend
-   on `tokenizers/`: `PinnedRecencyStrategy` trusts a precomputed
-   `Message.token_count` rather than measuring anything itself. A future
-   strategy that measures tokens on the fly (rather than trusting a
-   value some caller already computed) would be the first real case of
-   `strategies/` depending on `tokenizers/` -- not something to assume in
-   advance. `summarization/` is expected to depend on `llm/` once built
-   (it needs a provider to call an LLM with). No other cross-subpackage
-   dependencies are expected; if one becomes necessary, it should be a
-   deliberate, documented decision, not an incidental import.
+   subpackage may depend on `core/`; `core/` depends on nothing else in the
+   package. `strategies/` depends on `core/`. `tokenizers/` depends on
+   nothing in the package at all — token estimation operates on a plain
+   `str`, not a `Message`. `strategies/` does not depend on `tokenizers/`:
+   `PinnedRecencyStrategy` trusts a precomputed `Message.token_count`
+   rather than measuring anything itself; a strategy that measures tokens
+   on the fly would be the first case of that dependency existing.
+   `summarization/` depends on `llm/`'s `LLMProvider` interface (it needs a
+   provider to call a model with), never on a concrete provider. No other
+   cross-subpackage dependencies exist; a new one should be a deliberate,
+   documented decision, not an incidental import.
 
 ## Architectural principles
 
-These apply to every module added to `contextshift/` from the migration
-onward:
+These apply to every module in `contextshift/`:
 
-- **Treat every new module as if it will eventually become a public API.**
-  Public classes and functions carry type hints. Public modules carry a
-  concise docstring stating their purpose. Implementation details that
-  might need to change later are not exposed just because it's convenient
-  today — a strategy's internal helper functions are not public API; its
-  `ContextStrategy.build(...)` entry point is.
-- **No premature API surface.** A module is not given exports, a class
-  shape, or a documented contract before the code behind it actually
-  exists — guessing at a public shape early just means breaking it later.
-  (This is why the Step 1 scaffold ships empty subpackages with docstrings
-  and no exports.)
-- **Preserve behavior exactly during extraction.** While porting existing
-  logic (`utils/token_manager.py`, `utils/context_builder.py`,
-  `utils/summarizer.py`, `utils/file_processor.py`) into `contextshift/`,
-  the goal is architectural separation, not improvement. Algorithms are
-  not optimized, heuristics are not "fixed," and concepts are not renamed
-  during a port — those are separate, deliberate decisions made later, not
-  side effects of moving code.
-- **Every migration step keeps the application runnable.** The old code
-  path stays live until the explicit cutover step that replaces it;
-  nothing is deleted until nothing depends on it.
+- **Every module is public API.** Public classes and functions carry type
+  hints. Public modules carry a concise docstring stating their purpose.
+  Implementation details that might need to change later are not exposed
+  just because it's convenient — a strategy's internal helper functions
+  are not public API; its `ContextStrategy.build(...)` entry point is.
+- **No premature API surface.** A field, method, or export exists because
+  something concretely needs it, not because it might be useful someday.
+  Speculative surface is easy to add later and hard to remove once
+  something depends on it.
+- **Interfaces are structural `Protocol`s, not `ABC`s.** A `Tokenizer`, a
+  `ContextStrategy`, an `LLMProvider` is defined entirely by having a
+  matching method, not by inheriting from anything in this package. A new
+  implementation of any of these needs no dependency on `contextshift`
+  itself. See [`decisions/0005-protocol-over-abc.md`](decisions/0005-protocol-over-abc.md).
+- **Every layer is independently testable with a fake.** Nothing that
+  depends on `LLMProvider`, for instance, needs a real network connection
+  or API key to be tested — any object with matching `complete()`/`stream()`
+  methods satisfies the interface.
 - **Architecturally significant decisions are recorded**, not left
-  implicit in code or conversation history. See [`decisions/`](decisions/).
+  implicit in code alone. See [`decisions/`](decisions/) for the reasoning
+  behind specific choices, including alternatives that were considered and
+  rejected.

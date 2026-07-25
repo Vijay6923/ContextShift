@@ -1,4 +1,4 @@
-"""PDF text extraction, ported mechanically from the original application."""
+"""PDF text extraction."""
 from __future__ import annotations
 
 import io
@@ -8,20 +8,12 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
     """
     Extract all readable text from a PDF, page by page.
 
-    Ported mechanically from the original application's
-    utils/file_processor.py::extract_text_from_pdf: identical PyPDF2
-    usage, identical per-page "[Page N]" labeling, identical behavior on
-    a PDF with no extractable text (raises, rather than returning an
-    empty string -- most likely a scanned/image-only PDF, which this
-    function makes no attempt to OCR). The lazy, try/except-guarded
-    PyPDF2 import is preserved as-is, even though PyPDF2 is a hard
-    requirement of this project (see requirements.txt) and that
-    ImportError branch is not currently reachable in practice -- not
-    "cleaned up" into a top-level import, per the mechanical-port
-    instruction.
-
     Pure ingestion: no network, no AI, no application-specific types.
     Operates on raw bytes in, text out.
+
+    Raises rather than returning an empty string when no page yields any
+    readable text -- most likely a scanned/image-only PDF, which this
+    function makes no attempt to OCR.
 
     Args:
         file_bytes: Raw PDF bytes.

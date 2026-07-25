@@ -1,4 +1,4 @@
-"""Groq REST API client, ported mechanically from the original application."""
+"""Groq REST API client."""
 from __future__ import annotations
 
 import json
@@ -22,37 +22,29 @@ class GroqProvider:
     An LLMProvider (contextshift.llm.base.LLMProvider) backed by Groq's
     REST API.
 
-    Ported mechanically from the original application's
-    utils/summarizer.py (call_groq, call_groq_stream): identical
-    retry-on-429 behavior and backoff schedule, identical manual SSE line
-    parsing for streaming, identical error messages, identical request
-    payload shape (including that only the streaming payload carries a
-    "stream" key at all -- the non-streaming payload never did, and this
-    port does not unify the two behind one shared builder that would add
-    one). Not optimized, hardened, or given a typed exception hierarchy
-    during this port -- see
-    docs/decisions/0006-llm-provider-interface.md for what was
-    deliberately left unchanged and why.
-
     Owns everything Groq-specific: authentication, the exact request
-    payload shape, HTTP transport, and how a streamed response is parsed
-    into text chunks. None of this is visible through the LLMProvider
-    interface -- code holding an LLMProvider has no way to tell it's
-    talking to Groq at all.
+    payload shape, HTTP transport, retry-on-429 behavior and backoff
+    schedule, and how a streamed response is parsed into text chunks
+    (manual SSE line parsing). None of this is visible through the
+    LLMProvider interface -- code holding an LLMProvider has no way to
+    tell it's talking to Groq at all.
+
+    Deliberately unoptimized and without a typed exception hierarchy --
+    errors surface as plain `Exception`/`ValueError` with human-readable
+    messages, not a `GroqError`/`RateLimitError` hierarchy. See
+    docs/decisions/0006-llm-provider-interface.md for the reasoning.
 
     Args:
         api_key: Groq API key. Required, and validated at construction
-            time. Unlike the original application, this is not read from
-            a global Config -- contextshift never imports application
-            configuration directly (see
+            time. Not read from any global configuration -- contextshift
+            never imports application configuration directly (see
             docs/decisions/0001-library-independence-and-adapter-placement.md).
-            Whatever constructs a GroqProvider (the eventual Flask
-            adapter, a CLI, a notebook) supplies it explicitly.
-        model: Groq model identifier. Defaults to the model the original
-            application always used.
+            Whatever constructs a GroqProvider (a Flask adapter, a CLI, a
+            notebook) supplies it explicitly.
+        model: Groq model identifier. Defaults to `llama-3.1-8b-instant`.
         base_url: Groq's chat-completions endpoint. Defaults to Groq's
-            real endpoint; overridable for testing or a future
-            self-hosted/proxy deployment.
+            real endpoint; overridable for testing or a self-hosted/proxy
+            deployment.
     """
 
     def __init__(

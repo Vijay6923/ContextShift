@@ -2,9 +2,8 @@
 LLM provider abstraction.
 
 Defines a common interface (LLMProvider) for completing and streaming
-chat requests, plus concrete providers -- starting with Groq, carried
-over from the original application's direct REST calls. Code that needs
-to call an LLM (starting with contextshift.summarization, once built)
+chat requests, plus concrete providers -- currently GroqProvider. Code
+that needs to call an LLM (contextshift.summarization, for instance)
 depends on this interface rather than on any specific vendor's API, so
 the provider can be swapped without touching the code that uses it.
 

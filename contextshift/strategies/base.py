@@ -29,9 +29,8 @@ class ContextResult:
             downstream concern, not this type's.
         excluded: Messages the strategy considered but did not keep, in
             their original relative order. Present so a caller can answer
-            "what got dropped" directly, which the legacy implementation's
-            bare list return value made impossible to know without
-            re-deriving it by hand.
+            "what got dropped" directly, without re-deriving it by
+            comparing the input against `messages` by hand.
     """
 
     messages: list[Message]

@@ -1,4 +1,4 @@
-"""Image preprocessing for vision models, extracted from the original application."""
+"""Image preprocessing for vision models."""
 from __future__ import annotations
 
 import io
@@ -11,22 +11,15 @@ def prepare_image_for_vision(file_bytes: bytes, mime_type: str) -> tuple[bytes, 
     """
     Resize, normalize, and re-encode image bytes for a vision model.
 
-    Mechanically extracted from the preprocessing half of the original
-    application's analyze_image_with_groq
-    (utils/file_processor.py) -- the half that has nothing to do with
-    calling a model. This function is the "image preparation" that
-    docs/decisions/0008-ingestion-vs-ai-boundary.md identifies as a pure
-    ingestion concern; the other half of that legacy function (base64
-    encoding a payload, calling Groq's vision endpoint, retrying on
-    429) is deliberately NOT here -- see that ADR for where it remains
-    and why.
+    This is "image preparation" -- a pure ingestion concern, deliberately
+    separate from calling a vision model to interpret the image. See
+    docs/decisions/0008-ingestion-vs-ai-boundary.md for why image
+    understanding is not part of this subpackage.
 
-    Ported with the same constants (MAX_DIMENSION_PX, JPEG_QUALITY) and
-    the same resilience characteristic: if preprocessing fails for *any*
-    reason -- including Pillow being unavailable at all, which is why
-    the `from PIL import Image` import below is deliberately local to
-    this function rather than at module level, exactly mirroring
-    legacy's structure -- the original bytes and mime_type are returned
+    Resilient by design: if preprocessing fails for *any* reason --
+    including Pillow being unavailable at all, which is why the
+    `from PIL import Image` import below is local to this function rather
+    than at module level -- the original bytes and mime_type are returned
     unchanged, with a warning printed, rather than raising.
 
     Pure ingestion: no network, no AI, no application-specific types.

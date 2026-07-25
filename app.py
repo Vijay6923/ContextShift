@@ -228,9 +228,11 @@ def upload_file():
             assistant_response = adapters.build_provider().complete(context)
 
         elif mime_type.startswith('image/') or any(filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']):
-            # Image analysis stays on the legacy implementation for now --
-            # no dedicated vision capability exists in contextshift/ yet.
-            # See docs/decisions/0008-ingestion-vs-ai-boundary.md.
+            # Image analysis calls Groq's vision API directly here rather
+            # than through contextshift/ -- no dedicated vision capability
+            # exists in the library yet. See
+            # docs/decisions/0008-ingestion-vs-ai-boundary.md and
+            # docs/decisions/0010-multimodal-architecture-review.md.
             # Map extension to mime type if not provided
             if not mime_type.startswith('image/'):
                 ext_map = {'.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',

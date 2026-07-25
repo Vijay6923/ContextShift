@@ -1,4 +1,4 @@
-"""Pinned/recency context-selection strategy, ported mechanically from the original application."""
+"""Pinned/recency context-selection strategy."""
 from __future__ import annotations
 
 from collections.abc import Sequence
@@ -17,13 +17,10 @@ class PinnedRecencyStrategy:
     exceeded, falling back to trimming the recency window (down to a
     floor of one message) only once every candidate has been dropped.
 
-    This is a mechanical port of the original application's only
-    context-selection algorithm (utils/context_builder.py's
-    build_context). The selection logic -- which messages get kept, in
-    what order, and in what sequence they get pruned -- is unchanged.
-    What differs is packaging: this strategy returns a ContextResult of
-    plain Message objects, not an OpenAI-formatted list with a system
-    prompt prepended (see docs/decisions/0004-context-strategy-interface.md).
+    Returns a ContextResult of plain Message objects -- not an
+    OpenAI-formatted list, and with no system prompt prepended; message
+    selection and prompt formatting are different concerns (see
+    docs/decisions/0004-context-strategy-interface.md).
 
     Algorithm:
         1. Split input messages into pinned and non-pinned.

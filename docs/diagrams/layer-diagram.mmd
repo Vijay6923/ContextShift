@@ -1,19 +1,6 @@
-%% ContextShift layer diagram.
-%% Status as of migration Step 4 (architecture checkpoint): Application
-%% boxes are real and running, unmodified by the migration so far.
-%% Adapters does not exist yet (arrives at the Step 8 cutover). core/,
-%% tokenizers/, and strategies/ are real, implemented code as of Steps
-%% 2-4; llm/, summarization/, and ingestion/ remain empty, docstring-only
-%% modules (see docs/roadmap.md).
-%%
-%% Arrows below reflect the ACTUAL dependency graph of implemented code,
-%% not speculation -- an earlier version of this diagram (Step 1, before
-%% any real code existed) drew Tokenizers --> CoreTypes and
-%% Strategies --> Tokenizers, neither of which turned out to be true:
-%% tokenizers/ operates on plain strings and needs no contextshift type
-%% at all, and PinnedRecencyStrategy trusts a precomputed token count
-%% rather than measuring anything itself. See docs/architecture.md's
-%% dependency rules for the current reasoning.
+%% ContextShift layer diagram: current architecture.
+%% See docs/architecture.md for the accompanying explanation of each
+%% layer and the dependency rules this diagram encodes.
 
 graph TD
     subgraph Application
@@ -22,16 +9,16 @@ graph TD
         App3["config.py"]
     end
 
-    subgraph Adapters["Adapters (not yet created)"]
+    subgraph Adapters
         Adapter["adapters.py"]
     end
 
     subgraph Library["ContextShift Library"]
-        Strategies["strategies/ (implemented)"]
-        Tokenizers["tokenizers/ (implemented, dependency-free)"]
-        LLM["llm/ (not yet implemented)"]
-        Summarization["summarization/ (not yet implemented)"]
-        Ingestion["ingestion/ (not yet implemented)"]
+        Strategies["strategies/"]
+        Tokenizers["tokenizers/"]
+        LLM["llm/"]
+        Summarization["summarization/"]
+        Ingestion["ingestion/"]
     end
 
     subgraph Core["Core Types"]
@@ -46,11 +33,14 @@ graph TD
     Adapter --> Ingestion
 
     Strategies --> CoreTypes
-    LLM -.-> CoreTypes
-    Summarization -.-> CoreTypes
-    Ingestion -.-> CoreTypes
+    LLM --> CoreTypes
+    Summarization --> CoreTypes
+    Ingestion --> CoreTypes
 
-    Summarization -.-> LLM
+    Summarization --> LLM
 
     %% Tokenizers has no dependency on CoreTypes or anything else in the
-    %% package -- intentionally omitted as a leaf, not forgotten.
+    %% package -- token estimation operates on a plain string, not a
+    %% Message. Strategies has no dependency on Tokenizers -- strategies
+    %% trust a precomputed token count rather than measuring text
+    %% themselves. Both omissions are intentional, not missing edges.

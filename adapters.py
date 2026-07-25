@@ -15,8 +15,8 @@ app.py imports this module itself (`import adapters`), not individual
 names from it (never `from adapters import build_provider`), and this
 module imports contextshift subpackages the same way. That means a test
 can monkeypatch a single factory function (e.g. `adapters.build_provider`)
-and have every caller see the patched version -- the exact pattern the
-pre-migration test suite already relied on for `utils.summarizer`.
+and have every caller see the patched version, with no real network
+access required to test any route that depends on an LLM call.
 """
 from __future__ import annotations
 
@@ -66,14 +66,12 @@ def build_provider() -> GroqProvider:
     Construct a GroqProvider from application config.
 
     Deliberately called fresh at each use site within a route, never
-    constructed once at module import time -- GroqProvider validates
-    api_key at construction (Step 5 / ADR 0006), and legacy's equivalent
-    check (`if not Config.GROQ_API_KEY: raise ValueError`) only ever ran
-    when a route actually needed to call Groq, not at application
-    startup. Constructing eagerly at import time would change that
-    failure mode: the app would refuse to boot at all if GROQ_API_KEY
-    were unset, instead of booting fine and only failing the specific
-    routes that need it, exactly as legacy behaves.
+    constructed once at module import time. GroqProvider validates
+    `api_key` at construction (ADR 0006); constructing it eagerly at
+    import time would mean the app refuses to boot at all if
+    `GROQ_API_KEY` is unset. Calling this lazily, from inside each route
+    that needs it, means the app boots fine either way and only the
+    specific routes that need Groq fail if the key is missing.
     """
     return GroqProvider(api_key=Config.GROQ_API_KEY, model=Config.GROQ_MODEL, base_url=Config.GROQ_BASE_URL)
 
@@ -87,12 +85,11 @@ def build_chat_context(orm_messages) -> list[CoreMessage]:
     Select context via the pinned/recency strategy and prepend the
     application's system prompt.
 
-    Legacy's context_builder.build_context() combined message selection
-    and system-prompt framing into one function. ADR 0004 and ADR 0006
-    deliberately kept prompt construction out of contextshift/, leaving
-    it for whatever orchestrates a strategy result into a provider call
-    to decide. This function is that orchestration -- the one place in
-    the application that owns the exact system prompt text.
+    Message selection and system-prompt framing are different concerns
+    (ADR 0004, ADR 0006): contextshift's strategies select messages but
+    have no opinion on prompt text, so this function -- not the library
+    -- is the one place in the application that owns the exact system
+    prompt sent to the model.
     """
     core_messages = to_core_messages(orm_messages)
     result = build_strategy().build(core_messages, build_budget())
@@ -106,10 +103,9 @@ def compute_token_stats(orm_messages) -> dict:
     Flask app's routes return to the frontend's token-usage progress bar.
 
     This is application-facing presentation output (JSON for one
-    specific UI), not a library concern -- ADR 0003 identified this as a
-    strong candidate for staying application-side rather than becoming
-    part of contextshift's public surface. This is that decision acted
-    on.
+    specific UI), not a library concern -- see ADR 0003 for why this
+    stays application-side rather than becoming part of contextshift's
+    public surface.
     """
     core_messages = to_core_messages(orm_messages)
     budget = build_budget()

@@ -1,4 +1,4 @@
-"""LLM-based conversation summarization, ported mechanically from the original application."""
+"""LLM-based conversation summarization."""
 from __future__ import annotations
 
 from collections.abc import Sequence
@@ -20,40 +20,30 @@ class Summarizer:
     Compresses a list of messages into a single dense paragraph via an
     LLMProvider.
 
-    Ported mechanically from the original application's
-    utils/summarizer.py::summarize_messages: identical prompt
-    construction, including the exact system prompt text and the
-    role-labeling rule in `_build_conversation_text` below. Not
-    redesigned or given new prompting logic during this port -- see
-    docs/decisions/0007-summarizer-domain-service.md.
-
     Depends only on LLMProvider (contextshift.llm.base) -- never
     GroqProvider or any other concrete provider. Constructed with
     whatever provider the caller supplies, including a fake one for
     tests (see tests/fakes.py::FakeLLMProvider).
 
-    Two things this class deliberately does NOT do, both extending a
-    pattern already established for ContextStrategy (ADR 0004) and
-    LLMProvider (ADR 0006) -- excluding an application-specific framing
-    concern from the library, not just this port happening to omit it:
+    Two things this class deliberately does NOT do, extending the same
+    "application framing stays outside the library" pattern applied to
+    ContextStrategy (ADR 0004) and LLMProvider (ADR 0006):
         - It does not decide whether summarization is worth doing (e.g.
-          whether there are "enough" messages to bother). The legacy
-          equivalent of that check lived in the Flask route, not inside
-          summarize_messages() itself; it remains a caller decision here.
-        - It does not prepend a "[SUMMARY]" label to its output. That is
-          a display/storage convention specific to how the original
-          application tags summary messages in its chat history, not
-          part of what "summarization" means as an operation.
+          whether there are "enough" messages to bother) -- that's a
+          caller decision.
+        - It does not prepend a label like "[SUMMARY]" to its output.
+          That's a display/storage convention for whatever application
+          consumes the summary, not part of what "summarization" means
+          as an operation.
 
     Args:
         provider: The LLMProvider used to actually call a model.
         max_tokens: Token budget for the generated summary. Exposed as a
-            constructor argument rather than hardcoded internally
-            because, unlike GroqProvider's temperature (ADR 0006), how
-            long a summary is allowed to be is a natural, expected dial
-            on the summarization operation itself, not an incidental
-            vendor detail. Defaults to 512, matching the original
-            application's one and only call site. Must be positive.
+            constructor argument rather than hardcoded internally --
+            unlike GroqProvider's temperature (ADR 0006), how long a
+            summary is allowed to be is a natural, expected dial on the
+            summarization operation itself, not an incidental vendor
+            detail. Defaults to 512. Must be positive.
     """
 
     def __init__(self, provider: LLMProvider, max_tokens: int = DEFAULT_MAX_TOKENS) -> None:
@@ -74,11 +64,10 @@ class Summarizer:
     @staticmethod
     def _build_conversation_text(messages: Sequence[Message]) -> str:
         # Any role other than "user" -- including "system" -- is labeled
-        # "assistant" in the transcript. A direct port of legacy's exact
-        # rule, preserved even though it means a prior "[SUMMARY]"
+        # "assistant" in the transcript. This means a prior summary
         # message (role="system"), if it were ever included as input,
-        # would be transcribed as if the assistant said it. See ADR 0007
-        # for why this is kept rather than "fixed."
+        # would be transcribed as if the assistant had said it. See ADR
+        # 0007 for the reasoning behind keeping this rule as-is.
         conversation_text = ""
         for message in messages:
             role = "user" if message.role == "user" else "assistant"
