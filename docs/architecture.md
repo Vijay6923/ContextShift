@@ -72,13 +72,20 @@ A machine-readable version of this diagram lives in
    cannot live inside the side that's supposed to know about neither.
    See [`decisions/0001-library-independence-and-adapter-placement.md`](decisions/0001-library-independence-and-adapter-placement.md).
 4. **Within `contextshift/`, `core/` is the dependency sink.** Every other
-   subpackage (`tokenizers/`, `strategies/`, `llm/`, `summarization/`,
-   `ingestion/`) may depend on `core/`; `core/` depends on nothing else in
-   the package. `summarization/` may depend on `llm/` (it needs a provider
-   to call an LLM with). `strategies/` may depend on `tokenizers/` (it
-   needs to measure token counts). No other cross-subpackage dependencies
-   are expected; if one becomes necessary, it should be a deliberate,
-   documented decision, not an incidental import.
+   subpackage *may* depend on `core/`; `core/` depends on nothing else in
+   the package. As actually built (Steps 2-4): `strategies/` depends on
+   `core/`; `tokenizers/` depends on nothing in this package at all --
+   `estimate_tokens` operates on a plain `str`, not a `Message`, so it
+   doesn't even need `core/`. `strategies/` does **not** currently depend
+   on `tokenizers/`: `PinnedRecencyStrategy` trusts a precomputed
+   `Message.token_count` rather than measuring anything itself. A future
+   strategy that measures tokens on the fly (rather than trusting a
+   value some caller already computed) would be the first real case of
+   `strategies/` depending on `tokenizers/` -- not something to assume in
+   advance. `summarization/` is expected to depend on `llm/` once built
+   (it needs a provider to call an LLM with). No other cross-subpackage
+   dependencies are expected; if one becomes necessary, it should be a
+   deliberate, documented decision, not an incidental import.
 
 ## Architectural principles
 
