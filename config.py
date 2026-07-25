@@ -5,7 +5,8 @@ load_dotenv()
 
 class Config:
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///contextshift.db')
+    # Vercel's file system is read-only except for /tmp/, so we must use /tmp/ for SQLite.
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:////tmp/contextshift.db')
     # If DATABASE_URL starts with postgres://, replace with postgresql:// for SQLAlchemy
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
