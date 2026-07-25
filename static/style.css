@@ -54,6 +54,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     line-height: 1.5;
 }
@@ -61,7 +62,9 @@ body {
 .app-container {
     display: flex;
     height: 100vh;
+    height: 100dvh;
     width: 100%;
+    overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -483,8 +486,13 @@ body {
     }
 
     .chat-area {
-        height: 100vh;
-        height: 100dvh;
+        height: 100%;
+        max-height: 100%;
+        border-right: none;
+    }
+
+    .input-container {
+        padding: 0.75rem 1rem;
     }
 }
 
