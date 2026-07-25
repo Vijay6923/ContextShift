@@ -29,3 +29,4 @@ history of *why* stays intact.
 ## Index
 
 - [0001 — Library independence and adapter placement](0001-library-independence-and-adapter-placement.md)
+- [0002 — Minimal public API surface pre-1.0](0002-minimal-public-api-surface.md)

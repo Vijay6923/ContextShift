@@ -7,3 +7,7 @@ configuration -- with no persistence or web-framework dependencies of any
 kind. Every other subpackage in contextshift/ may depend on core/; core/
 depends on nothing else in this package.
 """
+from contextshift.core.budget import TokenBudget
+from contextshift.core.message import Message
+
+__all__ = ["Message", "TokenBudget"]
