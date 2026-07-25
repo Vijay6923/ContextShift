@@ -1,0 +1,45 @@
+%% ContextShift layer diagram.
+%% Status as of migration Step 1: Application boxes are real and running.
+%% Adapters does not exist yet (arrives at the Step 8 cutover). The five
+%% ContextShift Library subpackages exist as empty, docstring-only modules
+%% (see docs/roadmap.md) — shown here as their eventual dependency shape,
+%% not their current content.
+
+graph TD
+    subgraph Application
+        App1["app.py"]
+        App2["models.py"]
+        App3["config.py"]
+    end
+
+    subgraph Adapters["Adapters (not yet created)"]
+        Adapter["adapters.py"]
+    end
+
+    subgraph Library["ContextShift Library"]
+        Strategies["strategies/"]
+        Tokenizers["tokenizers/"]
+        LLM["llm/"]
+        Summarization["summarization/"]
+        Ingestion["ingestion/"]
+    end
+
+    subgraph Core["Core Types"]
+        CoreTypes["core/"]
+    end
+
+    App1 --> Adapter
+    Adapter --> Strategies
+    Adapter --> Tokenizers
+    Adapter --> LLM
+    Adapter --> Summarization
+    Adapter --> Ingestion
+
+    Strategies --> CoreTypes
+    Tokenizers --> CoreTypes
+    LLM --> CoreTypes
+    Summarization --> CoreTypes
+    Ingestion --> CoreTypes
+
+    Strategies --> Tokenizers
+    Summarization --> LLM
