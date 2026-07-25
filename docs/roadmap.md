@@ -16,9 +16,11 @@ place the logic lives.
       algorithm later steps will port). No production code changed.
 - [x] **Step 1** — Scaffold the empty `contextshift/` package (six
       subpackages, docstrings only, no logic, nothing wired in yet).
-- [ ] **Step 2** — `contextshift/core/message.py` and `core/budget.py`:
+- [x] **Step 2** — `contextshift/core/message.py` and `core/budget.py`:
       the plain, framework-independent domain types.
-- [ ] **Step 3** — Port `token_manager.py` → `tokenizers/heuristic.py`.
+- [x] **Step 3** — Port `token_manager.py` → `tokenizers/heuristic.py`.
+      Scoped down to per-text estimation only (ADR 0003); budget
+      aggregation deferred to Step 4.
 - [ ] **Step 4** — Port `context_builder.py` → `strategies/pinned_recency.py`
       + `ContextStrategy` interface. Highest-risk port in the migration.
 - [ ] **Step 5** — Port the Groq REST client → `llm/groq.py` behind an

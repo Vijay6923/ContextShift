@@ -30,3 +30,4 @@ history of *why* stays intact.
 
 - [0001 — Library independence and adapter placement](0001-library-independence-and-adapter-placement.md)
 - [0002 — Minimal public API surface pre-1.0](0002-minimal-public-api-surface.md)
+- [0003 — Tokenizer scope excludes budget aggregation](0003-tokenizer-scope-excludes-aggregation.md)
