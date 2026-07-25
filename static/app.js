@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const autoContextToggle = document.getElementById('auto-context-toggle');
     const statusMessage = document.getElementById('status-message');
     const themeToggle = document.getElementById('theme-toggle');
+    
+    // --- Mobile Sidebar Elements ---
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const sidebar = document.getElementById('sidebar');
+    const compactProgress = document.getElementById('compact-progress');
+    const compactPercentage = document.getElementById('compact-percentage');
 
     // --- Upload Modal Elements ---
     const attachBtn = document.getElementById('attach-btn');
@@ -200,6 +207,23 @@ document.addEventListener('DOMContentLoaded', () => {
         dropZone.classList.remove('drag-active');
         const file = e.dataTransfer.files[0];
         if (file) setFile(file);
+    });
+
+    // --- Mobile Menu Toggle ---
+    mobileMenuBtn.addEventListener('click', () => {
+        sidebar.classList.add('open');
+        // Add a backdrop if needed, or just let users click X
+    });
+
+    closeSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+    });
+
+    // Close sidebar on window resize if it gets back to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
     });
 
     // --- Initial Load ---
@@ -501,6 +525,20 @@ document.addEventListener('DOMContentLoaded', () => {
             percentageLabel.textContent = `${stats.percentage}% used`;
             tokenProgress.style.backgroundColor = 'var(--danger)';
             percentageLabel.style.color = 'var(--danger)';
+        }
+
+        // Update compact bar (mobile)
+        if (compactProgress && compactPercentage) {
+            compactProgress.style.width = `${cappedPct}%`;
+            compactPercentage.textContent = `${Math.round(stats.percentage)}%`;
+            
+            if (stats.percentage > 100) {
+                compactProgress.style.backgroundColor = 'var(--danger)';
+            } else if (stats.percentage > 80) {
+                compactProgress.style.backgroundColor = 'var(--warning)';
+            } else {
+                compactProgress.style.backgroundColor = 'var(--success)';
+            }
         }
     }
 
