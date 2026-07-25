@@ -33,3 +33,4 @@ history of *why* stays intact.
 - [0003 — Tokenizer scope excludes budget aggregation](0003-tokenizer-scope-excludes-aggregation.md)
 - [0004 — The ContextStrategy interface](0004-context-strategy-interface.md)
 - [0005 — Structural Protocols, not ABCs, for pluggable interfaces](0005-protocol-over-abc.md)
+- [0006 — The LLMProvider interface](0006-llm-provider-interface.md)

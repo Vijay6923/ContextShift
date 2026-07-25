@@ -1,10 +1,20 @@
 """
 LLM provider abstraction.
 
-Defines a common interface for completing and streaming chat requests,
-plus one or more concrete providers (starting with Groq, carried over
-from the original application's direct REST calls). Strategies that need
-to call an LLM (e.g. summarization) depend on this interface rather than
-on any specific vendor's API, so the provider can be swapped without
-touching strategy code.
+Defines a common interface (LLMProvider) for completing and streaming
+chat requests, plus concrete providers -- starting with Groq, carried
+over from the original application's direct REST calls. Code that needs
+to call an LLM (starting with contextshift.summarization, once built)
+depends on this interface rather than on any specific vendor's API, so
+the provider can be swapped without touching the code that uses it.
+
+Not every part of ContextShift needs this subpackage: contextshift.core,
+contextshift.tokenizers, and contextshift.strategies have no dependency
+on it and are not expected to gain one -- PinnedRecencyStrategy, for
+instance, never calls an LLM at all. See docs/architecture.md's
+dependency rules for the actual, current dependency graph.
 """
+from contextshift.llm.base import LLMProvider
+from contextshift.llm.groq import GroqProvider
+
+__all__ = ["LLMProvider", "GroqProvider"]

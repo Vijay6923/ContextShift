@@ -25,8 +25,12 @@ place the logic lives.
       + `ContextStrategy` interface (ADR 0004). Highest-risk port in the
       migration; verified with a direct legacy-vs-new equivalence test
       over 13 scenarios, not just independent test coverage of each side.
-- [ ] **Step 5** — Port the Groq REST client → `llm/groq.py` behind an
-      `LLMProvider` interface.
+- [x] **Step 5** — Port the Groq REST client → `llm/groq.py` behind an
+      `LLMProvider` interface (ADR 0006). Verified with a direct
+      legacy-vs-new comparison over mocked HTTP (happy path, 429 retry,
+      exhausted retries, streaming, malformed SSE lines). A FakeLLMProvider
+      in `tests/` validates the interface needs no transport complexity
+      to satisfy.
 - [ ] **Step 6** — Port `summarize_messages` → `summarization/`, built on
       `llm/`.
 - [ ] **Step 7** — Port PDF/vision extraction → `ingestion/`.
