@@ -21,8 +21,10 @@ place the logic lives.
 - [x] **Step 3** — Port `token_manager.py` → `tokenizers/heuristic.py`.
       Scoped down to per-text estimation only (ADR 0003); budget
       aggregation deferred to Step 4.
-- [ ] **Step 4** — Port `context_builder.py` → `strategies/pinned_recency.py`
-      + `ContextStrategy` interface. Highest-risk port in the migration.
+- [x] **Step 4** — Port `context_builder.py` → `strategies/pinned_recency.py`
+      + `ContextStrategy` interface (ADR 0004). Highest-risk port in the
+      migration; verified with a direct legacy-vs-new equivalence test
+      over 13 scenarios, not just independent test coverage of each side.
 - [ ] **Step 5** — Port the Groq REST client → `llm/groq.py` behind an
       `LLMProvider` interface.
 - [ ] **Step 6** — Port `summarize_messages` → `summarization/`, built on
