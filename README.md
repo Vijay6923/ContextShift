@@ -9,6 +9,33 @@ interface. A small Flask chat application in this repository is built on
 top of the framework, as a worked example of using it — it is not the
 project.
 
+## Features
+
+- **Intelligent context management** — a pluggable strategy decides which
+  messages an LLM sees under a token budget, instead of naively replaying
+  the entire conversation on every turn.
+- **Token-aware context pruning** — older messages are pruned first, pinned
+  messages are never dropped, and every pruning decision is inspectable on
+  the result, not hidden inside a side effect.
+- **Modular ContextShift architecture** — strategies, tokenizers,
+  summarization, and LLM providers are independent, swappable interfaces
+  with no dependency on Flask, SQLAlchemy, or each other's implementation.
+- **Groq-powered chat** — fast, streaming chat completions.
+- **Gemini-powered image understanding and OCR** — image uploads are
+  analyzed and transcribed by Google Gemini.
+- **PDF ingestion** — text extraction from uploaded PDFs, with no model
+  dependency at all.
+- **Image upload support** — with automatic resizing, format normalization,
+  and compression before analysis.
+- **Comprehensive automated test suite** — 271 tests covering the library,
+  the example application, and byte-for-byte characterization tests proving
+  ported logic matches its original behavior exactly (see
+  [Testing](#testing)).
+- **Open-source friendly project structure** — a clean separation between
+  the reusable framework (`contextshift/`) and the example application, a
+  documented architecture with recorded design decisions, and an
+  installable package (`pyproject.toml`).
+
 ## Overview
 
 Most LLM applications eventually hit the same wall: a conversation grows
@@ -66,6 +93,37 @@ implicit and buried in application code.
 
 ## Architecture overview
 
+At the level of "where does a request actually go" in the example
+application:
+
+```
+                        User
+                         │
+                         ▼
+                Flask Application
+                         │
+        ┌────────────────┼──────────────────┬─────────────────┐
+        ▼                ▼                  ▼                 ▼
+   Chat / Summarize   Image Upload      PDF Upload      Context Selection
+        │                │                  │                 │
+        ▼                ▼                  ▼                 ▼
+      Groq            Gemini        contextshift.ingestion   contextshift.strategies
+   (LLMProvider)   (vision + OCR,     (pure text extraction,   (PinnedRecencyStrategy,
+                    called directly    no model involved)       via contextshift.core)
+                    from the app --
+                    see below)
+```
+
+Chat, summarization, and PDF-upload text generation all go through
+`contextshift/` (via `adapters.py`). Image analysis is the one path that
+does not: it calls Google Gemini directly from the example application,
+because `contextshift` doesn't have a vision abstraction yet (see
+[`docs/decisions/0010-multimodal-architecture-review.md`](docs/decisions/0010-multimodal-architecture-review.md)
+for why, and what one would look like).
+
+Underneath "context selection," the library itself is organized into four
+layers, each answering a different question:
+
 ```
 Context Engineering   strategies/        "what context should the model see?"
         │
@@ -118,6 +176,11 @@ tests/                  Test suite for contextshift/ and the example app.
 app.py, adapters.py,     The example Flask application: a chat UI
 models.py, config.py,    demonstrating ContextShift in a real, working
 templates/, static/      product. Not the framework itself.
+
+utils/                  Example-app-only code not yet part of the
+                         framework: image understanding via Google Gemini
+                         (see Image Processing above and
+                         docs/decisions/0010-multimodal-architecture-review.md).
 ```
 
 ## Quick start
@@ -138,16 +201,62 @@ anywhere in the environment.
 
 ### Run the example chat application
 
-The example app additionally needs Flask and a Groq API key.
+The example app additionally needs Flask and two API keys (see
+[Environment Variables](#environment-variables) below for what each does).
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env   # then add your GROQ_API_KEY
+cp .env.example .env   # then fill in GROQ_API_KEY and GEMINI_API_KEY
 python app.py
 ```
 
 Open `http://localhost:5000`. A live deployment is also running at
 **[context-shift.vercel.app](https://context-shift.vercel.app/)**.
+
+### Run the tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+See [Testing](#testing) below for what's covered and the current status.
+
+## Environment Variables
+
+| Variable | Required | Used for |
+|---|---|---|
+| `GROQ_API_KEY` | Yes | Chat and summarization (`GroqProvider`, via Groq's API). |
+| `GEMINI_API_KEY` | Only for image upload | Image understanding and OCR (`analyze_image_with_gemini`, via Google Gemini). Chat, summarization, and PDF upload work without it. |
+| `FLASK_DEBUG` | No (default `true`) | Enables Flask's debug/reload mode. |
+| `FLASK_PORT` | No (default `5000`) | Port the example app listens on. |
+| `DATABASE_URL` | No (defaults to local SQLite) | Overrides the database connection string, e.g. for Postgres in production. |
+
+Get a Groq key at [console.groq.com](https://console.groq.com/) and a
+Gemini key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey).
+Copy `.env.example` to `.env` and fill these in — `.env` is gitignored and
+never committed.
+
+```bash
+GROQ_API_KEY=your_groq_key
+GEMINI_API_KEY=your_api_key
+```
+
+## Image Processing
+
+- **Chat generation uses Groq.** Text completions and summarization always
+  go through `GroqProvider` — unaffected by the Gemini migration below.
+- **Images are processed using Google Gemini** (`analyze_image_with_gemini`
+  in `utils/file_processor.py`), not through the `contextshift` library --
+  see [Architecture overview](#architecture-overview) for why.
+- **Images are resized and optimized before analysis**: palette/RGBA
+  images are converted to RGB, anything larger than 1568px on the longest
+  side is downscaled, and the result is re-encoded as JPEG before being
+  sent to Gemini. This preprocessing has no model dependency and runs
+  identically regardless of which vision provider is behind it.
+- **PDF uploads never touch a vision model at all** — text is extracted
+  directly (`contextshift.ingestion.extract_text_from_pdf`) and the
+  extracted text is sent through the normal Groq chat path.
 
 ## Minimal usage example
 
@@ -198,6 +307,44 @@ python examples/quickstart.py
   diagrams.
 - [`docs/roadmap.md`](docs/roadmap.md) — where the project is headed.
 
+## Testing
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+**271 tests pass, 0 failures** (obtained by running the suite; re-run it
+yourself to confirm, this number will drift as the project grows). Coverage
+spans:
+
+- Every Flask route in the example application.
+- The `contextshift` library's types, strategies, tokenizers, LLM provider
+  abstraction, summarization, and ingestion modules, independent of Flask
+  and with no network access required (fake providers satisfy every
+  interface).
+- **Characterization tests** that proved ported/migrated logic behaves
+  identically to what it replaced — e.g. the Gemini image-preprocessing
+  path is verified byte-for-byte against what actually gets sent to the
+  model, not just "does it return something."
+
+## Recent Improvements
+
+- **Replaced Groq Vision with Google Gemini** for image understanding and
+  OCR — chat and summarization are unaffected and continue to use Groq.
+- **Modernized the image pipeline**: migrated to the official `google-genai`
+  SDK, raw image bytes are sent directly (no manual base64 encoding), and
+  retry/timeout handling is now managed by the SDK's built-in retry options
+  instead of a hand-rolled loop.
+- **Added a dedicated Gemini test suite** (`tests/test_gemini_vision.py`)
+  covering the new code path's error handling, prompts, and request shape,
+  plus updated the existing characterization tests to verify the
+  preprocessing step is byte-for-byte unchanged by the vendor swap.
+- **Improved project documentation**: a framework-first README, a current
+  (not historical) `docs/architecture.md`, an installable package
+  (`pyproject.toml`), and a runnable quick-start example
+  (`examples/quickstart.py`).
+
 ## Roadmap summary
 
 The core framework — strategies, tokenizers, summarization, LLM provider
@@ -227,9 +374,9 @@ architecture in [`docs/architecture.md`](docs/architecture.md).
 
 ## Security note
 
-`.env` (containing your `GROQ_API_KEY`) and local database files are
-excluded via `.gitignore` and never uploaded to version control. Keep your
-`.env` file private.
+`.env` (containing your `GROQ_API_KEY` and `GEMINI_API_KEY`) and local
+database files are excluded via `.gitignore` and never uploaded to version
+control. Keep your `.env` file private.
 
 ## License
 

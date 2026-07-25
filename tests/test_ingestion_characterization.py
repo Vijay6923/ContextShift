@@ -5,15 +5,14 @@ the extraction/preprocessing logic is unchanged despite being ported --
 and, for images, split (see docs/decisions/0008-ingestion-vs-ai-boundary.md).
 
 The image comparison is the more interesting proof: legacy's
-analyze_image_with_groq does preprocessing *and* an AI call in one
+analyze_image_with_gemini does preprocessing *and* an AI call in one
 function, with no way to observe the preprocessed bytes directly. So
-this captures what legacy actually embeds in the base64 payload it sends
-to Groq (with the network call mocked) and asserts it's byte-identical
-to contextshift.ingestion.image.prepare_image_for_vision's output for
-the same input -- proving the split introduced no drift, not just
-asserting it didn't.
+this captures what legacy actually hands to the Gemini SDK (with the
+client mocked) and asserts it's byte-identical to
+contextshift.ingestion.image.prepare_image_for_vision's output for the
+same input -- proving the split introduced no drift, not just asserting
+it didn't.
 """
-import base64
 import io
 
 import pytest
@@ -34,18 +33,6 @@ class _FakePage:
 class _FakeReader:
     def __init__(self, pages):
         self.pages = pages
-
-
-class _FakeResponse:
-    def __init__(self, status_code=200, json_data=None):
-        self.status_code = status_code
-        self._json_data = json_data
-
-    def json(self):
-        return self._json_data
-
-    def raise_for_status(self):
-        pass
 
 
 # -- PDF --------------------------------------------------------------------
@@ -90,25 +77,28 @@ def _make_image_bytes(width, height, mode="RGB", fmt="PNG"):
 
 
 def _capture_legacy_vision_payload(monkeypatch, file_bytes, mime_type):
-    import requests
-
     captured = {}
 
-    def fake_post(url, headers=None, json=None, timeout=None):
-        captured["payload"] = json
-        return _FakeResponse(200, {"choices": [{"message": {"content": "A description."}}]})
+    class _FakeGeminiResponse:
+        text = "A description."
 
-    monkeypatch.setattr(requests, "post", fake_post)
-    legacy.analyze_image_with_groq(file_bytes, mime_type, "describe this")
+    class _FakeGeminiModels:
+        def generate_content(self, *, model, contents, config=None):
+            captured["contents"] = contents
+            return _FakeGeminiResponse()
 
-    data_url = captured["payload"]["messages"][0]["content"][0]["image_url"]["url"]
-    header, b64_data = data_url.split(",", 1)
-    sent_bytes = base64.b64decode(b64_data)
-    sent_mime = header.split(";")[0].replace("data:", "")
-    return sent_bytes, sent_mime
+    class _FakeGeminiClient:
+        def __init__(self, *args, **kwargs):
+            self.models = _FakeGeminiModels()
+
+    monkeypatch.setattr("utils.file_processor.genai.Client", _FakeGeminiClient)
+    legacy.analyze_image_with_gemini(file_bytes, mime_type, "describe this")
+
+    image_part = captured["contents"][0]
+    return image_part.inline_data.data, image_part.inline_data.mime_type
 
 
-def test_preprocessing_matches_what_legacy_actually_sends_to_groq(monkeypatch):
+def test_preprocessing_matches_what_legacy_actually_sends_to_gemini(monkeypatch):
     original_bytes = _make_image_bytes(2000, 500, mode="RGBA", fmt="PNG")
 
     legacy_sent_bytes, legacy_sent_mime = _capture_legacy_vision_payload(monkeypatch, original_bytes, "image/png")

@@ -60,7 +60,9 @@ place the logic lives.
       A dedicated vision capability is warranted, sketched but **not
       implemented or scheduled** -- see "Step V" below.
 - [ ] **Step V — Vision capability** *(proposed, not scheduled)*. Extract
-      `analyze_image_with_groq`'s AI-calling half into a new
+      `analyze_image_with_gemini`'s AI-calling half (the image path was
+      migrated from Groq to Google Gemini after ADR 0010 was written --
+      see the git history around that change) into a new
       `VisionProvider`-shaped interface, consuming
       `contextshift.ingestion.prepare_image_for_vision`'s output.
       Naming/signature/module location deliberately left open until this

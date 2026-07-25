@@ -62,7 +62,7 @@ def test_upload_pdf_happy_path(client, app_ctx, monkeypatch):
 
 def test_upload_image_happy_path(client, app_ctx, monkeypatch):
     monkeypatch.setattr(
-        "utils.file_processor.analyze_image_with_groq",
+        "utils.file_processor.analyze_image_with_gemini",
         lambda file_bytes, mime_type, user_prompt="": "Image analysis result.",
     )
 

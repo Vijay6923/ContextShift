@@ -2,8 +2,8 @@
 Tests for image preprocessing. Uses real Pillow-generated test images
 (cheap and dependency-free) rather than mocking -- unlike PDF parsing,
 there's no friction to exercising the real library here. A direct
-comparison against what legacy's analyze_image_with_groq actually embeds
-in its request payload lives in test_ingestion_characterization.py.
+comparison against what legacy's analyze_image_with_gemini actually
+sends to the model lives in test_ingestion_characterization.py.
 """
 import io
 

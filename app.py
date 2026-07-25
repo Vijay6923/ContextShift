@@ -228,8 +228,8 @@ def upload_file():
             assistant_response = adapters.build_provider().complete(context)
 
         elif mime_type.startswith('image/') or any(filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']):
-            # Image analysis calls Groq's vision API directly here rather
-            # than through contextshift/ -- no dedicated vision capability
+            # Image analysis calls Google Gemini directly here rather than
+            # through contextshift/ -- no dedicated vision capability
             # exists in the library yet. See
             # docs/decisions/0008-ingestion-vs-ai-boundary.md and
             # docs/decisions/0010-multimodal-architecture-review.md.
@@ -244,7 +244,7 @@ def upload_file():
 
             label = f"🖼️ **Image Uploaded: {file.filename}**"
             prompt_for_vision = user_prompt if user_prompt else ""
-            assistant_response = file_processor.analyze_image_with_groq(file_bytes, mime_type, prompt_for_vision)
+            assistant_response = file_processor.analyze_image_with_gemini(file_bytes, mime_type, prompt_for_vision)
 
             # Truncate vision response if unexpectedly large
             if len(assistant_response) > MAX_CONTENT_CHARS:
