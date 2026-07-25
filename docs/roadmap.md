@@ -52,10 +52,21 @@ place the logic lives.
       `adapters.py` (repo root, not in `contextshift/`) does ORM↔`core.Message`
       translation and constructs configured library objects from
       `Config`.
-- [ ] **Post-Step-8 architecture review** — multimodal support, analysis
-      only (no `VisionProvider` implementation). See
-      `docs/decisions/0010-multimodal-architecture-review.md` once
-      written. Required before Step 9 can proceed on `utils/file_processor.py`.
+- [x] **Post-Step-8 architecture review** — multimodal support, analysis
+      only (ADR 0010). Conclusion: image understanding is a genuinely
+      separate capability from `LLMProvider` (different input shape, no
+      conversation history, different model) but cleanly separable from
+      `contextshift.ingestion`, which Step 7 already proved independent.
+      A dedicated vision capability is warranted, sketched but **not
+      implemented or scheduled** -- see "Step V" below.
+- [ ] **Step V — Vision capability** *(proposed, not scheduled)*. Extract
+      `analyze_image_with_groq`'s AI-calling half into a new
+      `VisionProvider`-shaped interface, consuming
+      `contextshift.ingestion.prepare_image_for_vision`'s output.
+      Naming/signature/module location deliberately left open until this
+      step actually begins (ADR 0010). Only then does `/upload`'s image
+      branch cut over and `utils/file_processor.py` become fully
+      retireable.
 - [ ] **Step 9** — Delete `utils/token_manager.py`, `utils/context_builder.py`,
       `utils/summarizer.py` (fully dead after Step 8). `utils/file_processor.py`
       stays, in whole or in part, until the multimodal review lands and
