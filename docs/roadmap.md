@@ -35,7 +35,13 @@ place the logic lives.
       `llm/` (ADR 0007). Depends only on `LLMProvider`, never
       `GroqProvider`; verified with a direct legacy-vs-new prompt
       comparison across 4 scenarios.
-- [ ] **Step 7** — Port PDF/vision extraction → `ingestion/`.
+- [x] **Step 7** — Port PDF extraction and image *preprocessing* →
+      `ingestion/` (ADR 0008). AI-based image understanding
+      (`analyze_image_with_groq`'s vision call) deliberately NOT
+      ported -- it's an AI concern, not ingestion, and has no home yet
+      (`LLMProvider` is text-only, ADR 0006; no `VisionProvider` exists).
+      Remains in `utils/file_processor.py`, a named gap blocking Step 9's
+      `utils/` deletion until vision capability is deliberately designed.
 - [ ] **Step 8** — Cutover: wire `app.py` to `contextshift/` one route at a
       time (8a–8f), via a new application-layer adapter module.
 - [ ] **Step 9** — Delete the now-dead `utils/` package.

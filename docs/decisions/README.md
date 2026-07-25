@@ -35,3 +35,4 @@ history of *why* stays intact.
 - [0005 — Structural Protocols, not ABCs, for pluggable interfaces](0005-protocol-over-abc.md)
 - [0006 — The LLMProvider interface](0006-llm-provider-interface.md)
 - [0007 — The Summarizer domain service](0007-summarizer-domain-service.md)
+- [0008 — The ingestion/AI boundary, and what Step 7 deliberately leaves unported](0008-ingestion-vs-ai-boundary.md)
