@@ -21,6 +21,8 @@ Subpackages:
                     provider into a chat turn
     testing         FakeLLMProvider -- an in-memory LLMProvider for
                     building against this library with no network calls
+    benchmark       Deterministic ContextStrategy comparison -- messages
+                    kept/discarded, tokens kept/discarded, latency
 
 The top-level package re-exports exactly one name: ContextManager.
 Everything else is imported from its owning subpackage (e.g. `from
