@@ -29,8 +29,8 @@ from config import Config
 from contextshift import ContextManager
 from contextshift.core import Message, TokenBudget
 from contextshift.strategies import PinnedRecencyStrategy
+from contextshift.testing import FakeLLMProvider
 from contextshift.tokenizers import HeuristicTokenizer
-from fakes import FakeLLMProvider
 
 _CHAT_SYSTEM_PROMPT = (
     "You are a helpful assistant. The conversation history below may "

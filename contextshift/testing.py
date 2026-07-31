@@ -1,8 +1,22 @@
 """
-Test doubles shared across test files. Deliberately not part of
-contextshift/ itself -- see docs/decisions/0006-llm-provider-interface.md
-for why a fake provider stays in the test suite rather than becoming a
-contextshift.testing subpackage nothing currently needs.
+Test doubles for building against contextshift without a real LLM
+provider.
+
+Public and importable independent of this repository's own test suite
+-- unlike `tests/`, this module ships with the installed package. For a
+CLI, notebook, benchmark, or evaluation harness exercising code built
+on `ContextManager`/`LLMProvider` with no network calls, no API key,
+and no HTTP.
+
+This is the one deliberate exception to "an abstraction earns its
+existence only when there's a concrete consumer inside this
+repository": ADR 0006 originally kept `FakeLLMProvider` test-only
+because nothing needed it publicly at the time. Framework v2 names
+"eval harness" and "external developer" as target users this
+repository's own test suite can't serve, which is what makes the
+exception concrete rather than speculative -- see
+docs/decisions/0011-framework-v2-design-review.md (Phase 3) for the
+full reasoning.
 """
 from __future__ import annotations
 
@@ -16,16 +30,8 @@ class FakeLLMProvider:
     An in-memory LLMProvider (contextshift.llm.base.LLMProvider) -- no
     network calls, no API key, no HTTP.
 
-    Exists for two reasons: it validates that LLMProvider is a genuinely
-    satisfiable, well-designed interface (a trivial in-memory
-    implementation conforming to it cleanly, with none of GroqProvider's
-    transport complexity, is a good sign the interface drew the right
-    line between "provider" and "everything else"); and it lets tests of
-    anything that depends on an LLMProvider (future summarization tests,
-    for instance) inject a fake instead of hitting a real network.
-
     Records every call it receives (`complete_calls`, `stream_calls`) so
-    a test can assert on what a caller actually sent, not just what the
+    a caller can assert on what was actually sent, not just what the
     fake returned.
     """
 

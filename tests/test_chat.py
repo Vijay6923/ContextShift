@@ -1,6 +1,6 @@
 from app import app as flask_app
 from models import Message
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 
 
 def test_chat_rejects_empty_message(client):

@@ -18,7 +18,7 @@ comparison.
 """
 from contextshift.core import Message
 from contextshift.summarization import Summarizer
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 from utils import summarizer as legacy
 
 SCENARIOS = {

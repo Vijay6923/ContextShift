@@ -1,6 +1,6 @@
 """Tests for the LLMProvider protocol itself, independent of any specific implementation."""
 from contextshift.llm import GroqProvider, LLMProvider
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 
 
 def test_fake_provider_satisfies_llm_provider_protocol():

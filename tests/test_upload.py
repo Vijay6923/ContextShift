@@ -1,7 +1,7 @@
 import io
 
 from models import Message
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 
 
 def test_upload_rejects_missing_file(client):

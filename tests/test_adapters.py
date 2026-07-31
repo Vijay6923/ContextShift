@@ -9,7 +9,7 @@ import pytest
 import adapters
 from config import Config
 from conftest import make_message
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 
 
 def test_to_core_message_maps_fields():

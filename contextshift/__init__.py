@@ -18,6 +18,8 @@ Subpackages:
     ingestion       PDF text extraction, image preprocessing
     manager         ContextManager -- orchestrates a strategy and a
                     provider into a chat turn
+    testing         FakeLLMProvider -- an in-memory LLMProvider for
+                    building against this library with no network calls
 
 The top-level package re-exports exactly one name: ContextManager.
 Everything else is imported from its owning subpackage (e.g. `from

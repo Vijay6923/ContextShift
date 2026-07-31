@@ -11,8 +11,8 @@ import pytest
 from contextshift import ContextManager
 from contextshift.core import Message, TokenBudget
 from contextshift.strategies import PinnedRecencyStrategy
+from contextshift.testing import FakeLLMProvider
 from contextshift.tokenizers import HeuristicTokenizer
-from fakes import FakeLLMProvider
 
 BUDGET = TokenBudget(max_tokens=4000, safety_margin=200)
 

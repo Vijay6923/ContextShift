@@ -461,6 +461,47 @@ does the public fake live" decision this review doesn't make);
 roadmap at all — flagged as optional precisely because that's a genuine
 open question, not a settled one.
 
+## Phase implementation status
+
+Added as Phase 1, Phase 2, and Phase 3 landed, recording what the
+Roadmap above left open rather than rewriting it.
+
+**Phase 1 (`ContextManager`, built in isolation): complete.**
+`contextshift/manager.py`, characterization-tested against the exact
+duplication in `adapters.py::build_chat_context` and the Flask routes'
+inline orchestration, as planned. Not wired into `app.py` yet, as
+planned.
+
+**Phase 2 (cut `app.py`/`adapters.py` over): complete.**
+`adapters.py::build_chat_context` is deleted; `/chat` and `/upload`'s
+PDF path now call `adapters.build_context_manager().stream_chat(...)` /
+`.chat(...)`. Confirmed via characterization tests and real,
+network-verified manual requests that application behavior is
+unchanged. `ContextManager` has graduated from provisional toward
+stable per §9.
+
+One finding surfaced during Phase 2: `ChatResult.user_message` is not
+consumed by either real call site — `/chat` uses `stream_chat()`,
+which never returned it; `/upload`'s PDF path uses `chat()`, which
+does, but the route must persist the user's message *before* calling
+the provider (to preserve the app's existing behavior of keeping that
+message even if the provider call then fails), which is *after*
+`chat()` would return it. Kept provisionally rather than removed — see
+the note on `ChatResult.user_message` in `contextshift/manager.py`.
+Revisit once a second real consumer exists.
+
+**Phase 3 (promote a minimal public fake provider): complete.** The
+"where does this live" question this Roadmap left open is resolved as
+`contextshift/testing.py`, a single module (mirroring
+`contextshift/manager.py`'s shape) rather than a subpackage —
+`FakeLLMProvider` is one class, and nothing today needs a second test
+double in this module. `tests/fakes.py` is deleted; the test suite now
+imports the same public `contextshift.testing.FakeLLMProvider` any
+external consumer would. Not re-exported at the package root — `from
+contextshift.testing import FakeLLMProvider`, per the target API in
+§1, keeping the top-level re-export exception (§2) to exactly
+`ContextManager`.
+
 ## Non-goals
 
 Everything below is grounded in a decision already made somewhere in

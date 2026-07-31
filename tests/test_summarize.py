@@ -1,6 +1,6 @@
 from conftest import seed_message
 from models import Message
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 
 
 def test_summarize_with_no_messages_reports_not_enough(client):

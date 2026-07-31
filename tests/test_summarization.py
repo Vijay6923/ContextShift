@@ -8,7 +8,7 @@ import pytest
 import contextshift.summarization.summarizer as summarizer_module
 from contextshift.core import Message
 from contextshift.summarization import DEFAULT_MAX_TOKENS, Summarizer
-from fakes import FakeLLMProvider
+from contextshift.testing import FakeLLMProvider
 
 
 def test_summarize_returns_providers_response_unmodified():
