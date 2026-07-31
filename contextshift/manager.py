@@ -33,6 +33,17 @@ class ChatResult:
             persistence is a caller concern (see
             docs/decisions/0011-framework-v2-design-review.md's
             Non-goals section).
+
+            Note (Framework Phase 2): app.py's real `chat()` caller
+            (`/upload`'s PDF path) does not end up using this field --
+            it must persist the user's message *before* calling the
+            provider, to preserve the app's existing behavior of
+            keeping that message even if the provider call then fails,
+            and `chat()` only returns after the provider call succeeds.
+            Kept provisionally rather than removed: a caller without
+            that ordering constraint (e.g. a future non-persisting
+            consumer) would still use it as designed. Revisit once a
+            second real consumer exists.
     """
 
     response: str
@@ -113,9 +124,9 @@ class ContextManager:
         provider once, and return the complete reply.
 
         Concrete consumer: `/upload`'s PDF-upload path (`app.py`), which
-        selects context and calls `provider.complete(...)` in exactly
-        this sequence today, via `adapters.build_chat_context` followed
-        by `adapters.build_provider().complete(context)`.
+        calls this method via `adapters.build_context_manager().chat(...)`
+        -- previously a hand-written sequence of `adapters.build_chat_context`
+        followed by `adapters.build_provider().complete(context)`.
 
         Args:
             history: The conversation so far, in order. Not mutated.
@@ -134,9 +145,9 @@ class ContextManager:
         Select context for `user_message` given `history`, and stream
         the provider's reply incrementally.
 
-        Concrete consumer: the `/chat` route (`app.py`), which selects
-        context and calls `provider.stream(...)` in exactly this
-        sequence today, accumulating chunks itself as they arrive.
+        Concrete consumer: the `/chat` route (`app.py`), which calls this
+        method via `adapters.build_context_manager().stream_chat(...)`
+        and accumulates the yielded chunks itself as they arrive.
 
         Context selection happens eagerly, before this method returns --
         only consuming the returned iterator is lazy, matching

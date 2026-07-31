@@ -60,6 +60,37 @@ def test_upload_pdf_happy_path(client, app_ctx, monkeypatch):
     assert assistant_msg.content == "AI response about the PDF."
 
 
+def test_upload_pdf_sends_prior_chat_history_through_context_manager(client, app_ctx, monkeypatch):
+    # Proves /upload's PDF path actually reaches the provider through
+    # adapters.build_context_manager().chat() (Framework Phase 2), with
+    # prior conversation history intact -- not just that a response
+    # comes back, which the happy-path test above already covers.
+    monkeypatch.setattr(
+        "contextshift.ingestion.extract_text_from_pdf",
+        lambda file_bytes: "Extracted PDF text.",
+    )
+    fake_provider = FakeLLMProvider(complete_response="AI response about the PDF.")
+    monkeypatch.setattr("adapters.build_provider", lambda: fake_provider)
+
+    client.post("/chat", json={"message": "earlier chat turn"})
+
+    data = {
+        "file": (io.BytesIO(b"%PDF-1.4 fake pdf bytes"), "doc.pdf"),
+        "prompt": "Summarize this document",
+    }
+    client.post("/upload", data=data, content_type="multipart/form-data")
+
+    assert len(fake_provider.complete_calls) == 1
+    sent_messages, _ = fake_provider.complete_calls[0]
+    contents = [m.content for m in sent_messages]
+
+    assert "earlier chat turn" in contents
+    assert any("PDF Uploaded: doc.pdf" in c for c in contents)
+    assert contents.index("earlier chat turn") < next(
+        i for i, c in enumerate(contents) if "PDF Uploaded: doc.pdf" in c
+    )
+
+
 def test_upload_image_happy_path(client, app_ctx, monkeypatch):
     monkeypatch.setattr(
         "utils.file_processor.analyze_image_with_gemini",

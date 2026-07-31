@@ -40,33 +40,34 @@ def chat():
     def generate():
         try:
             with app.app_context():
-                # 1. Save user message
+                # 1. Load history for this turn, then save the user message
+                #    (persisted before the provider call, so it survives a
+                #    failure partway through streaming).
+                existing_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
+                history = adapters.to_core_messages(existing_messages)
+
                 tokenizer = adapters.build_tokenizer()
                 user_tokens = tokenizer.estimate_tokens(user_message_text)
                 user_msg = Message(role="user", content=user_message_text, token_count=user_tokens)
                 db.session.add(user_msg)
                 db.session.commit()
 
-                # 2. Build context
-                all_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-                context = adapters.build_chat_context(all_messages)
-
-                # 3. Stream from the provider
-                provider = adapters.build_provider()
+                # 2. Select context and stream from the provider via ContextManager
+                manager = adapters.build_context_manager()
                 accumulated_response = []
-                for chunk in provider.stream(context):
+                for chunk in manager.stream_chat(history, user_message_text):
                     accumulated_response.append(chunk)
                     yield f"data: {chunk}\n\n"
 
                 full_text = "".join(accumulated_response)
 
-                # 4. Save assistant response
+                # 3. Save assistant response
                 assistant_tokens = tokenizer.estimate_tokens(full_text)
                 assistant_msg = Message(role="assistant", content=full_text, token_count=assistant_tokens)
                 db.session.add(assistant_msg)
                 db.session.commit()
 
-                # 5. Get updated stats and send final chunk
+                # 4. Get updated stats and send final chunk
                 all_messages_updated = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
                 stats = adapters.compute_token_stats(all_messages_updated)
 
@@ -217,15 +218,19 @@ def upload_file():
             else:
                 user_message_text = f"{label}\n\n---\n*Extracted PDF content:*\n{extracted_text}\n\nPlease analyze the content above."
 
-            # Save as user message and get AI response
+            # Load history for this turn, then save the user message
+            # (persisted before the provider call, so it survives a
+            # failure partway through the AI response).
+            existing_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
+            history = adapters.to_core_messages(existing_messages)
+
             user_tokens = adapters.build_tokenizer().estimate_tokens(user_message_text)
             user_msg = Message(role="user", content=user_message_text, token_count=user_tokens)
             db.session.add(user_msg)
             db.session.commit()
 
-            all_messages = Message.query.filter_by(is_archived=False).order_by(Message.timestamp.asc()).all()
-            context = adapters.build_chat_context(all_messages)
-            assistant_response = adapters.build_provider().complete(context)
+            result = adapters.build_context_manager().chat(history, user_message_text)
+            assistant_response = result.response
 
         elif mime_type.startswith('image/') or any(filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']):
             # Image analysis calls Google Gemini directly here rather than

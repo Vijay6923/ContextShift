@@ -9,6 +9,7 @@ import pytest
 import adapters
 from config import Config
 from conftest import make_message
+from fakes import FakeLLMProvider
 
 
 def test_to_core_message_maps_fields():
@@ -39,28 +40,40 @@ def test_build_strategy_uses_config_recent_buffer():
     assert strategy._recent_buffer == Config.RECENT_BUFFER
 
 
-def test_build_chat_context_prepends_system_message():
-    orm_messages = [make_message("user", "hi", token_count=5)]
-    context = adapters.build_chat_context(orm_messages)
+def test_build_context_manager_prepends_system_message(monkeypatch):
+    # build_chat_context was removed in Framework Phase 2 -- this
+    # behavior (select context, prepend the system prompt) is now
+    # ContextManager's job, reached through build_context_manager().
+    fake_provider = FakeLLMProvider(complete_response="reply")
+    monkeypatch.setattr(adapters, "build_provider", lambda: fake_provider)
 
-    assert context[0].role == "system"
-    assert "helpful assistant" in context[0].content
-    assert context[1].content == "hi"
+    adapters.build_context_manager().chat([], "hi")
+
+    sent_messages, _ = fake_provider.complete_calls[0]
+    assert sent_messages[0].role == "system"
+    assert "helpful assistant" in sent_messages[0].content
+    assert sent_messages[1].content == "hi"
 
 
-def test_build_chat_context_applies_strategy_pruning():
-    # Confirms build_chat_context actually routes through
+def test_build_context_manager_applies_strategy_pruning(monkeypatch):
+    # Confirms build_context_manager actually routes through
     # PinnedRecencyStrategy -- the pruning behavior itself is
     # characterized directly against the strategy in
     # test_strategies_pinned_recency.py.
+    fake_provider = FakeLLMProvider(complete_response="reply")
+    monkeypatch.setattr(adapters, "build_provider", lambda: fake_provider)
+
     candidates = [make_message("user", f"cand{i}", token_count=1000) for i in range(4)]
     recent = [make_message("user", f"recent{i}", token_count=10) for i in range(6)]
+    history = adapters.to_core_messages(candidates + recent)
 
-    context = adapters.build_chat_context(candidates + recent)
-    contents = [m.content for m in context[1:]]  # skip the prepended system message
+    adapters.build_context_manager().chat(history, "new")
+
+    sent_messages, _ = fake_provider.complete_calls[0]
+    contents = [m.content for m in sent_messages[1:]]  # skip the prepended system message
 
     assert "cand0" not in contents
-    assert contents == ["cand1", "cand2", "cand3"] + [f"recent{i}" for i in range(6)]
+    assert contents == ["cand1", "cand2", "cand3"] + [f"recent{i}" for i in range(6)] + ["new"]
 
 
 def test_compute_token_stats_matches_expected_shape():

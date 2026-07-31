@@ -1,10 +1,19 @@
 """
 Direct comparison between ContextManager and the orchestration sequence
-duplicated across app.py's /chat route (streaming, via provider.stream)
-and /upload's PDF path (non-streaming, via provider.complete), each of
-which independently wraps a new user message, selects context via
-adapters.build_chat_context, and calls a provider -- proving
-ContextManager reproduces that sequence exactly, not just asserting it.
+that app.py's /chat route (streaming, via provider.stream) and
+/upload's PDF path (non-streaming, via provider.complete) now delegate
+to it -- proving ContextManager reproduces the sequence those routes
+used to perform by hand (wrap a new user message, select context, apply
+the system prompt, call a provider), not just asserting it.
+
+adapters.build_chat_context -- the function this file originally
+compared ContextManager against -- was removed in Framework Phase 2:
+its entire job (select context, prepend the system prompt) is now
+ContextManager's job, and Phase 2 replaces duplicated orchestration
+rather than keeping an unused copy of it around for tests to reference.
+_reference_context() below reconstructs the equivalent sequence
+directly from PinnedRecencyStrategy, so this file still checks
+ContextManager against first principles, not against itself.
 
 See docs/decisions/0011-framework-v2-design-review.md for why these two
 routes are the concrete consumers ContextManager's public methods trace
@@ -16,7 +25,6 @@ test_strategy_characterization.py and test_llm_characterization.py:
 owning this string is precisely what ContextManager does NOT do (ADR
 0004, ADR 0011).
 """
-import adapters
 from config import Config
 from contextshift import ContextManager
 from contextshift.core import Message, TokenBudget
@@ -66,20 +74,27 @@ SCENARIOS = {
 
 def _reference_context(history, user_text):
     """
-    What app.py's routes construct today: wrap the new user message with
-    a HeuristicTokenizer, append it to history, then call
-    adapters.build_chat_context on the combined list -- exactly the
-    sequence /chat and /upload's PDF path each do by hand.
+    What app.py's routes constructed by hand before Phase 2, and what
+    ContextManager must now reproduce internally: wrap the new user
+    message with a HeuristicTokenizer, append it to history, run
+    PinnedRecencyStrategy over the result, and prepend the system
+    prompt -- reconstructed here directly from the strategy rather than
+    via adapters.build_chat_context (removed in Phase 2, since its job
+    is now ContextManager's), so this reference doesn't share a blind
+    spot with the code it's checking.
     """
     tokenizer = HeuristicTokenizer()
     wrapped_user = Message(role="user", content=user_text, token_count=tokenizer.estimate_tokens(user_text))
     all_messages = list(history) + [wrapped_user]
-    expected_provider_input = adapters.build_chat_context(all_messages)
+    budget = TokenBudget(max_tokens=Config.MAX_TOKENS, safety_margin=Config.TOKEN_SAFETY_MARGIN)
+    result = PinnedRecencyStrategy(recent_buffer=Config.RECENT_BUFFER).build(all_messages, budget)
+    system_message = Message(role="system", content=_CHAT_SYSTEM_PROMPT)
+    expected_provider_input = [system_message] + result.messages
     return wrapped_user, expected_provider_input
 
 
 def test_chat_matches_upload_pdf_path_orchestration():
-    """Non-streaming: ContextManager.chat() vs. /upload's build_chat_context + provider.complete()."""
+    """Non-streaming: ContextManager.chat() vs. /upload PDF path's orchestration, from first principles."""
     for name, history in SCENARIOS.items():
         user_text = "a new question"
         wrapped_user, expected_provider_input = _reference_context(history, user_text)
@@ -95,7 +110,7 @@ def test_chat_matches_upload_pdf_path_orchestration():
 
 
 def test_stream_chat_matches_chat_route_orchestration():
-    """Streaming: ContextManager.stream_chat() vs. /chat's build_chat_context + provider.stream()."""
+    """Streaming: ContextManager.stream_chat() vs. /chat route's orchestration, from first principles."""
     for name, history in SCENARIOS.items():
         user_text = "another question"
         _, expected_provider_input = _reference_context(history, user_text)
@@ -115,8 +130,8 @@ def test_chat_produces_exactly_the_expected_provider_call():
     provider with exactly the message list expected -- system prompt
     prepended, history preserved in order, new user message appended --
     hand-computed here rather than routed back through
-    adapters.build_chat_context, so this test doesn't share a blind spot
-    with the code it's meant to be checking against.
+    PinnedRecencyStrategy, so this test doesn't share a blind spot with
+    the code it's meant to be checking against.
     """
     history = [
         _msg("user", "What's the capital of France?"),

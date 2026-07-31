@@ -21,6 +21,7 @@ access required to test any route that depends on an LLM call.
 from __future__ import annotations
 
 from config import Config
+from contextshift import ContextManager
 from contextshift.core import Message as CoreMessage
 from contextshift.core import TokenBudget
 from contextshift.llm import GroqProvider
@@ -80,21 +81,27 @@ def build_summarizer() -> Summarizer:
     return Summarizer(build_provider())
 
 
-def build_chat_context(orm_messages) -> list[CoreMessage]:
+def build_context_manager() -> ContextManager:
     """
-    Select context via the pinned/recency strategy and prepend the
-    application's system prompt.
+    Construct a ContextManager from application config.
 
-    Message selection and system-prompt framing are different concerns
-    (ADR 0004, ADR 0006): contextshift's strategies select messages but
-    have no opinion on prompt text, so this function -- not the library
-    -- is the one place in the application that owns the exact system
-    prompt sent to the model.
+    Deliberately called fresh at each use site, never constructed once
+    at module import time -- for the same reason as build_provider(),
+    which it wraps: GroqProvider validates `api_key` at construction, so
+    building this eagerly at import time would mean the app refuses to
+    boot at all if `GROQ_API_KEY` is unset.
+
+    `system_prompt` is the application's own text, not the library's
+    (ADR 0004, ADR 0006, ADR 0011 Non-goals): this is the one place in
+    the application that owns the exact system prompt sent to the model.
     """
-    core_messages = to_core_messages(orm_messages)
-    result = build_strategy().build(core_messages, build_budget())
-    system_message = CoreMessage(role="system", content=_CHAT_SYSTEM_PROMPT)
-    return [system_message] + result.messages
+    return ContextManager(
+        strategy=build_strategy(),
+        provider=build_provider(),
+        tokenizer=build_tokenizer(),
+        budget=build_budget(),
+        system_prompt=_CHAT_SYSTEM_PROMPT,
+    )
 
 
 def compute_token_stats(orm_messages) -> dict:
