@@ -28,6 +28,7 @@ from contextshift.llm import GroqProvider
 from contextshift.strategies import PinnedRecencyStrategy, total_tokens
 from contextshift.summarization import Summarizer
 from contextshift.tokenizers import HeuristicTokenizer
+from contextshift.vision import GeminiVisionProvider
 
 _CHAT_SYSTEM_PROMPT = (
     "You are a helpful assistant. The conversation history below may "
@@ -75,6 +76,18 @@ def build_provider() -> GroqProvider:
     specific routes that need Groq fail if the key is missing.
     """
     return GroqProvider(api_key=Config.GROQ_API_KEY, model=Config.GROQ_MODEL, base_url=Config.GROQ_BASE_URL)
+
+
+def build_vision_provider() -> GeminiVisionProvider:
+    """
+    Construct a GeminiVisionProvider from application config.
+
+    Deliberately called fresh at each use site, never constructed once
+    at module import time -- for the same reason as build_provider():
+    GeminiVisionProvider validates `api_key` at construction, so the app
+    must still boot even if GEMINI_API_KEY is unset.
+    """
+    return GeminiVisionProvider(api_key=Config.GEMINI_API_KEY, model=Config.GEMINI_MODEL)
 
 
 def build_summarizer() -> Summarizer:

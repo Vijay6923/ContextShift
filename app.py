@@ -3,7 +3,6 @@ import json
 from flask_cors import CORS
 from models import db, Message
 from config import Config
-from utils import file_processor
 import os
 
 import adapters
@@ -233,11 +232,6 @@ def upload_file():
             assistant_response = result.response
 
         elif mime_type.startswith('image/') or any(filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']):
-            # Image analysis calls Google Gemini directly here rather than
-            # through contextshift/ -- no dedicated vision capability
-            # exists in the library yet. See
-            # docs/decisions/0008-ingestion-vs-ai-boundary.md and
-            # docs/decisions/0010-multimodal-architecture-review.md.
             # Map extension to mime type if not provided
             if not mime_type.startswith('image/'):
                 ext_map = {'.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png',
@@ -248,8 +242,7 @@ def upload_file():
                         break
 
             label = f"🖼️ **Image Uploaded: {file.filename}**"
-            prompt_for_vision = user_prompt if user_prompt else ""
-            assistant_response = file_processor.analyze_image_with_gemini(file_bytes, mime_type, prompt_for_vision)
+            assistant_response = adapters.build_vision_provider().describe(file_bytes, mime_type, user_prompt or None)
 
             # Truncate vision response if unexpectedly large
             if len(assistant_response) > MAX_CONTENT_CHARS:

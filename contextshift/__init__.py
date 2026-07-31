@@ -16,6 +16,7 @@ Subpackages:
     llm             LLMProvider protocol + GroqProvider
     summarization   Summarizer, built on LLMProvider
     ingestion       PDF text extraction, image preprocessing
+    vision          VisionProvider protocol + GeminiVisionProvider
     manager         ContextManager -- orchestrates a strategy and a
                     provider into a chat turn
     testing         FakeLLMProvider -- an in-memory LLMProvider for

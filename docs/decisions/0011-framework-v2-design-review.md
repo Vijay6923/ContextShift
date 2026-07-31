@@ -502,6 +502,25 @@ contextshift.testing import FakeLLMProvider`, per the target API in
 §1, keeping the top-level re-export exception (§2) to exactly
 `ContextManager`.
 
+**Phase 4 (Vision capability): complete.** Implemented as a separate
+design review and approval cycle, not bundled into this record's
+original Phase 1–3 sequence — consistent with §10's own framing of
+Phase 4 as independent, on its own timeline. `contextshift/vision/`
+(`VisionProvider` protocol + `GeminiVisionProvider`) mirrors
+`contextshift/llm/`'s shape exactly: one capability-oriented interface,
+one concrete vendor implementation, image preprocessing left to
+`contextshift.ingestion` rather than duplicated inside the provider
+(ADR 0008, ADR 0010). `analyze_image_with_gemini` is deleted from
+`utils/file_processor.py`; `/upload`'s image branch now calls
+`adapters.build_vision_provider().describe(...)`. One deliberate API
+adjustment from the original design review: `describe()`'s `prompt`
+parameter is `str | None = None` rather than required — `None` is the
+capability's own signal for general-description behavior, not
+caller-owned framing text, which is a narrower reading of "prompt
+ownership stays outside the framework" than every other prompt in this
+project (`_CHAT_SYSTEM_PROMPT`) gets, made deliberately for this one
+capability, not a precedent applied automatically elsewhere.
+
 ## Non-goals
 
 Everything below is grounded in a decision already made somewhere in

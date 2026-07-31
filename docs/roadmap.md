@@ -59,20 +59,20 @@ place the logic lives.
       `contextshift.ingestion`, which Step 7 already proved independent.
       A dedicated vision capability is warranted, sketched but **not
       implemented or scheduled** -- see "Step V" below.
-- [ ] **Step V — Vision capability** *(proposed, not scheduled)*. Extract
-      `analyze_image_with_gemini`'s AI-calling half (the image path was
-      migrated from Groq to Google Gemini after ADR 0010 was written --
-      see the git history around that change) into a new
-      `VisionProvider`-shaped interface, consuming
-      `contextshift.ingestion.prepare_image_for_vision`'s output.
-      Naming/signature/module location deliberately left open until this
-      step actually begins (ADR 0010). Only then does `/upload`'s image
-      branch cut over and `utils/file_processor.py` become fully
-      retireable.
+- [x] **Step V — Vision capability** (ADR 0011 Phase implementation status).
+      Extracted `analyze_image_with_gemini`'s AI-calling half into
+      `contextshift.vision` (`VisionProvider` protocol +
+      `GeminiVisionProvider`), consuming
+      `contextshift.ingestion.prepare_image_for_vision`'s output --
+      resolving the module location ADR 0010 deliberately left open.
+      `/upload`'s image branch now calls `adapters.build_vision_provider()`.
+      `analyze_image_with_gemini` is deleted from `utils/file_processor.py`.
 - [ ] **Step 9** — Delete `utils/token_manager.py`, `utils/context_builder.py`,
       `utils/summarizer.py` (fully dead after Step 8). `utils/file_processor.py`
-      stays, in whole or in part, until the multimodal review lands and
-      vision capability (if warranted) has a home in `contextshift/`.
+      now contains only `extract_text_from_pdf`, itself already dead in
+      production since Step 8 (kept solely as a characterization
+      reference) -- the vision-capability blocker Step V existed to
+      resolve is gone, but Step 9's cleanup itself remains undone.
 - [ ] **Step 10** (optional) — Package `contextshift/` as installable
       (`pyproject.toml`, `pip install -e .`).
 

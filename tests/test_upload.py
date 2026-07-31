@@ -91,11 +91,18 @@ def test_upload_pdf_sends_prior_chat_history_through_context_manager(client, app
     )
 
 
+class _FakeVisionProvider:
+    def __init__(self, response="Image analysis result."):
+        self._response = response
+        self.describe_calls = []
+
+    def describe(self, image_bytes, mime_type, prompt=None):
+        self.describe_calls.append((image_bytes, mime_type, prompt))
+        return self._response
+
+
 def test_upload_image_happy_path(client, app_ctx, monkeypatch):
-    monkeypatch.setattr(
-        "utils.file_processor.analyze_image_with_gemini",
-        lambda file_bytes, mime_type, user_prompt="": "Image analysis result.",
-    )
+    monkeypatch.setattr("adapters.build_vision_provider", lambda: _FakeVisionProvider())
 
     data = {
         "file": (io.BytesIO(b"fake image bytes"), "photo.png"),
@@ -112,3 +119,32 @@ def test_upload_image_happy_path(client, app_ctx, monkeypatch):
 
     assistant_msg = Message.query.filter_by(role="assistant").one()
     assert assistant_msg.content == "Image analysis result."
+
+
+def test_upload_image_passes_none_prompt_through_context_manager_when_no_prompt_given(client, app_ctx, monkeypatch):
+    # Proves /upload's image path actually reaches VisionProvider.describe()
+    # through adapters.build_vision_provider() (Vision capability), and
+    # that an absent user prompt becomes None -- the capability's own
+    # default-description signal -- not an empty string.
+    fake_vision = _FakeVisionProvider()
+    monkeypatch.setattr("adapters.build_vision_provider", lambda: fake_vision)
+
+    data = {"file": (io.BytesIO(b"fake image bytes"), "photo.png")}
+    client.post("/upload", data=data, content_type="multipart/form-data")
+
+    _, _, sent_prompt = fake_vision.describe_calls[0]
+    assert sent_prompt is None
+
+
+def test_upload_image_passes_through_custom_prompt(client, app_ctx, monkeypatch):
+    fake_vision = _FakeVisionProvider()
+    monkeypatch.setattr("adapters.build_vision_provider", lambda: fake_vision)
+
+    data = {
+        "file": (io.BytesIO(b"fake image bytes"), "photo.png"),
+        "prompt": "What color is this?",
+    }
+    client.post("/upload", data=data, content_type="multipart/form-data")
+
+    _, _, sent_prompt = fake_vision.describe_calls[0]
+    assert sent_prompt == "What color is this?"
