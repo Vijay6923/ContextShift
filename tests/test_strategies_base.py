@@ -4,7 +4,13 @@ import dataclasses
 import pytest
 
 from contextshift.core import Message
-from contextshift.strategies import ContextResult, ContextStrategy, PinnedRecencyStrategy, SlidingWindowStrategy
+from contextshift.strategies import (
+    ContextResult,
+    ContextStrategy,
+    PinnedRecencyStrategy,
+    RecencyStrategy,
+    SlidingWindowStrategy,
+)
 from contextshift.strategies.base import total_tokens
 
 
@@ -30,6 +36,10 @@ def test_pinned_recency_strategy_satisfies_context_strategy_protocol():
 
 def test_sliding_window_strategy_satisfies_context_strategy_protocol():
     assert isinstance(SlidingWindowStrategy(), ContextStrategy)
+
+
+def test_recency_strategy_satisfies_context_strategy_protocol():
+    assert isinstance(RecencyStrategy(), ContextStrategy)
 
 
 def test_something_lacking_build_does_not_satisfy_protocol():
