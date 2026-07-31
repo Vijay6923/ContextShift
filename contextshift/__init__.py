@@ -16,11 +16,21 @@ Subpackages:
     llm             LLMProvider protocol + GroqProvider
     summarization   Summarizer, built on LLMProvider
     ingestion       PDF text extraction, image preprocessing
+    manager         ContextManager -- orchestrates a strategy and a
+                    provider into a chat turn
 
-The top-level package deliberately re-exports nothing. Import types from
-their owning subpackage instead (e.g. `from contextshift.core import
-Message`) -- see docs/decisions/0002-minimal-public-api-surface.md for
-why the public surface is kept deliberately minimal pre-1.0.
+The top-level package re-exports exactly one name: ContextManager.
+Everything else is imported from its owning subpackage (e.g. `from
+contextshift.core import Message`) -- see
+docs/decisions/0002-minimal-public-api-surface.md for why the public
+surface is otherwise kept deliberately minimal, and
+docs/decisions/0011-framework-v2-design-review.md (Section 2) for why
+ContextManager specifically is the one deliberate exception: it's the
+framework's primary orchestration entry point, not a type someone is
+expected to reach for by digging into a subpackage first.
 """
+from contextshift.manager import ContextManager
 
 __version__ = "0.1.0"
+
+__all__ = ["ContextManager", "__version__"]
