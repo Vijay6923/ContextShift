@@ -28,6 +28,10 @@ dependencies = [
     "PyPDF2>=3.0",
     "Pillow>=9.0",
     "google-genai>=1.0",
+    "Flask>=3.0",
+    "Flask-Cors>=4.0",
+    "Flask-SQLAlchemy>=3.0",
+    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
