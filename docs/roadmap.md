@@ -67,45 +67,64 @@ place the logic lives.
       resolving the module location ADR 0010 deliberately left open.
       `/upload`'s image branch now calls `adapters.build_vision_provider()`.
       `analyze_image_with_gemini` is deleted from `utils/file_processor.py`.
-- [ ] **Step 9** — Delete `utils/token_manager.py`, `utils/context_builder.py`,
-      `utils/summarizer.py` (fully dead after Step 8). `utils/file_processor.py`
-      now contains only `extract_text_from_pdf`, itself already dead in
-      production since Step 8 (kept solely as a characterization
-      reference) -- the vision-capability blocker Step V existed to
-      resolve is gone, but Step 9's cleanup itself remains undone.
-- [ ] **Step 10** (optional) — Package `contextshift/` as installable
+- [x] **Step 9, revised** — Originally planned to delete
+      `utils/token_manager.py`, `utils/context_builder.py`,
+      `utils/summarizer.py`, and `utils/file_processor.py` outright. The
+      v1.0 cleanup pass examined this directly and found the original
+      premise wrong: every one of those files is still imported, by
+      name, as the "legacy" side of a characterization test that
+      remains genuinely protective --
+      `tests/test_strategy_characterization.py`,
+      `tests/test_tokenizer_characterization.py`,
+      `tests/test_llm_characterization.py`,
+      `tests/test_summarization_characterization.py`, and
+      `tests/test_ingestion_characterization.py` all still compare the
+      current library against these files' independently-written
+      behavior. Deleting them would delete that protection, not just
+      dead weight. What *was* dead weight and safely removed instead:
+      `tests/test_context_builder.py` and `tests/test_token_manager.py`
+      -- standalone tests of the legacy modules in isolation, fully
+      redundant with direct tests of the current strategies/tokenizer
+      plus the characterization tests above. `utils/` stays,
+      indefinitely, as characterization fixtures -- not scaffolding
+      waiting to be deleted.
+- [x] **Step 10** — `contextshift/` packaged as installable
       (`pyproject.toml`, `pip install -e .`).
 
 ## Beyond the migration
 
-Once the architecture is stable, strategies are added one at a time, each
-independently testable and each a deliberate addition — not implemented
-in a batch before the plumbing exists to evaluate them fairly.
+The migration above extracted the library. What follows -- turning it
+into a framework with an orchestration API, multiple strategies, and a
+benchmark -- happened as a separate, explicitly-reviewed track ("Framework
+v2"), recorded in
+[`decisions/0011-framework-v2-design-review.md`](decisions/0011-framework-v2-design-review.md)
+and
+[`decisions/0012-strategy-framework-and-benchmark-review.md`](decisions/0012-strategy-framework-and-benchmark-review.md).
+This section is kept short and points there rather than duplicating it,
+since ADR 0012 in particular is the current, load-bearing statement of
+what's done and what's deliberately not built yet.
 
-- **V2** — Pluggable strategy interface, conversation/session isolation,
-  a real tokenizer (not just the word-count heuristic), an offline CLI
-  harness that replays fixed conversations through a chosen strategy
-  without a browser involved.
-- **V3** — A small, deliberately-not-huge set of additional strategies
-  (semantic retrieval via embeddings, one hybrid/adaptive policy) plus a
-  reproducible benchmark suite (synthetic long conversations with planted
-  facts and scripted probes) and a results dashboard.
-- **Research version** — A published, reproducible empirical comparison
-  across strategies, written up as a technical report. Realistic framing:
-  a rigorous empirical/systems contribution, not a novel-algorithm paper.
-- **Open-source version** — Docs, `CONTRIBUTING.md`, CI, packaging. Timed
-  alongside V2, not after, since the pluggable strategy interface is what
-  makes outside contributions ("add a strategy") tractable in the first
-  place.
-- **Production version** — Auth, multi-tenant conversations, durable
-  storage, observability, rate limiting. Deliberately last: production
-  hardening trades away the flexibility to swap strategies quickly, which
-  is the opposite of what the research/experimentation phases need.
+**Done**, via that track rather than this one: `ContextManager`
+(orchestration), a second and third `ContextStrategy`
+(`RecencyStrategy`, `SlidingWindowStrategy`), `VisionProvider` +
+`GeminiVisionProvider`, a public `contextshift.testing.FakeLLMProvider`,
+and `contextshift.benchmark` (deterministic strategy comparison).
 
-## Priority note
+**Not built, deliberately, per ADR 0012** — semantic retrieval,
+embeddings, vector stores, a strategy/provider registry, a generic
+`StrategyPipeline`, session/memory persistence, a dataset or evaluation
+framework, LLM-as-judge scoring, telemetry. Each has a named condition
+in ADR 0012 that would justify building it; none has been triggered.
+
+**Next, per ADR 0012's roadmap**: `HybridStrategy`, composed from the
+existing strategies rather than a new algorithm, plus whatever
+comparisons run against the current three strategies concretely
+surface as missing (e.g. a more accurate tokenizer, or a second
+provider) -- not pre-built ahead of that evidence.
 
 Conversation/session isolation (a `conversation_id` on messages, so
-independent experiment runs don't share state) is a prerequisite for
-running comparable strategy trials at all. It should land early in V2,
-not be deferred as a "nice to have" — everything past it assumes it
-exists.
+independent experiment runs don't share state) remains a real
+prerequisite for benchmarking against real captured conversations
+rather than synthetic fixtures, but has not been needed yet -- the
+current benchmark framework takes a fixed message list directly, with
+no database involved.

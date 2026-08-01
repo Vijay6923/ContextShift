@@ -12,7 +12,8 @@ a special one.
 Subpackages:
     core            Message, TokenBudget -- plain domain types
     tokenizers      Tokenizer protocol + HeuristicTokenizer
-    strategies      ContextStrategy protocol + PinnedRecencyStrategy
+    strategies      ContextStrategy protocol + PinnedRecencyStrategy,
+                    RecencyStrategy, SlidingWindowStrategy
     llm             LLMProvider protocol + GroqProvider
     summarization   Summarizer, built on LLMProvider
     ingestion       PDF text extraction, image preprocessing

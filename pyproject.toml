@@ -27,6 +27,7 @@ dependencies = [
     "requests>=2.25",
     "PyPDF2>=3.0",
     "Pillow>=9.0",
+    "google-genai>=1.0",
 ]
 
 [project.optional-dependencies]

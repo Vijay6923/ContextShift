@@ -14,11 +14,15 @@ graph TD
     end
 
     subgraph Library["ContextShift Library"]
+        Manager["manager.py"]
         Strategies["strategies/"]
         Tokenizers["tokenizers/"]
         LLM["llm/"]
+        Vision["vision/"]
         Summarization["summarization/"]
         Ingestion["ingestion/"]
+        Testing["testing.py"]
+        Benchmark["benchmark/"]
     end
 
     subgraph Core["Core Types"]
@@ -26,21 +30,34 @@ graph TD
     end
 
     App1 --> Adapter
+    Adapter --> Manager
     Adapter --> Strategies
     Adapter --> Tokenizers
     Adapter --> LLM
+    Adapter --> Vision
     Adapter --> Summarization
     Adapter --> Ingestion
+
+    Manager --> Strategies
+    Manager --> Tokenizers
+    Manager --> LLM
+    Manager --> CoreTypes
 
     Strategies --> CoreTypes
     LLM --> CoreTypes
     Summarization --> CoreTypes
-    Ingestion --> CoreTypes
-
     Summarization --> LLM
+    Vision --> Ingestion
+    Testing --> CoreTypes
+    Benchmark --> Strategies
+    Benchmark --> CoreTypes
 
     %% Tokenizers has no dependency on CoreTypes or anything else in the
     %% package -- token estimation operates on a plain string, not a
     %% Message. Strategies has no dependency on Tokenizers -- strategies
     %% trust a precomputed token count rather than measuring text
-    %% themselves. Both omissions are intentional, not missing edges.
+    %% themselves. Ingestion has no dependency on anything in the package
+    %% -- pure functions over raw bytes. Vision depends on Ingestion's
+    %% output, never the reverse, and has no dependency on CoreTypes --
+    %% a vision call takes bytes and a prompt, not a Message history.
+    %% All omissions are intentional, not missing edges.

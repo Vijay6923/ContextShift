@@ -40,8 +40,9 @@ Adapters                adapters.py — translates between application-specific
 
       ↓ (imports)
 
-ContextShift Library    strategies/, tokenizers/, llm/, summarization/,
-                        ingestion/ — the actual context-management logic,
+ContextShift Library    manager.py, strategies/, tokenizers/, llm/,
+                        vision/, summarization/, ingestion/, testing.py,
+                        benchmark/ — the actual context-management logic,
                         zero web-framework dependency
 
       ↓ (imports)
@@ -56,30 +57,53 @@ A machine-readable version of this diagram lives in
 
 ### Internal layering within the ContextShift Library
 
-The library's subpackages form four distinct responsibilities, each
+The library's subpackages form distinct responsibilities, each
 answering a different question:
 
 ```
-Context Engineering (strategies/)     "what context should the model see?"
-            │
+Orchestration (manager.py)            "run one chat turn: select context,
+                                        then call a provider"
+            │ composes
+    ┌───────┼──────────────┬──────────────────┐
+    ▼       ▼               ▼                  ▼
+Context     Tokenization   LLM                 Vision (vision/)
+Engineering (tokenizers/)  Infrastructure       "describe an image"
+(strategies/)              (llm/)                    │
+    │                           │                     ▼
+    │                           ▼              Ingestion (ingestion/)
+    │                    Transport (HTTP,      "prepare bytes -- PDF text,
+    │                    inside llm/*.py)       image resize/encode"
+    ▼
 LLM Services (summarization/)         "what should I ask the model?"
-            │
-LLM Infrastructure (llm/)             "how do I talk to a model?"
-            │
-Transport (HTTP, inside llm/*.py)     "how do bytes move across the network?"
+                                       (depends on llm/'s LLMProvider)
+
+Independent of the orchestration chain above:
+    Testing (testing.py)      FakeLLMProvider -- depends only on core/
+    Benchmark (benchmark/)    compares ContextStrategy implementations --
+                               depends on strategies/ and core/
 ```
 
-Strategies decide what context to build; summarization decides what to
-ask a model in service of some goal (today, compression); providers
-decide how to actually talk to a specific model; transport is the wire
-protocol underneath a provider. Each layer depends only on the one below
-it (`summarization/` depends on `llm/`'s `LLMProvider` interface, never
-on `GroqProvider` or on HTTP directly), and nothing above the transport
-layer knows transport-level details exist — `PinnedRecencyStrategy` has
-no idea an HTTP request is even possible, and `Summarizer` has no idea
-Groq exists. This is the same one-directional dependency principle as
-the outer Application → Adapters → Library → Core layering above,
-applied a second time, inside the library itself.
+`ContextManager` composes a strategy, a tokenizer, and a provider into
+one chat turn; it is the only subpackage that depends on three others
+at once, which is exactly its job (orchestration) rather than a
+layering violation. Strategies decide what context to build;
+summarization decides what to ask a model in service of some goal
+(today, compression); providers decide how to actually talk to a
+specific model; transport is the wire protocol underneath a provider.
+Vision is a separate capability from `llm/`, not an extension of it —
+a vision call has no conversation history and a structurally different
+request shape (see
+[`decisions/0010-multimodal-architecture-review.md`](decisions/0010-multimodal-architecture-review.md))
+— and depends on `ingestion/` for already-prepared image bytes, never
+the reverse. Each dependency runs one direction only (`summarization/`
+depends on `llm/`'s `LLMProvider` interface, never on `GroqProvider` or
+on HTTP directly; `vision/` depends on `ingestion/`'s output, never
+the other way around), and nothing above the transport layer knows
+transport-level details exist — `PinnedRecencyStrategy` has no idea an
+HTTP request is even possible, and `Summarizer` has no idea Groq
+exists. This is the same one-directional dependency principle as the
+outer Application → Adapters → Library → Core layering above, applied
+a second time, inside the library itself.
 
 ## Dependency rules
 
@@ -105,9 +129,16 @@ applied a second time, inside the library itself.
    rather than measuring anything itself; a strategy that measures tokens
    on the fly would be the first case of that dependency existing.
    `summarization/` depends on `llm/`'s `LLMProvider` interface (it needs a
-   provider to call a model with), never on a concrete provider. No other
-   cross-subpackage dependencies exist; a new one should be a deliberate,
-   documented decision, not an incidental import.
+   provider to call a model with), never on a concrete provider.
+   `ingestion/` depends on nothing in the package — pure functions over
+   raw bytes. `vision/` depends on `ingestion/` (a `VisionProvider`
+   consumes already-prepared image bytes, never preprocessing them
+   itself) but not on `core/` — a vision call has no `Message` history.
+   `manager.py` depends on `core/`, `strategies/base`, `llm/base`, and
+   `tokenizers/base` — composing them is its entire purpose. `testing.py`
+   depends only on `core/`. `benchmark/` depends on `strategies/base` and
+   `core/`. No other cross-subpackage dependencies exist; a new one
+   should be a deliberate, documented decision, not an incidental import.
 
 ## Architectural principles
 
