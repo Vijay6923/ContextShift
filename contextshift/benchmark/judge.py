@@ -180,9 +180,25 @@ def run_judged_benchmark(
                 for probe in fixture.probes:
                     if probe.expected_answer is None:
                         continue
-                    total += 1
                     prompt = [*context_result.messages, Message(role="user", content=probe.question)]
-                    actual_answer = provider.complete(prompt)
+                    try:
+                        actual_answer = provider.complete(prompt)
+                    except Exception as e:
+                        # A provider failure on one probe (network error,
+                        # rate limit exhausted, ...) must not discard every
+                        # already-judged, already-paid-for answer collected
+                        # so far in this run -- or every completed run for
+                        # this strategy, or every completed strategy before
+                        # it. Skip this probe (excluded from total/correct,
+                        # the same as an expected_answer=None probe -- a
+                        # provider outage isn't evidence the strategy
+                        # answered incorrectly) and keep going.
+                        print(
+                            f"[JUDGE ERROR] provider.complete() failed for "
+                            f"fixture={fixture.name!r} question={probe.question!r}: {e}"
+                        )
+                        continue
+                    total += 1
                     is_correct = judge.score(probe.expected_answer, actual_answer)
                     if is_correct:
                         correct += 1

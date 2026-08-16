@@ -170,6 +170,47 @@ def test_run_judged_benchmark_calls_build_once_per_fixture_regardless_of_runs():
     assert build_call_count == 1  # once, not once per run
 
 
+def test_run_judged_benchmark_survives_a_provider_failure_on_one_probe():
+    # Regression test: provider.complete() used to be called with no
+    # exception handling, so one failing probe (out of many) discarded
+    # every already-judged answer collected so far -- for a real
+    # provider (real, billed API calls), that meant losing all prior
+    # spend on one late transient failure. A failing probe must now be
+    # skipped, not fatal to the whole run.
+    fixture = _fixture(
+        "f",
+        [_msg("user", "hi")],
+        [
+            Probe(question="q1", load_bearing_indices=(0,), expected_answer="hi"),
+            Probe(question="q2", load_bearing_indices=(0,), expected_answer="hi"),
+            Probe(question="q3", load_bearing_indices=(0,), expected_answer="hi"),
+        ],
+    )
+
+    class _FlakyProvider:
+        def __init__(self):
+            self.calls = 0
+
+        def complete(self, messages, max_tokens=1024):
+            self.calls += 1
+            if self.calls == 2:  # fail exactly once, on the second call
+                raise ConnectionError("simulated transient network failure")
+            return "hi"
+
+        def stream(self, messages, max_tokens=1024):
+            raise NotImplementedError
+
+    provider = _FlakyProvider()
+
+    [result] = run_judged_benchmark([fixture], BUDGET, [RecencyStrategy()], provider, SubstringJudge(), runs=1)
+
+    # 3 probes attempted, 1 failed and was skipped -> 2 judged, both correct.
+    assert provider.calls == 3
+    assert len(result.raw_runs) == 2
+    assert result.accuracy_mean == 100.0
+    assert all(run.correct for run in result.raw_runs)
+
+
 def test_run_judged_benchmark_repeats_runs_and_reports_stdev_of_zero_for_a_deterministic_fake():
     fixture = _fixture(
         "f",
