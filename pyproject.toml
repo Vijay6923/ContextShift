@@ -71,3 +71,11 @@ select = ["E", "F", "I"]
 python_version = "3.10"
 strict = true
 files = ["contextshift"]
+
+# Vercel builds this repo from its root, not from examples/flask-chat/,
+# so its Flask auto-detection can't find the app in a default location
+# on its own -- it found both examples/flask-chat/api/index.py (the
+# Vercel-specific `app` shim) and examples/flask-chat/app.py (the real
+# Flask app) and asked for this to disambiguate which one to run.
+[tool.vercel]
+entrypoint = "examples.flask-chat.api.index:app"
