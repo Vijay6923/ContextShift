@@ -17,9 +17,14 @@ def estimate_tokens(text: str) -> int:
 
     This is a rough, non-model-specific approximation, not a real
     tokenizer -- it doesn't correspond to any particular model's actual
-    tokenization. Use it for a cheap estimate; use a model-specific
-    tokenizer (e.g. tiktoken, or a provider's own counting endpoint) when
-    accuracy matters more than speed.
+    tokenization. Its actual error rate is measured, not just implied:
+    ~28% mean error against a real tokenizer, worst case near 100% on
+    a single sample -- see
+    docs/decisions/0014-accurate-tokenizers.md and
+    tests/test_tokenizer_bench.py for the corpus and the number. Use
+    this for a cheap, zero-dependency estimate; use
+    `contextshift.tokenizers.TiktokenTokenizer` or `AnthropicTokenizer`
+    when accuracy matters more than speed or dependency footprint.
 
     Args:
         text: The text to measure. Not validated or normalized in any way.

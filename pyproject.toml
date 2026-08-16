@@ -36,6 +36,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest"]
+tiktoken = ["tiktoken>=0.5"]
+anthropic = ["anthropic>=0.25"]
 
 [tool.setuptools.packages.find]
 include = ["contextshift*"]

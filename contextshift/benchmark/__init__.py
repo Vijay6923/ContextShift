@@ -46,6 +46,11 @@ from contextshift.benchmark.judge import (
 from contextshift.benchmark.needle import ProbeOutcome, evaluate_fixture, run_needle_benchmark
 from contextshift.benchmark.probes import ConversationFixture, Probe, load_fixture, load_fixtures
 from contextshift.benchmark.runner import BenchmarkResult, run_benchmark, to_csv, to_markdown
+from contextshift.benchmark.tokenizer_bench import (
+    TokenizerBenchmarkResult,
+    benchmark_tokenizers,
+    tokenizer_benchmark_to_markdown,
+)
 
 __all__ = [
     "BenchmarkResult",
@@ -65,4 +70,7 @@ __all__ = [
     "JudgedResult",
     "run_judged_benchmark",
     "judged_to_markdown",
+    "TokenizerBenchmarkResult",
+    "benchmark_tokenizers",
+    "tokenizer_benchmark_to_markdown",
 ]
