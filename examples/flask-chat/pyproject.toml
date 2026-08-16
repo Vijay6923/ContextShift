@@ -1,0 +1,28 @@
+[project]
+name = "contextshift-flask-chat-example"
+version = "0.0.0"
+requires-python = ">=3.10"
+dependencies = [
+    "contextshift",
+    "flask",
+    "flask-cors",
+    "flask-sqlalchemy",
+    "python-dotenv",
+    "requests",
+    "PyPDF2",
+    "Pillow",
+    "google-genai",
+    "gunicorn",
+]
+
+[tool.uv.sources]
+contextshift = { path = "../..", editable = true }
+
+# This directory is an application, not a library -- it has no
+# importable top-level package (api/, static/, templates/ are just
+# directories, which is why setuptools' flat-layout auto-discovery
+# can't tell which one is "the" package and refuses to build a wheel).
+# Telling uv not to build/install it as a package sidesteps that
+# entirely; uv only needs to resolve and install its dependencies.
+[tool.uv]
+package = false
