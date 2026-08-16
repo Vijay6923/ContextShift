@@ -60,6 +60,34 @@ def test_rgba_image_is_converted_to_rgb_before_jpeg_encoding():
     assert result_img.mode == "RGB"
 
 
+def test_falls_back_gracefully_if_pillow_lacks_the_resampling_enum(monkeypatch, capsys):
+    # Regression test for a real bug: prepare_image_for_vision() used to
+    # call the bare Image.LANCZOS constant, then a later change (to
+    # satisfy mypy --strict) switched it to Image.Resampling.LANCZOS --
+    # an attribute that doesn't exist before Pillow 9.1. pyproject.toml's
+    # dependency floor was bumped to Pillow>=9.1 to prevent this in a
+    # correctly-installed environment, but this test exercises the
+    # actual runtime path a stale/broken install (Pillow 9.0.x-shaped)
+    # would hit, rather than trusting the version floor alone: it removes
+    # Image.Resampling to simulate that shape, forces the resize branch
+    # with an oversized image, and confirms the module's own documented
+    # "resilient by design" contract holds -- degrades to the original
+    # bytes with a visible warning, not a silent AttributeError.
+    from PIL import Image
+
+    monkeypatch.delattr(Image, "Resampling")
+
+    original = _make_image_bytes(MAX_DIMENSION_PX + 500, 200, mode="RGB", fmt="PNG")
+
+    processed_bytes, processed_mime = prepare_image_for_vision(original, "image/png")
+
+    assert processed_bytes == original
+    assert processed_mime == "image/png"
+    warning = capsys.readouterr().out
+    assert "[IMAGE RESIZE] Warning" in warning
+    assert "Resampling" in warning
+
+
 def test_falls_back_to_original_bytes_and_mime_on_invalid_image_data(capsys):
     garbage = b"this is not an image"
 

@@ -44,6 +44,12 @@ def prepare_image_for_vision(file_bytes: bytes, mime_type: str) -> tuple[bytes, 
             img = img.convert("RGB")
 
         if max(img.width, img.height) > MAX_DIMENSION_PX:
+            # Image.Resampling (the enum namespace) was added in Pillow
+            # 9.1 -- pyproject.toml's Pillow>=9.1 floor exists specifically
+            # to guarantee this attribute exists. Do not lower that floor
+            # without also changing this line back to the older top-level
+            # Image.LANCZOS constant, or this raises AttributeError on
+            # every oversized image, silently caught below.
             img.thumbnail((MAX_DIMENSION_PX, MAX_DIMENSION_PX), Image.Resampling.LANCZOS)
 
         buffer = io.BytesIO()
