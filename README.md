@@ -285,16 +285,16 @@ app's route-level suite
 
 ## Contributing
 
-Issues and pull requests are welcome. An issue describing what you'd
-like to change before starting on a pull request is the best way to
-check it fits the architecture in
+See [`CONTRIBUTING.md`](CONTRIBUTING.md). Issues and pull requests are
+welcome — an issue describing what you'd like to change before starting
+on a pull request is the best way to check it fits the architecture in
 [`docs/architecture.md`](docs/architecture.md).
 
 ## Security
 
-`.env` (containing your `GROQ_API_KEY` and `GEMINI_API_KEY`) and local
-database files are excluded via `.gitignore` and never committed. Keep
-your `.env` file private.
+See [`SECURITY.md`](SECURITY.md). `.env` (containing API keys) and
+local database files are excluded via `.gitignore` and never
+committed.
 
 ## License
 
