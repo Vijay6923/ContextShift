@@ -42,3 +42,4 @@ history of *why* stays intact.
 - [0012 — Strategy framework and benchmark review](0012-strategy-framework-and-benchmark-review.md) (proposed; SlidingWindowStrategy, RecencyStrategy, and the benchmark framework implemented since)
 - [0013 — Needle-retention benchmark](0013-needle-retention-benchmark.md)
 - [0014 — Accurate tokenizers, and the heuristic's real error rate](0014-accurate-tokenizers.md)
+- [0015 — SummarizationStrategy](0015-summarization-strategy.md)
