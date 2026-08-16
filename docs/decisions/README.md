@@ -43,3 +43,4 @@ history of *why* stays intact.
 - [0013 — Needle-retention benchmark](0013-needle-retention-benchmark.md)
 - [0014 — Accurate tokenizers, and the heuristic's real error rate](0014-accurate-tokenizers.md)
 - [0015 — SummarizationStrategy](0015-summarization-strategy.md)
+- [0017 — HeuristicTokenizer's safety default](0017-heuristic-tokenizer-safety-default.md)

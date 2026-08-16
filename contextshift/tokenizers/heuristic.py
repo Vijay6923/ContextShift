@@ -1,6 +1,21 @@
 """Word-count heuristic tokenizer."""
 from __future__ import annotations
 
+import warnings
+
+_warned = False
+
+
+class HeuristicTokenizerAccuracyWarning(UserWarning):
+    """
+    Warned once per process, the first time HeuristicTokenizer is
+    constructed -- see
+    docs/decisions/0017-heuristic-tokenizer-safety-default.md for why,
+    and how to suppress it deliberately:
+
+        warnings.filterwarnings("ignore", category=HeuristicTokenizerAccuracyWarning)
+    """
+
 
 def estimate_tokens(text: str) -> int:
     """
@@ -46,7 +61,34 @@ class HeuristicTokenizer:
     Stateless -- holds no configuration -- so it exists purely to let the
     heuristic be used polymorphically anywhere a Tokenizer is expected,
     rather than callers depending on this specific free function.
+
+    Constructing this class warns once per process
+    (`HeuristicTokenizerAccuracyWarning`) -- this is the library's
+    zero-dependency default, silently used unless a caller picks
+    otherwise, backing an estimate with a measured ~28% mean error and
+    a worst case near 100% (docs/decisions/0014-accurate-tokenizers.md).
+    A caller who has deliberately chosen this tradeoff can suppress the
+    warning; see docs/decisions/0017-heuristic-tokenizer-safety-default.md.
     """
+
+    def __init__(self) -> None:
+        global _warned
+        if not _warned:
+            _warned = True
+            warnings.warn(
+                "HeuristicTokenizer estimates tokens with a word-count "
+                "heuristic, not a real tokenizer -- measured ~28% mean error "
+                "against tiktoken, worst case near 100% on a single input "
+                "(docs/decisions/0014-accurate-tokenizers.md). For "
+                "budget-critical use, prefer TiktokenTokenizer "
+                "(pip install contextshift[tiktoken]) or AnthropicTokenizer "
+                "(pip install contextshift[anthropic]). See "
+                "docs/decisions/0017-heuristic-tokenizer-safety-default.md "
+                "for the full reasoning, or filter "
+                "HeuristicTokenizerAccuracyWarning to silence this.",
+                category=HeuristicTokenizerAccuracyWarning,
+                stacklevel=2,
+            )
 
     def estimate_tokens(self, text: str) -> int:
         return estimate_tokens(text)

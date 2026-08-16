@@ -8,6 +8,9 @@ piece of text, plus concrete implementations:
   the default. Fast, always available, and measurably inexact -- see
   docs/decisions/0014-accurate-tokenizers.md for its actual error rate
   against a real tokenizer, published rather than left implied.
+  Constructing it warns once per process
+  (`HeuristicTokenizerAccuracyWarning`) -- see
+  docs/decisions/0017-heuristic-tokenizer-safety-default.md.
 - `TiktokenTokenizer` -- a real byte-pair-encoding tokenizer via the
   optional `tiktoken` dependency (`pip install contextshift[tiktoken]`).
 - `AnthropicTokenizer` -- exact counts via Anthropic's own
@@ -29,7 +32,13 @@ missing.
 """
 from contextshift.tokenizers.anthropic_native import AnthropicTokenizer
 from contextshift.tokenizers.base import Tokenizer
-from contextshift.tokenizers.heuristic import HeuristicTokenizer
+from contextshift.tokenizers.heuristic import HeuristicTokenizer, HeuristicTokenizerAccuracyWarning
 from contextshift.tokenizers.tiktoken_backed import TiktokenTokenizer
 
-__all__ = ["Tokenizer", "HeuristicTokenizer", "TiktokenTokenizer", "AnthropicTokenizer"]
+__all__ = [
+    "Tokenizer",
+    "HeuristicTokenizer",
+    "HeuristicTokenizerAccuracyWarning",
+    "TiktokenTokenizer",
+    "AnthropicTokenizer",
+]
