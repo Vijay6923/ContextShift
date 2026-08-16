@@ -1,262 +1,87 @@
 # ContextShift
 
-A Python framework for context engineering: deciding what an LLM sees on
-each turn, under a token budget, as an explicit and swappable policy
-instead of an implicit side effect of application code.
+**A Python framework for context engineering: pluggable, benchmarkable
+strategies for deciding what an LLM sees under a token budget.**
 
-## What is ContextShift?
+## Does it actually work? The needle-retention benchmark
 
-Every multi-turn LLM application eventually faces the same problem: the
-conversation grows past what's worth sending to a model on every turn,
-whether because it exceeds the context window outright or because
-sending irrelevant history wastes tokens, latency, and money on content
-that doesn't matter to the current turn. Cost and latency scale with
-tokens sent, regardless of whether those tokens are relevant.
+Message and token counts alone can't show whether a strategy is any
+good — a strategy that reports "kept 10 messages" because
+`window_size=10` isn't a finding, it's the constructor argument restated.
+The real question: when a strategy drops messages, does it drop the
+ones a later question in the conversation actually depends on?
 
-The usual response is ad hoc: truncate the oldest messages, summarize
-occasionally, or simply rely on the model's context window and hope it's
-large enough. This logic is typically implemented once, inline, tangled
-up with whatever web framework and database the application happens to
-use — which makes it untestable in isolation and impossible to compare
-against an alternative.
+`run_needle_benchmark()` answers this directly, against 49 hand-annotated
+fixture conversations covering named failure modes (topic drift,
+interleaved threads, corrections, pinned instructions under pressure,
+long tool output, and more — see
+[`tests/fixtures/conversations/README.md`](tests/fixtures/conversations/README.md)).
+Each fixture is annotated with which exact messages a probe question
+depends on *before* any strategy runs against it — see
+[ADR 0013](docs/decisions/0013-needle-retention-benchmark.md) for the
+fixture-honesty discipline behind that ordering. No model call, no
+network — fully deterministic and reproducible with the command below.
 
-A larger context window does not solve this. It only delays the point at
-which a deliberate policy becomes necessary, at increasing cost per turn.
-ContextShift exists to make that policy explicit: a **strategy** decides
-which messages belong in context under a token budget; a **provider**
-decides how to actually talk to a model; a **manager** composes the two
-into a single call. Each piece is a small, swappable interface, testable
-without a network connection, and independently comparable via a
-built-in benchmark.
+**The actual finding: every strategy loses more than half of what the
+55 probes in this suite depend on. None exceeds 40%.**
+`PinnedRecencyStrategy` is the best of the three below, not a strategy
+that has solved the problem — read the table as "how bad is each
+option," not "which one wins."
 
-**Who this is for:** anyone building a multi-turn LLM application (a
-chat product, a CLI assistant, an agent) who needs an explicit, testable
-policy for what a model sees each turn — and anyone comparing
-context-management strategies against each other, since that comparison
-is a first-class, built-in capability rather than something to build
-from scratch.
+| Strategy | Needle Retention | Probes Satisfied | % Tokens Retained |
+| --- | --- | --- | --- |
+| `PinnedRecencyStrategy(recent_buffer=6)` | **22 / 55 (40.00%)** | 22 / 55 | 36.10% |
+| `RecencyStrategy()` | 14 / 55 (25.45%) | 14 / 55 | 35.89% |
+| `SlidingWindowStrategy(window_size=10)` | 7 / 55 (12.73%) | 7 / 55 | 20.99% |
 
-## Philosophy
+*(`TokenBudget(max_tokens=350, safety_margin=50)`, all 49 fixtures.
+Reproduce directly:*
 
-ContextShift focuses on three things:
-
-- **Context selection** — deciding which messages fit a token budget.
-- **Orchestration** — composing a strategy and a provider into one call.
-- **Benchmarking** — comparing strategies on measurable, deterministic
-  properties.
-
-It deliberately does not do:
-
-- **Vector databases or retrieval infrastructure.** ContextShift selects
-  from a candidate list it's given; it doesn't fetch that list from
-  anywhere. A strategy backed by retrieval is expressible on top of this
-  library, but owning a specific vector store binding would only be
-  useful to whoever chose that store.
-- **Agent frameworks or tool-calling orchestration.** A different
-  capability, with a different consumer, than deciding what a model
-  sees.
-- **Prompt engineering or prompt template management.** What a system
-  prompt says is an application's decision, not the library's — every
-  interface in ContextShift (strategies, providers, the manager) is
-  scoped to *where* prompt framing goes, never *what* it says.
-
-**Design principles:**
-
-- **A field, method, or export exists because something concretely
-  needs it**, not because it might be useful someday. Every abstraction
-  in this codebase traces back to a real, existing consumer.
-- **Interfaces are structural `Protocol`s, not `ABC`s.** A `Tokenizer`,
-  a `ContextStrategy`, an `LLMProvider`, a `VisionProvider` is defined
-  entirely by having a matching method. A conforming implementation
-  needs no dependency on ContextShift itself.
-- **Dependencies flow one direction only.** The library never imports
-  from the example application; within the library, core types depend
-  on nothing, and every other subpackage depends only on what its job
-  actually requires.
-- **Every decision is inspectable.** A strategy's result exposes what
-  it kept and what it excluded; nothing is hidden inside a side effect.
-- **No framework-owned persistence.** ContextShift has no database,
-  no session concept, and no memory abstraction — an application or
-  eval harness owns storage; the library owns the selection policy.
-
-The full reasoning behind each of these is recorded in
-[`docs/decisions/`](docs/decisions/) as they were decided, not
-reconstructed after the fact.
-
-## Features
-
-- **`ContextManager`** — composes a strategy, a tokenizer, and a
-  provider into a single chat turn (`chat()` / `stream_chat()`).
-- **Three `ContextStrategy` implementations** — `PinnedRecencyStrategy`,
-  `RecencyStrategy`, `SlidingWindowStrategy` — each a different,
-  genuinely distinct policy for what survives a token budget.
-- **A `Tokenizer` abstraction** — `HeuristicTokenizer` today; the
-  interface (`estimate_tokens(text) -> int`) has no dependency on
-  message shape or vendor, so a tiktoken-backed or provider-native
-  tokenizer is a drop-in second implementation.
-- **An `LLMProvider` abstraction** — `GroqProvider` today; vendor-neutral
-  by design (`complete()` / `stream()`, nothing Groq-specific in the
-  interface).
-- **A `VisionProvider` abstraction** — `GeminiVisionProvider` today;
-  structurally separate from `LLMProvider` (a vision call has no
-  conversation history and a different request shape).
-- **A benchmark framework** — deterministic comparison of
-  `ContextStrategy` implementations, with CSV and Markdown export.
-- **Public testing utilities** — `FakeLLMProvider`, an in-memory
-  `LLMProvider` for building against ContextShift with no network
-  access.
-- **Document ingestion** — PDF text extraction and image preprocessing,
-  as pure functions with no model dependency.
-- **Zero web-framework dependency.** `contextshift/` never imports
-  Flask, SQLAlchemy, or anything application-specific — it's equally
-  usable from a CLI, a notebook, or an eval harness. The Flask chat
-  application in this repository is one example consumer, not the
-  project.
-
-## Architecture
-
-### High-level architecture
-
-```mermaid
-graph TD
-    Caller["Caller"] --> Manager["ContextManager"]
-    Manager --> Strategy["ContextStrategy"]
-    Strategy --> Manager
-    Manager --> Provider["LLMProvider"]
-    Provider --> LLM["LLM"]
-    LLM --> Provider
-    Provider --> Manager
-    Manager --> Caller
+```bash
+python -m contextshift.benchmark --suite needle
 ```
 
-`ContextManager.chat()` selects context via a strategy, then calls a
-provider with the result. Both dependencies are plain constructor
-arguments — any object satisfying the relevant `Protocol` works,
-including a fake with no network access.
+*(or the same call via the library API — see [`contextshift/benchmark/__main__.py`](contextshift/benchmark/__main__.py)
+for exactly what that command runs.)*
 
-### Strategy flow
+The two rankings also disagree with each other: `PinnedRecencyStrategy`
+and `RecencyStrategy` retain almost the same share of *tokens* (36.10%
+vs. 35.89%) while differing sharply on needle retention (40.00% vs.
+25.45%) — exactly the distinction token/message counts alone can't
+surface.
 
-```mermaid
-graph TD
-    Conversation["Conversation history<br/>(Message list)"] --> Strategy["ContextStrategy.build()"]
-    Budget["TokenBudget"] --> Strategy
-    Strategy --> Result["ContextResult<br/>messages kept + excluded"]
-    Result --> Provider["LLMProvider"]
-```
+`SummarizationStrategy` is deliberately not in this table — needle
+retention's identity-based matching can't give it a meaningful score
+without a real `Summarizer` making a real model call, which this
+deterministic tier never does. See the
+[ADR 0015 addendum](docs/decisions/0015-summarization-strategy.md#addendum-summarizationstrategy-is-excluded-from-the-published-needle-retention-table)
+for why, and `run_judged_benchmark()` for the tier that actually
+answers whether it works.
 
-A strategy's output is transparent: `ContextResult.messages` is what
-survived, `ContextResult.excluded` is what didn't — inspectable
-directly, not something a caller has to re-derive.
+### Prior art
 
-### Vision flow
-
-```mermaid
-graph TD
-    Image["Image bytes"] --> Preprocess["contextshift.ingestion<br/>prepare_image_for_vision()"]
-    Preprocess --> Provider["VisionProvider.describe()"]
-    Provider --> Concrete["GeminiVisionProvider"]
-    Concrete --> Response["Text response"]
-```
-
-Preprocessing (resize, format normalization) is a separate concern
-from calling a vision model — a `VisionProvider` never resizes or
-re-encodes an image itself.
-
-### Benchmark flow
-
-```mermaid
-graph TD
-    Conversation["Conversation"] --> Runner["run_benchmark()"]
-    Strategies["ContextStrategy instances"] --> Runner
-    Budget["TokenBudget"] --> Runner
-    Runner --> Results["list of BenchmarkResult"]
-    Results --> CSV["to_csv()"]
-    Results --> MD["to_markdown()"]
-```
-
-Every strategy runs against identical input; nothing in this path calls
-a model or a network.
-
-### Framework package layout
-
-```mermaid
-graph TD
-    subgraph Orchestration
-        Manager["manager.py — ContextManager"]
-    end
-
-    subgraph Capabilities
-        Strategies["strategies/"]
-        Tokenizers["tokenizers/"]
-        LLM["llm/"]
-        Vision["vision/"]
-        Summarization["summarization/"]
-    end
-
-    subgraph Support
-        Ingestion["ingestion/"]
-        Testing["testing.py"]
-        Benchmark["benchmark/"]
-    end
-
-    subgraph Foundation
-        Core["core/ — Message, TokenBudget"]
-    end
-
-    Manager --> Strategies
-    Manager --> Tokenizers
-    Manager --> LLM
-    Strategies --> Core
-    LLM --> Core
-    Summarization --> LLM
-    Summarization --> Core
-    Vision --> Ingestion
-    Benchmark --> Strategies
-    Benchmark --> Core
-    Testing --> Core
-```
-
-`core/` depends on nothing else in the package; every other subpackage
-depends only on what its own job requires. See
-[`docs/architecture.md`](docs/architecture.md) for the complete
-dependency rules and rationale.
+"Needle" evaluation isn't a new idea — it borrows its name and its
+central question from
+[needle-in-a-haystack](https://github.com/gkamradt/LLMTest_NeedleInAHaystack)
+and [RULER](https://arxiv.org/abs/2404.06654), and sits alongside
+research benchmarks like [LoCoMo](https://arxiv.org/abs/2402.17753),
+[LongMemEval](https://arxiv.org/abs/2410.10813),
+[LoCoEval](https://arxiv.org/abs/2603.06358), and
+[AMemGym](https://arxiv.org/abs/2603.01966). What's different here: this
+benchmark tests a *context-selection strategy*, not a model's long-context
+recall or a memory system's retrieval quality, and needs zero model calls
+to produce a number. ContextShift itself is scoped narrower than memory
+backends like [Mem0](https://github.com/mem0ai/mem0) or
+[Letta](https://github.com/letta-ai/letta) — no persistence, no session
+concept, just deciding what fits a budget this turn. See
+[`docs/prior-art.md`](docs/prior-art.md) for the full picture, including
+what motivates the cache-aware strategy on the roadmap.
 
 ## Installation
 
 ```bash
-git clone <this-repository-url>
-cd ContextShift
-python3 -m venv venv
+pip install contextshift
 ```
-
-Activate the virtual environment:
-
-```bash
-source venv/bin/activate        # Linux / macOS
-venv\Scripts\activate           # Windows
-```
-
-Then install the framework:
-
-```bash
-pip install -e .
-```
-
-This installs `contextshift` and its runtime dependencies
-(`requests`, `PyPDF2`, `Pillow`, `google-genai`) in editable mode, so
-`import contextshift` works from anywhere on your machine — this is
-what you want if you're using ContextShift as a library in your own
-project.
-
-If you only want to run the example Flask application in this
-repository, `pip install -e .` is not required on its own — see
-[Example Application](#example-application) below, whose
-`requirements.txt` already includes everything the app needs, and works
-because `python app.py` is run from inside this repository (Python
-resolves the local `contextshift/` directory directly). Use
-`pip install -e .` for using the library elsewhere; use
-`requirements.txt` for running the demo app in place. There's no harm
-in installing both.
 
 ## Quick Start
 
@@ -295,8 +120,9 @@ python examples/quickstart.py
 | `PinnedRecencyStrategy` | Protects a fixed recency window and all pinned messages; prunes older messages first, budget-driven | Yes | Some messages (system instructions, user-starred content) must never be dropped regardless of age |
 | `RecencyStrategy` | Keeps as much of the conversation's tail as fits the budget — no fixed window, no configuration | No | The simplest baseline: pure recency, nothing else |
 | `SlidingWindowStrategy` | Keeps a fixed number of the most recent messages by count; budget is a secondary ceiling on that window | No | A predictable message count matters more than fully using the available budget |
+| `SummarizationStrategy` | Keeps a recent window verbatim; compresses everything older into one summary message via a `Summarizer`, instead of discarding it | No | Older context still matters, and the cost of a model call to compress it is acceptable — see [ADR 0015](docs/decisions/0015-summarization-strategy.md) for what this trades off |
 
-All three implement the same `ContextStrategy` protocol
+All four implement the same `ContextStrategy` protocol
 (`build(messages, budget) -> ContextResult`) and are drop-in
 replacements for each other — swapping strategies never requires
 changing `ContextManager`, another strategy, or the application that
@@ -304,13 +130,8 @@ consumes them.
 
 ## Benchmarking
 
-Comparing strategies by intuition doesn't scale past the first one.
-`contextshift.benchmark` runs every strategy against identical input and
-reports what the library already knows — no LLM call, no external
-service, fully deterministic.
-
-**Metrics measured:** messages kept, messages discarded, tokens kept,
-tokens discarded, percentage of tokens retained, and selection latency.
+`contextshift.benchmark` has two tiers. The deterministic tier (no
+network, no model call) runs every strategy against identical input:
 
 ```python
 from contextshift.benchmark import run_benchmark, to_markdown
@@ -332,36 +153,58 @@ print(to_markdown(results))
 | PinnedRecencyStrategy | 33 | 8 | 888 | 220 | 80.14% | 0.000028 |
 ```
 
-`to_csv()` renders the same results as CSV. Neither function prints —
-both return a string, so writing to a file or stdout is a caller
-decision.
+`run_needle_benchmark()` (above the fold, at the top of this README)
+runs the same deterministic tier against the annotated fixture suite
+instead of a bare conversation. `run_judged_benchmark()` is a separate,
+explicitly opt-in tier that asks a real `LLMProvider` each probe's
+question and scores the answer — the question needle retention is a
+*proxy* for — reported as mean/stdev over repeated runs, never a single
+number, and never invoked unless a caller supplies both a provider and
+a judge. `to_csv()` renders any of these as CSV.
+
+## Tokenizers
+
+`HeuristicTokenizer` (word-count based, zero dependencies) is the
+default, and its accuracy is measured rather than left implied:
+
+| Tokenizer | Mean Abs. Error | Mean % Error | Max % Error |
+| --- | --- | --- | --- |
+| `HeuristicTokenizer` | 9.60 | 27.77% | 93.33% |
+| `TiktokenTokenizer` | 0.00 | 0.00% | 0.00% |
+
+*(10-sample corpus; reproduce with `python -m contextshift.benchmark --suite tokenizer`.)*
+
+`TiktokenTokenizer` (`pip install contextshift[tiktoken]`) and
+`AnthropicTokenizer` (`pip install contextshift[anthropic]`, calls a
+real counting endpoint) are drop-in replacements when that ~28% mean
+error, spiking to worst-case near 100% on a single input, is more than
+a given budget can tolerate. See
+[ADR 0014](docs/decisions/0014-accurate-tokenizers.md) for the full
+measurement and how to reproduce it.
+
+Constructing `HeuristicTokenizer` warns once per process
+(`HeuristicTokenizerAccuracyWarning`), pointing at the two alternatives
+above — silence it with
+`warnings.filterwarnings("ignore", category=HeuristicTokenizerAccuracyWarning)`
+once you've deliberately chosen this tradeoff. See
+[ADR 0017](docs/decisions/0017-heuristic-tokenizer-safety-default.md).
 
 ## Vision
 
 `VisionProvider` (`describe(image_bytes, mime_type, prompt=None) -> str`)
 is a separate capability from `LLMProvider`, not an extension of it — a
-vision call takes a single image and prompt, not a conversation history,
-and its request shape is structurally different from a chat completion.
-`prompt=None` requests a general description; a supplied prompt guides
-what the model looks for instead.
-
-`GeminiVisionProvider` is the current implementation, backed by Google's
-Gemini API. It never preprocesses an image itself — every call routes
-through `contextshift.ingestion.prepare_image_for_vision()` first
-(resize, palette/RGBA-to-RGB conversion, JPEG re-encoding), the same
-separation of concerns the rest of the library applies between
-transport and everything else.
+vision call takes a single image and prompt, not a conversation history.
+`GeminiVisionProvider` is the current implementation; it never
+preprocesses an image itself — every call routes through
+`contextshift.ingestion.prepare_image_for_vision()` first.
 
 ## Testing
 
-`contextshift.testing.FakeLLMProvider` is an in-memory `LLMProvider` —
-no network calls, no API key, no HTTP. It exists so a CLI, a notebook,
-an eval harness, or this repository's own test suite can build and test
-code against ContextShift without a real model behind it. It's the one
-deliberate exception to keeping the top-level public surface minimal:
-everything else is imported from its owning subpackage, but a fake
-provider is common enough infrastructure for building *against* this
-library that it's worth a dedicated, public, non-test-only home.
+`contextshift.testing.FakeLLMProvider` and `FakeSummarizer` are
+in-memory stand-ins for `LLMProvider` and `Summarizer` — no network
+calls, no API key, no HTTP. They exist so a CLI, a notebook, an eval
+harness, or this repository's own test suite can build and test code
+against ContextShift without a real model behind it.
 
 ```python
 from contextshift.testing import FakeLLMProvider
@@ -375,95 +218,70 @@ provider.complete([...])  # -> "mocked reply", no network involved
 ```
 contextshift/           The framework. Zero Flask/SQLAlchemy dependency.
   core/                   Message, TokenBudget — plain domain types
-  tokenizers/             Tokenizer protocol + HeuristicTokenizer
-  strategies/             ContextStrategy protocol + three strategies
+  tokenizers/             Tokenizer protocol + Heuristic/Tiktoken/Anthropic
+  strategies/             ContextStrategy protocol + four strategies
   llm/                    LLMProvider protocol + GroqProvider
   vision/                 VisionProvider protocol + GeminiVisionProvider
   summarization/          Summarizer, built on LLMProvider
   ingestion/              PDF extraction, image preprocessing
-  benchmark/              Deterministic ContextStrategy comparison
+  benchmark/              Deterministic + opt-in ContextStrategy comparison
   manager.py              ContextManager — orchestration entry point
-  testing.py              FakeLLMProvider — public test double
+  testing.py              FakeLLMProvider, FakeSummarizer — public test doubles
 
-examples/                Small, runnable, standalone usage examples.
+examples/
+  quickstart.py            Small, runnable, standalone usage example.
+  flask-chat/               A real Flask chat app built on contextshift
+                             (see its own README) — a consumer of the
+                             library, not the library itself.
 
 docs/
   architecture.md         The current architecture: layers, dependency
-                           rules, guiding principles.
+                           rules, diagrams.
+  philosophy.md             Scope, what's deliberately out of scope, and
+                             the design principles behind the library.
   decisions/               Architecture Decision Records — why specific
                             choices were made.
-  diagrams/                 Mermaid source for the architecture diagrams.
   roadmap.md                 Where the project is headed.
 
-tests/                   Test suite for contextshift/ and the example app.
-
-app.py, adapters.py,     The example Flask application: a chat UI
-models.py, config.py,    demonstrating ContextShift in a real, working
-templates/, static/      product. Not the framework itself.
-
-utils/                   Original, pre-extraction implementations, kept
-                         solely as characterization-test reference
-                         points (see Testing below) — not used by the
-                         running application.
+tests/                   Test suite for contextshift/ itself — no Flask,
+                         no database, no network required.
+  fixtures/
+    conversations/          Hand-annotated needle-retention fixtures.
+    legacy/                 Pre-refactor implementations, kept only as
+                             characterization-test fixtures.
 ```
 
-## Design Documents
+## Documentation
 
-[`docs/decisions/`](docs/decisions/) records why specific architectural
-choices were made, including alternatives considered and rejected —
-read in numeric order, they trace the library's evolution from a
-single-file Flask application into this framework.
-[`docs/architecture.md`](docs/architecture.md) is the current-state
-companion: what the architecture *is*, not the history of how it got
-there. [`docs/roadmap.md`](docs/roadmap.md) tracks what's done and
-what's next.
-
-## Future Work
-
-- `HybridStrategy`, composed from the existing strategies rather than a
-  new algorithm.
-- Additional `LLMProvider` implementations.
-- Additional `Tokenizer` implementations.
+- [`docs/philosophy.md`](docs/philosophy.md) — what this project is
+  for, what it deliberately doesn't do, and the principles behind it.
+- [`docs/architecture.md`](docs/architecture.md) — the current
+  architecture: layers, dependency rules, diagrams.
+- [`docs/decisions/`](docs/decisions/) — Architecture Decision
+  Records, in numeric order, tracing the library's evolution from a
+  single-file Flask application into this framework.
+- [`docs/roadmap.md`](docs/roadmap.md) — what's done and what's next.
 
 ## Example Application
 
-A small Flask chat app in this repository demonstrates the framework in
-a real product — streaming chat, PDF upload, image analysis, pinning,
-and summarization, all routed through `contextshift/` via `adapters.py`.
-
-```bash
-pip install -r requirements.txt
-cp .env.example .env   # then fill in GROQ_API_KEY and GEMINI_API_KEY
-python app.py
-```
-
-Open `http://localhost:5000`. A live deployment also runs at
-[context-shift.vercel.app](https://context-shift.vercel.app/).
-
-| Variable | Required | Used for |
-|---|---|---|
-| `GROQ_API_KEY` | Yes | Chat and summarization, via `GroqProvider` |
-| `GEMINI_API_KEY` | Only for image upload | Image understanding, via `GeminiVisionProvider` |
-| `FLASK_DEBUG` | No (default `true`) | Flask debug/reload mode |
-| `FLASK_PORT` | No (default `5000`) | Port the example app listens on |
-| `DATABASE_URL` | No (defaults to local SQLite) | Database connection string |
+[`examples/flask-chat/`](examples/flask-chat/) is a real Flask chat
+app — streaming chat, PDF upload, image analysis, pinning, and
+summarization — built entirely on `contextshift/`. See its own
+[README](examples/flask-chat/README.md) for setup; a live deployment
+runs at [context-shift.vercel.app](https://context-shift.vercel.app/).
 
 ## Running the Tests
 
 ```bash
 pip install -r requirements-dev.txt
 pytest
-pyflakes contextshift/ tests/ app.py adapters.py
+pyflakes contextshift/ tests/ examples/flask-chat/app.py examples/flask-chat/adapters.py examples/flask-chat/models.py examples/flask-chat/config.py
 ```
 
-Coverage spans the `contextshift` library (independent of Flask, no
-network access required — fake providers satisfy every interface),
-every route in the example application, and characterization tests
-proving currently-ported logic behaves identically to the original
-implementation it replaced. `pyflakes` (static analysis — unused
-imports, undefined names) has been run clean at every step of this
-project's development and is included in `requirements-dev.txt` for the
-same check locally.
+A plain `pytest` from the repository root runs both the library's own
+suite (`tests/` — no Flask, no database, no network) and the example
+app's route-level suite
+([`examples/flask-chat/tests/`](examples/flask-chat/tests/)) together.
 
 ## Contributing
 
