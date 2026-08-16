@@ -56,6 +56,15 @@ below covers everything built so far.
   `to_markdown()`'s "Needle Retention" column now renders as
   `"14 / 55 (25.45%)"`, not a bare percentage, so the sample size
   is never hidden behind the percentage.
+- `python -m contextshift.benchmark --suite {standard,needle,tokenizer}`
+  — a CLI reproducing every benchmark table published in this README
+  and in `docs/`, with literal output committed under
+  [`docs/benchmarks/`](docs/benchmarks/) and a regression test that
+  fails if the committed tables ever drift from a fresh run.
+- A documentation site via mkdocs-material (`mkdocs.yml`,
+  `pip install -e ".[docs]"`, deployable to GitHub Pages via
+  `.github/workflows/docs.yml`) and a versioning policy
+  ([`docs/versioning.md`](docs/versioning.md)).
 
 ### Changed
 

@@ -1,0 +1,43 @@
+site_name: ContextShift
+site_description: A Python framework for context engineering — pluggable, benchmarkable strategies for deciding what an LLM sees under a token budget.
+repo_url: https://github.com/Vijay6923/ContextShift
+repo_name: Vijay6923/ContextShift
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - content.code.copy
+
+markdown_extensions:
+  - tables
+  - fenced_code
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Philosophy: philosophy.md
+  - Prior Art: prior-art.md
+  - Versioning: versioning.md
+  - Roadmap: roadmap.md
+  - Decisions: decisions/README.md
+  - Benchmarks: benchmarks/README.md

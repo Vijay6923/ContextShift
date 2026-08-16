@@ -39,6 +39,10 @@ dependencies = [
 dev = ["pytest", "pytest-cov", "ruff", "mypy", "types-requests"]
 tiktoken = ["tiktoken>=0.5"]
 anthropic = ["anthropic>=0.25"]
+# Pinned below mkdocs-material's next major -- see its own in-console
+# warning about MkDocs 2.0 being a breaking, plugin-incompatible
+# rewrite (https://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/).
+docs = ["mkdocs-material>=9,<10"]
 
 [tool.setuptools.packages.find]
 include = ["contextshift*"]

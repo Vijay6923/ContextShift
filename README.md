@@ -265,6 +265,17 @@ tests/                   Test suite for contextshift/ itself — no Flask,
   Records, in numeric order, tracing the library's evolution from a
   single-file Flask application into this framework.
 - [`docs/roadmap.md`](docs/roadmap.md) — what's done and what's next.
+- [`docs/versioning.md`](docs/versioning.md) — the semver policy, and
+  what's actually protocol-stable pre-1.0.
+- [`docs/benchmarks/`](docs/benchmarks/) — committed, literal output of
+  every benchmark suite, regenerable with
+  `python -m contextshift.benchmark`.
+
+All of the above is also published as a browsable site via
+[`mkdocs.yml`](mkdocs.yml) (Material for MkDocs) — build it locally with
+`pip install -e ".[docs]" && mkdocs serve`; `.github/workflows/docs.yml`
+deploys it to GitHub Pages on push to `main` once Pages is enabled for
+this repository (Settings → Pages → Source: GitHub Actions).
 
 ## Example Application
 
