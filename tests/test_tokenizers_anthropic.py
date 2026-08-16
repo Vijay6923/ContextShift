@@ -89,6 +89,67 @@ def test_uses_configured_model(monkeypatch):
     assert fake_client.messages.calls[0]["model"] == "claude-3-5-haiku-latest"
 
 
+def test_retries_and_succeeds_after_a_connection_error(monkeypatch):
+    import anthropic
+    import httpx
+
+    request = httpx.Request("POST", "https://api.anthropic.com/v1/messages/count_tokens")
+    fake_client = _install_fake_client(monkeypatch)
+    calls = fake_client.messages.calls
+    real_count_tokens = fake_client.messages.count_tokens
+    attempt = {"n": 0}
+
+    def flaky_count_tokens(*, model, messages):
+        attempt["n"] += 1
+        if attempt["n"] == 1:
+            raise anthropic.APIConnectionError(request=request)
+        return real_count_tokens(model=model, messages=messages)
+
+    fake_client.messages.count_tokens = flaky_count_tokens
+    monkeypatch.setattr("time.sleep", lambda seconds: None)
+
+    result = AnthropicTokenizer(api_key="k").estimate_tokens("hello")
+
+    assert result == 7  # default fake input_tokens
+    assert attempt["n"] == 2  # failed once, succeeded on retry
+    assert len(calls) == 1  # only the successful call reached real_count_tokens
+
+
+def test_raises_a_friendly_exception_after_exhausting_retries(monkeypatch):
+    import anthropic
+    import httpx
+
+    request = httpx.Request("POST", "https://api.anthropic.com/v1/messages/count_tokens")
+    fake_client = _install_fake_client(monkeypatch)
+
+    def always_fails(*, model, messages):
+        raise anthropic.APIConnectionError(request=request)
+
+    fake_client.messages.count_tokens = always_fails
+    monkeypatch.setattr("time.sleep", lambda seconds: None)
+
+    with pytest.raises(Exception, match="Failed to count tokens with Anthropic"):
+        AnthropicTokenizer(api_key="k").estimate_tokens("hello")
+
+
+def test_raises_a_friendly_exception_on_rate_limit(monkeypatch):
+    import anthropic
+    import httpx
+
+    request = httpx.Request("POST", "https://api.anthropic.com/v1/messages/count_tokens")
+    response = httpx.Response(429, request=request)
+    fake_client = _install_fake_client(monkeypatch)
+
+    def always_rate_limited(*, model, messages):
+        raise anthropic.RateLimitError("rate limited", response=response, body=None)
+
+    fake_client.messages.count_tokens = always_rate_limited
+    monkeypatch.setattr("time.sleep", lambda seconds: None)
+
+    with pytest.raises(Exception, match="Anthropic rate limit reached"):
+        AnthropicTokenizer(api_key="k").estimate_tokens("hello")
+
+
 def test_missing_anthropic_sdk_gives_a_clear_error(monkeypatch):
     import builtins
 
