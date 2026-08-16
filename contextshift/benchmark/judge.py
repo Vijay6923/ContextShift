@@ -161,14 +161,22 @@ def run_judged_benchmark(
     results: list[JudgedResult] = []
 
     for strategy in strategies:
+        # Selection is computed once per (strategy, fixture) pair, not
+        # once per run -- context_result never depends on `runs`, only
+        # provider.complete()'s answer does. Recomputing it inside the
+        # runs loop wasted latency for every strategy and, for one that
+        # calls a real model during build() (SummarizationStrategy),
+        # meant paying for `runs` redundant summarization calls per
+        # fixture for zero added signal.
+        context_results = [strategy.build(fixture.messages, budget) for fixture in fixtures]
+
         run_accuracies: list[float] = []
         all_raw: list[JudgedProbeRun] = []
 
         for _ in range(runs):
             correct = 0
             total = 0
-            for fixture in fixtures:
-                context_result = strategy.build(fixture.messages, budget)
+            for fixture, context_result in zip(fixtures, context_results):
                 for probe in fixture.probes:
                     if probe.expected_answer is None:
                         continue

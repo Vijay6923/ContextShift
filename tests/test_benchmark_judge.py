@@ -143,6 +143,33 @@ def test_run_judged_benchmark_raises_when_no_probe_anywhere_has_an_expected_answ
         run_judged_benchmark([fixture], BUDGET, [RecencyStrategy()], provider, SubstringJudge(), runs=1)
 
 
+def test_run_judged_benchmark_calls_build_once_per_fixture_regardless_of_runs():
+    # Regression test: context_result used to be recomputed inside the
+    # `for _ in range(runs)` loop, so a strategy's build() ran `runs`
+    # times per fixture even though only provider.complete() is meant
+    # to vary across runs. For a strategy whose build() makes a real,
+    # billed model call (SummarizationStrategy), that meant paying for
+    # `runs` redundant summarizations for zero added signal.
+    build_call_count = 0
+
+    class _CountingStrategy:
+        def build(self, messages, budget):
+            nonlocal build_call_count
+            build_call_count += 1
+            return RecencyStrategy().build(messages, budget)
+
+    fixture = _fixture(
+        "f",
+        [_msg("user", "hi")],
+        [Probe(question="q", load_bearing_indices=(0,), expected_answer="hi")],
+    )
+    provider = FakeLLMProvider(complete_response="hi")
+
+    run_judged_benchmark([fixture], BUDGET, [_CountingStrategy()], provider, SubstringJudge(), runs=5)
+
+    assert build_call_count == 1  # once, not once per run
+
+
 def test_run_judged_benchmark_repeats_runs_and_reports_stdev_of_zero_for_a_deterministic_fake():
     fixture = _fixture(
         "f",
