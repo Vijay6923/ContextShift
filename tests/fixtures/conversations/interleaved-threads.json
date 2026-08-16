@@ -1,0 +1,394 @@
+{
+  "name": "interleaved-threads",
+  "failure_mode": "interleaved-threads",
+  "description": "Two unrelated project threads (Atlas, Nova) are interleaved turn by turn for 60 messages; the answer to the final question depends on one specific message from only one of the two threads, near the end.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 0: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 0 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 0: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 0 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 1: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 1 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 1: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 1 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 2: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 2 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 2: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 2 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 3: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 3 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 3: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 3 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 4: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 4 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 4: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 4 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 5: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 5 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 5: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 5 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 6: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 6 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 6: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 6 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 7: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 7 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 7: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 7 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 8: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 8 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 8: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 8 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 9: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 9 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 9: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 9 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 10: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 10 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 10: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 10 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 11: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 11 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 11: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 11 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 12: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 12 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 12: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 12 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 13: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 13 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 13: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 13 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] status update 14: still investigating the timeout bug.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Noted, update 14 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Nova] status update 14: on track, no blockers.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Nova] Noted, update 14 logged.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Project Atlas] One more thing -- the timeout bug turns out to be caused by a misconfigured connection pool size of 5, should be 50.",
+      "token_count": 32,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Project Atlas] Got it -- connection pool size 5 should be 50.",
+      "token_count": 15,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "What was the root cause of the Project Atlas timeout bug?",
+      "token_count": 14,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What was the root cause of the Project Atlas timeout bug?",
+      "load_bearing_indices": [
+        60
+      ],
+      "expected_answer": "misconfigured connection pool size (5 instead of 50)"
+    }
+  ]
+}

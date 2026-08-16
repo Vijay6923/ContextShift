@@ -1,0 +1,130 @@
+{
+  "name": "topic-drift-gradual",
+  "failure_mode": "topic-drift",
+  "description": "Similar to topic-drift, but the drift is gradual (each topic overlaps with the next for a couple of turns) rather than a hard switch -- checks that strategies aren't accidentally relying on abrupt topic boundaries.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "The API rate limit we agreed on is 100 requests per minute.",
+      "token_count": 15,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "100 requests per minute, understood.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a pagination issue, number 0? It's about the pagination module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for pagination issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a pagination issue, number 1? It's about the pagination module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for pagination issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a caching issue, number 2? It's about the caching module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for caching issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a caching issue, number 3? It's about the caching module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for caching issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a caching issue, number 4? It's about the caching module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for caching issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a retries issue, number 5? It's about the retries module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for retries issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a retries issue, number 6? It's about the retries module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for retries issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a webhooks issue, number 7? It's about the webhooks module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for webhooks issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Before I forget -- what rate limit did we agree on?",
+      "token_count": 14,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What API rate limit was agreed on?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "100 requests per minute"
+    }
+  ]
+}

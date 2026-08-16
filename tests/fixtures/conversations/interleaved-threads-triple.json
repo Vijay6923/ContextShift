@@ -1,0 +1,394 @@
+{
+  "name": "interleaved-threads-triple",
+  "failure_mode": "interleaved-threads",
+  "description": "Three interleaved project threads instead of two, raising the ratio of irrelevant to relevant messages the strategy has to sort through before the final question.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "[Atlas] update 0: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 0: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 0: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 1: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 1: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 1: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 2: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 2: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 2: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 3: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 3: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 3: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 4: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 4: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 4: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 5: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 5: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 5: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 6: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 6: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 6: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 7: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 7: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 7: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 8: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 8: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 8: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 9: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 9: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] update 9: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Comet] Correction -- Comet's launch date is now March 3rd, not March 1st.",
+      "token_count": 16,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Comet] Updated -- launch date is March 3rd.",
+      "token_count": 10,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "What is Comet's launch date?",
+      "token_count": 6,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What is Project Comet's launch date?",
+      "load_bearing_indices": [
+        60
+      ],
+      "expected_answer": "March 3rd"
+    }
+  ]
+}

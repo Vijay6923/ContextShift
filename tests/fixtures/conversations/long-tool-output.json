@@ -1,0 +1,214 @@
+{
+  "name": "long-tool-output",
+  "failure_mode": "long-tool-output",
+  "description": "A single very large tool-output message (an 80-line log dump) contains one buried error line that answers the eventual question. Tests whether a strategy's pruning treats one expensive message fairly or drops it wholesale because of its size.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here's the full log from last night's batch run, can you find what went wrong?",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[INFO] worker-000 processed batch 0 in 100ms\n[INFO] worker-001 processed batch 1 in 101ms\n[INFO] worker-002 processed batch 2 in 102ms\n[INFO] worker-003 processed batch 3 in 103ms\n[INFO] worker-004 processed batch 4 in 104ms\n[INFO] worker-005 processed batch 5 in 105ms\n[INFO] worker-006 processed batch 6 in 106ms\n[INFO] worker-007 processed batch 7 in 107ms\n[INFO] worker-008 processed batch 8 in 108ms\n[INFO] worker-009 processed batch 9 in 109ms\n[INFO] worker-010 processed batch 10 in 110ms\n[INFO] worker-011 processed batch 11 in 111ms\n[INFO] worker-012 processed batch 12 in 112ms\n[INFO] worker-013 processed batch 13 in 113ms\n[INFO] worker-014 processed batch 14 in 114ms\n[INFO] worker-015 processed batch 15 in 115ms\n[INFO] worker-016 processed batch 16 in 116ms\n[INFO] worker-017 processed batch 17 in 117ms\n[INFO] worker-018 processed batch 18 in 118ms\n[INFO] worker-019 processed batch 19 in 119ms\n[INFO] worker-020 processed batch 20 in 120ms\n[INFO] worker-021 processed batch 21 in 121ms\n[INFO] worker-022 processed batch 22 in 122ms\n[INFO] worker-023 processed batch 23 in 123ms\n[INFO] worker-024 processed batch 24 in 124ms\n[INFO] worker-025 processed batch 25 in 125ms\n[INFO] worker-026 processed batch 26 in 126ms\n[INFO] worker-027 processed batch 27 in 127ms\n[INFO] worker-028 processed batch 28 in 128ms\n[INFO] worker-029 processed batch 29 in 129ms\n[INFO] worker-030 processed batch 30 in 130ms\n[INFO] worker-031 processed batch 31 in 131ms\n[INFO] worker-032 processed batch 32 in 132ms\n[INFO] worker-033 processed batch 33 in 133ms\n[INFO] worker-034 processed batch 34 in 134ms\n[INFO] worker-035 processed batch 35 in 135ms\n[INFO] worker-036 processed batch 36 in 136ms\n[INFO] worker-037 processed batch 37 in 137ms\n[INFO] worker-038 processed batch 38 in 138ms\n[INFO] worker-039 processed batch 39 in 139ms\n[INFO] worker-040 processed batch 40 in 140ms\n[ERROR] worker-041 crashed: OutOfMemoryError while loading model checkpoint 'v3-large.bin'\n[INFO] worker-041 processed batch 41 in 141ms\n[INFO] worker-042 processed batch 42 in 142ms\n[INFO] worker-043 processed batch 43 in 143ms\n[INFO] worker-044 processed batch 44 in 144ms\n[INFO] worker-045 processed batch 45 in 145ms\n[INFO] worker-046 processed batch 46 in 146ms\n[INFO] worker-047 processed batch 47 in 147ms\n[INFO] worker-048 processed batch 48 in 148ms\n[INFO] worker-049 processed batch 49 in 149ms\n[INFO] worker-050 processed batch 50 in 150ms\n[INFO] worker-051 processed batch 51 in 151ms\n[INFO] worker-052 processed batch 52 in 152ms\n[INFO] worker-053 processed batch 53 in 153ms\n[INFO] worker-054 processed batch 54 in 154ms\n[INFO] worker-055 processed batch 55 in 155ms\n[INFO] worker-056 processed batch 56 in 156ms\n[INFO] worker-057 processed batch 57 in 157ms\n[INFO] worker-058 processed batch 58 in 158ms\n[INFO] worker-059 processed batch 59 in 159ms\n[INFO] worker-060 processed batch 60 in 160ms\n[INFO] worker-061 processed batch 61 in 161ms\n[INFO] worker-062 processed batch 62 in 162ms\n[INFO] worker-063 processed batch 63 in 163ms\n[INFO] worker-064 processed batch 64 in 164ms\n[INFO] worker-065 processed batch 65 in 165ms\n[INFO] worker-066 processed batch 66 in 166ms\n[INFO] worker-067 processed batch 67 in 167ms\n[INFO] worker-068 processed batch 68 in 168ms\n[INFO] worker-069 processed batch 69 in 169ms\n[INFO] worker-070 processed batch 70 in 170ms\n[INFO] worker-071 processed batch 71 in 171ms\n[INFO] worker-072 processed batch 72 in 172ms\n[INFO] worker-073 processed batch 73 in 173ms\n[INFO] worker-074 processed batch 74 in 174ms\n[INFO] worker-075 processed batch 75 in 175ms\n[INFO] worker-076 processed batch 76 in 176ms\n[INFO] worker-077 processed batch 77 in 177ms\n[INFO] worker-078 processed batch 78 in 178ms\n[INFO] worker-079 processed batch 79 in 179ms",
+      "token_count": 739,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 0? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 1? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 2? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 3? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 4? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 5? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 6? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 7? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 8? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 9? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 10? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 11? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 12? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 13? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a infrastructure issue, number 14? It's about the infrastructure module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for infrastructure issue 14, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which worker crashed, and why?",
+      "token_count": 6,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which worker crashed in the batch run, and why?",
+      "load_bearing_indices": [
+        1
+      ],
+      "expected_answer": "worker-041 crashed with an OutOfMemoryError loading the model checkpoint"
+    }
+  ]
+}
