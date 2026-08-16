@@ -1,0 +1,286 @@
+{
+  "name": "early-establishment-contact",
+  "failure_mode": "early-establishment",
+  "description": "A fact set in the first message, referenced only after 21 unrelated filler exchanges -- same failure mode as early-establishment, a different fact/topic combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "If anything urgent comes up, contact Dev at dev@example.com.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Got it -- Dev at dev@example.com for urgent matters.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 0? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 1? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 2? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 3? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 4? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 5? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 6? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 7? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 8? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 9? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 10? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 11? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 12? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 13? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 14? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 14, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 15? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 15, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 16? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 16, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 17? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 17, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 18? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 18, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 19? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 19, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a onboarding issue, number 20? It's about the onboarding module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for onboarding issue 20, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Who should be contacted for urgent matters, and how?",
+      "token_count": 11,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Who should be contacted for urgent matters, and how?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "Dev at dev@example.com"
+    }
+  ]
+}

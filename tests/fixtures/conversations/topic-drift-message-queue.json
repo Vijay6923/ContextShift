@@ -1,0 +1,274 @@
+{
+  "name": "topic-drift-message-queue",
+  "failure_mode": "topic-drift",
+  "description": "The conversation drifts through 5 unrelated topics after an early decision, then circles back to ask about it -- same failure mode as topic-drift, a different decision/topic combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "We'll use Kafka for the event bus instead of RabbitMQ.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Kafka for the event bus, noted.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a partitioning issue, number 0? It's about the partitioning module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for partitioning issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a partitioning issue, number 1? It's about the partitioning module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for partitioning issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a partitioning issue, number 2? It's about the partitioning module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for partitioning issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a partitioning issue, number 3? It's about the partitioning module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for partitioning issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a consumer groups issue, number 0? It's about the consumer groups module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for consumer groups issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a consumer groups issue, number 1? It's about the consumer groups module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for consumer groups issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a consumer groups issue, number 2? It's about the consumer groups module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for consumer groups issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a consumer groups issue, number 3? It's about the consumer groups module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for consumer groups issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a schema registry issue, number 0? It's about the schema registry module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for schema registry issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a schema registry issue, number 1? It's about the schema registry module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for schema registry issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a schema registry issue, number 2? It's about the schema registry module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for schema registry issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a schema registry issue, number 3? It's about the schema registry module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for schema registry issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 0? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 1? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 2? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 3? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a retention policy issue, number 0? It's about the retention policy module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for retention policy issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a retention policy issue, number 1? It's about the retention policy module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for retention policy issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a retention policy issue, number 2? It's about the retention policy module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for retention policy issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a retention policy issue, number 3? It's about the retention policy module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for retention policy issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which message queue did we decide to use?",
+      "token_count": 10,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which message queue did we decide to use?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "Kafka"
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "name": "early-establishment-deadline",
+  "failure_mode": "early-establishment",
+  "description": "A fact set in the first message, referenced only after 17 unrelated filler exchanges -- same failure mode as early-establishment, a different fact/topic combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "The submission deadline is November 14th, no extensions.",
+      "token_count": 10,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Understood -- November 14th, no extensions.",
+      "token_count": 7,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 0? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 1? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 2? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 3? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 4? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 5? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 6? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 7? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 8? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 9? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 10? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 11? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 12? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 13? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 14? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 14, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 15? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 15, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a drafting issue, number 16? It's about the drafting module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for drafting issue 16, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "When is the submission deadline?",
+      "token_count": 6,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "When is the submission deadline?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "November 14th"
+    }
+  ]
+}

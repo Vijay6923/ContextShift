@@ -1,0 +1,178 @@
+{
+  "name": "topic-drift-testing-framework",
+  "failure_mode": "topic-drift",
+  "description": "The conversation drifts through 3 unrelated topics after an early decision, then circles back to ask about it -- same failure mode as topic-drift, a different decision/topic combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Let's standardize on pytest across all our Python repos.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "pytest across the board, understood.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a fixtures issue, number 0? It's about the fixtures module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for fixtures issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a fixtures issue, number 1? It's about the fixtures module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for fixtures issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a fixtures issue, number 2? It's about the fixtures module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for fixtures issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a fixtures issue, number 3? It's about the fixtures module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for fixtures issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a mocking issue, number 0? It's about the mocking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for mocking issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a mocking issue, number 1? It's about the mocking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for mocking issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a mocking issue, number 2? It's about the mocking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for mocking issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a mocking issue, number 3? It's about the mocking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for mocking issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a coverage reporting issue, number 0? It's about the coverage reporting module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for coverage reporting issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a coverage reporting issue, number 1? It's about the coverage reporting module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for coverage reporting issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a coverage reporting issue, number 2? It's about the coverage reporting module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for coverage reporting issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a coverage reporting issue, number 3? It's about the coverage reporting module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for coverage reporting issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "What testing framework did we standardize on?",
+      "token_count": 9,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What testing framework did we standardize on?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "pytest"
+    }
+  ]
+}

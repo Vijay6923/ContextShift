@@ -1,0 +1,226 @@
+{
+  "name": "topic-drift-cloud-provider",
+  "failure_mode": "topic-drift",
+  "description": "The conversation drifts through 4 unrelated topics after an early decision, then circles back to ask about it -- same failure mode as topic-drift, a different decision/topic combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "I'm choosing AWS over GCP and Azure for this project.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "AWS it is -- fits your existing tooling well.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a networking issue, number 0? It's about the networking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for networking issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a networking issue, number 1? It's about the networking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for networking issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a networking issue, number 2? It's about the networking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for networking issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a networking issue, number 3? It's about the networking module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for networking issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a IAM setup issue, number 0? It's about the IAM setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for IAM setup issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a IAM setup issue, number 1? It's about the IAM setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for IAM setup issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a IAM setup issue, number 2? It's about the IAM setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for IAM setup issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a IAM setup issue, number 3? It's about the IAM setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for IAM setup issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a billing alerts issue, number 0? It's about the billing alerts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for billing alerts issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a billing alerts issue, number 1? It's about the billing alerts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for billing alerts issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a billing alerts issue, number 2? It's about the billing alerts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for billing alerts issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a billing alerts issue, number 3? It's about the billing alerts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for billing alerts issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a region selection issue, number 0? It's about the region selection module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for region selection issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a region selection issue, number 1? It's about the region selection module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for region selection issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a region selection issue, number 2? It's about the region selection module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for region selection issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a region selection issue, number 3? It's about the region selection module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for region selection issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which cloud provider did I decide on?",
+      "token_count": 9,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which cloud provider did I decide on?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "AWS"
+    }
+  ]
+}

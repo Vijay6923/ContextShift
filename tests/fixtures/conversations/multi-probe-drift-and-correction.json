@@ -1,0 +1,233 @@
+{
+  "name": "multi-probe-drift-and-correction",
+  "failure_mode": "correction-of-earlier-answer",
+  "description": "A topic-drift-style setup (early decision, unrelated filler) combined with a later correction of that same decision -- two probes check the original statement and the correction survive independently.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "We're targeting Kubernetes for orchestration, not plain Docker Compose.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Kubernetes it is.",
+      "token_count": 3,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a helm charts issue, number 0? It's about the helm charts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for helm charts issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a helm charts issue, number 1? It's about the helm charts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for helm charts issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a helm charts issue, number 2? It's about the helm charts module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for helm charts issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ingress setup issue, number 0? It's about the ingress setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ingress setup issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ingress setup issue, number 1? It's about the ingress setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ingress setup issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ingress setup issue, number 2? It's about the ingress setup module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ingress setup issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a secrets management issue, number 0? It's about the secrets management module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for secrets management issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a secrets management issue, number 1? It's about the secrets management module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for secrets management issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a secrets management issue, number 2? It's about the secrets management module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for secrets management issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Correction -- we're actually going with Nomad instead of Kubernetes.",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Updated -- Nomad for orchestration.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scaling issue, number 3? It's about the scaling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scaling issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scaling issue, number 4? It's about the scaling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scaling issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scaling issue, number 5? It's about the scaling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scaling issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scaling issue, number 6? It's about the scaling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scaling issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scaling issue, number 7? It's about the scaling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scaling issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scaling issue, number 8? It's about the scaling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scaling issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which orchestrator did we decide on, originally and now?",
+      "token_count": 11,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which orchestrator was originally proposed?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "Kubernetes"
+    },
+    {
+      "question": "Which orchestrator did we actually decide on after the correction?",
+      "load_bearing_indices": [
+        20
+      ],
+      "expected_answer": "Nomad"
+    }
+  ]
+}

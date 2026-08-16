@@ -1,0 +1,226 @@
+{
+  "name": "long-tool-output-db-query-log",
+  "failure_mode": "long-tool-output",
+  "description": "A single large tool-output message contains one buried line that answers the eventual question -- same failure mode as long-tool-output, a different position/content combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here's the slow query log, what's the worst offender?",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[QUERY] SELECT * FROM orders WHERE id=0 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=1 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=2 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=3 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=4 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=5 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=6 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=7 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=8 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=9 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=10 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=11 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=12 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=13 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=14 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=15 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=16 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=17 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=18 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=19 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=20 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=21 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=22 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=23 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=24 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=25 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=26 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=27 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=28 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=29 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=30 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=31 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=32 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=33 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=34 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=35 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=36 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=37 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=38 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=39 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=40 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=41 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=42 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=43 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=44 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=45 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=46 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=47 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=48 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=49 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=50 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=51 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=52 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=53 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=54 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=55 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=56 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=57 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=58 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=59 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=60 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=61 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=62 -- 7ms\n[QUERY] SELECT * FROM orders JOIN users ON users.id=orders.user_id -- 14200ms (missing index)\n[QUERY] SELECT * FROM orders WHERE id=63 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=64 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=65 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=66 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=67 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=68 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=69 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=70 -- 7ms\n[QUERY] SELECT * FROM orders WHERE id=71 -- 8ms\n[QUERY] SELECT * FROM orders WHERE id=72 -- 5ms\n[QUERY] SELECT * FROM orders WHERE id=73 -- 6ms\n[QUERY] SELECT * FROM orders WHERE id=74 -- 7ms",
+      "token_count": 894,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 0? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 1? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 2? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 3? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 4? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 5? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 6? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 7? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 8? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 9? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 10? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 11? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 12? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 13? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 14? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 14, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a database issue, number 15? It's about the database module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for database issue 15, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which query was the slowest, and why?",
+      "token_count": 9,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which query was the slowest, and why?",
+      "load_bearing_indices": [
+        1
+      ],
+      "expected_answer": "the orders/users join at 14200ms, due to a missing index"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "name": "long-tool-output-early-error",
+  "failure_mode": "long-tool-output",
+  "description": "A single large tool-output message contains one buried line that answers the eventual question -- same failure mode as long-tool-output, a different position/content combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here's this morning's build log, can you tell me what failed?",
+      "token_count": 14,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[INFO] step-000 compiled target 'lib0' successfully\n[INFO] step-001 compiled target 'lib1' successfully\n[INFO] step-002 compiled target 'lib2' successfully\n[INFO] step-003 compiled target 'lib3' successfully\n[INFO] step-004 compiled target 'lib4' successfully\n[INFO] step-005 compiled target 'lib5' successfully\n[ERROR] step-006 failed: missing dependency 'libssl-dev' during linking\n[INFO] step-006 compiled target 'lib6' successfully\n[INFO] step-007 compiled target 'lib7' successfully\n[INFO] step-008 compiled target 'lib8' successfully\n[INFO] step-009 compiled target 'lib9' successfully\n[INFO] step-010 compiled target 'lib10' successfully\n[INFO] step-011 compiled target 'lib11' successfully\n[INFO] step-012 compiled target 'lib12' successfully\n[INFO] step-013 compiled target 'lib13' successfully\n[INFO] step-014 compiled target 'lib14' successfully\n[INFO] step-015 compiled target 'lib15' successfully\n[INFO] step-016 compiled target 'lib16' successfully\n[INFO] step-017 compiled target 'lib17' successfully\n[INFO] step-018 compiled target 'lib18' successfully\n[INFO] step-019 compiled target 'lib19' successfully\n[INFO] step-020 compiled target 'lib20' successfully\n[INFO] step-021 compiled target 'lib21' successfully\n[INFO] step-022 compiled target 'lib22' successfully\n[INFO] step-023 compiled target 'lib23' successfully\n[INFO] step-024 compiled target 'lib24' successfully\n[INFO] step-025 compiled target 'lib25' successfully\n[INFO] step-026 compiled target 'lib26' successfully\n[INFO] step-027 compiled target 'lib27' successfully\n[INFO] step-028 compiled target 'lib28' successfully\n[INFO] step-029 compiled target 'lib29' successfully\n[INFO] step-030 compiled target 'lib30' successfully\n[INFO] step-031 compiled target 'lib31' successfully\n[INFO] step-032 compiled target 'lib32' successfully\n[INFO] step-033 compiled target 'lib33' successfully\n[INFO] step-034 compiled target 'lib34' successfully\n[INFO] step-035 compiled target 'lib35' successfully\n[INFO] step-036 compiled target 'lib36' successfully\n[INFO] step-037 compiled target 'lib37' successfully\n[INFO] step-038 compiled target 'lib38' successfully\n[INFO] step-039 compiled target 'lib39' successfully\n[INFO] step-040 compiled target 'lib40' successfully\n[INFO] step-041 compiled target 'lib41' successfully\n[INFO] step-042 compiled target 'lib42' successfully\n[INFO] step-043 compiled target 'lib43' successfully\n[INFO] step-044 compiled target 'lib44' successfully\n[INFO] step-045 compiled target 'lib45' successfully\n[INFO] step-046 compiled target 'lib46' successfully\n[INFO] step-047 compiled target 'lib47' successfully\n[INFO] step-048 compiled target 'lib48' successfully\n[INFO] step-049 compiled target 'lib49' successfully\n[INFO] step-050 compiled target 'lib50' successfully\n[INFO] step-051 compiled target 'lib51' successfully\n[INFO] step-052 compiled target 'lib52' successfully\n[INFO] step-053 compiled target 'lib53' successfully\n[INFO] step-054 compiled target 'lib54' successfully\n[INFO] step-055 compiled target 'lib55' successfully\n[INFO] step-056 compiled target 'lib56' successfully\n[INFO] step-057 compiled target 'lib57' successfully\n[INFO] step-058 compiled target 'lib58' successfully\n[INFO] step-059 compiled target 'lib59' successfully\n[INFO] step-060 compiled target 'lib60' successfully\n[INFO] step-061 compiled target 'lib61' successfully\n[INFO] step-062 compiled target 'lib62' successfully\n[INFO] step-063 compiled target 'lib63' successfully\n[INFO] step-064 compiled target 'lib64' successfully\n[INFO] step-065 compiled target 'lib65' successfully\n[INFO] step-066 compiled target 'lib66' successfully\n[INFO] step-067 compiled target 'lib67' successfully\n[INFO] step-068 compiled target 'lib68' successfully\n[INFO] step-069 compiled target 'lib69' successfully",
+      "token_count": 556,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 0? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 1? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 2? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 3? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 4? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 5? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 6? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 7? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 8? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 9? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 10? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 11? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 12? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 13? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 14? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 14, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 15? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 15, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 16? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 16, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ci issue, number 17? It's about the ci module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ci issue 17, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which build step failed, and why?",
+      "token_count": 7,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which build step failed, and why?",
+      "load_bearing_indices": [
+        1
+      ],
+      "expected_answer": "step-006 failed due to a missing 'libssl-dev' dependency"
+    }
+  ]
+}

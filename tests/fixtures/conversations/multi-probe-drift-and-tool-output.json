@@ -1,0 +1,221 @@
+{
+  "name": "multi-probe-drift-and-tool-output",
+  "failure_mode": "long-tool-output",
+  "description": "An early tooling decision combined with a large tool-output message containing a buried failure later in the conversation -- two probes check both survive independently.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "We're using Terraform for infrastructure, not raw CloudFormation.",
+      "token_count": 10,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Terraform it is.",
+      "token_count": 3,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a state backend issue, number 0? It's about the state backend module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for state backend issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a state backend issue, number 1? It's about the state backend module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for state backend issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a state backend issue, number 2? It's about the state backend module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for state backend issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a state backend issue, number 3? It's about the state backend module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for state backend issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a module structure issue, number 0? It's about the module structure module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for module structure issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a module structure issue, number 1? It's about the module structure module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for module structure issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a module structure issue, number 2? It's about the module structure module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for module structure issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a module structure issue, number 3? It's about the module structure module.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for module structure issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 22,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Here's the job log from the nightly run, what failed?",
+      "token_count": 13,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[INFO] job-000 completed\n[INFO] job-001 completed\n[INFO] job-002 completed\n[INFO] job-003 completed\n[INFO] job-004 completed\n[INFO] job-005 completed\n[INFO] job-006 completed\n[INFO] job-007 completed\n[INFO] job-008 completed\n[INFO] job-009 completed\n[INFO] job-010 completed\n[INFO] job-011 completed\n[INFO] job-012 completed\n[INFO] job-013 completed\n[INFO] job-014 completed\n[INFO] job-015 completed\n[INFO] job-016 completed\n[INFO] job-017 completed\n[ERROR] job-018 failed: authentication token expired mid-run\n[INFO] job-018 completed\n[INFO] job-019 completed\n[INFO] job-020 completed\n[INFO] job-021 completed\n[INFO] job-022 completed\n[INFO] job-023 completed\n[INFO] job-024 completed\n[INFO] job-025 completed\n[INFO] job-026 completed\n[INFO] job-027 completed\n[INFO] job-028 completed\n[INFO] job-029 completed\n[INFO] job-030 completed\n[INFO] job-031 completed\n[INFO] job-032 completed\n[INFO] job-033 completed\n[INFO] job-034 completed\n[INFO] job-035 completed\n[INFO] job-036 completed\n[INFO] job-037 completed\n[INFO] job-038 completed\n[INFO] job-039 completed",
+      "token_count": 165,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scheduling issue, number 8? It's about the scheduling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scheduling issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scheduling issue, number 9? It's about the scheduling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scheduling issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scheduling issue, number 10? It's about the scheduling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scheduling issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scheduling issue, number 11? It's about the scheduling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scheduling issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scheduling issue, number 12? It's about the scheduling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scheduling issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a scheduling issue, number 13? It's about the scheduling module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for scheduling issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which IaC tool are we using, and which job failed overnight?",
+      "token_count": 14,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which infrastructure-as-code tool are we using?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "Terraform"
+    },
+    {
+      "question": "Which job failed in the nightly run, and why?",
+      "load_bearing_indices": [
+        19
+      ],
+      "expected_answer": "job-018 failed: authentication token expired mid-run"
+    }
+  ]
+}

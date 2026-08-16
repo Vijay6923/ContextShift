@@ -1,0 +1,466 @@
+{
+  "name": "interleaved-threads-two-numeric",
+  "failure_mode": "interleaved-threads",
+  "description": "2 interleaved project threads; the answer depends on one correction message from a single thread -- same failure mode as interleaved-threads, a different thread count/position.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "[Falcon] update 0: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 0: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 1: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 1: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 2: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 2: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 3: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 3: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 4: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 4: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 5: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 5: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 6: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 6: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 7: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 7: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 8: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 8: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 9: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 9: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 10: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 10: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 11: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 11: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 12: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 12: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 13: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 13: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 14: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 14: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 15: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 15: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 16: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 16: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] update 17: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Orbit] update 17: nothing new to report.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Orbit] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Falcon] Correction -- the error budget was tightened to 0.1%, down from 0.5%.",
+      "token_count": 16,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Falcon] Updated -- Falcon's error budget is now 0.1%.",
+      "token_count": 11,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "What is Project Falcon's current error budget?",
+      "token_count": 9,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What is Project Falcon's current error budget?",
+      "load_bearing_indices": [
+        72
+      ],
+      "expected_answer": "0.1%"
+    }
+  ]
+}

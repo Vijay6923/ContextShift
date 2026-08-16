@@ -1,0 +1,221 @@
+{
+  "name": "multi-probe-tool-output-and-early-fact",
+  "failure_mode": "long-tool-output",
+  "description": "An early-established fact (environment name) combined with a large tool-output message containing a buried failure -- two probes check both survive independently of each other.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "For context, this environment is named 'staging-west'.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Noted -- environment 'staging-west'.",
+      "token_count": 5,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Here's the monitoring check output, what failed?",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[INFO] check-000 passed\n[INFO] check-001 passed\n[INFO] check-002 passed\n[INFO] check-003 passed\n[INFO] check-004 passed\n[INFO] check-005 passed\n[INFO] check-006 passed\n[INFO] check-007 passed\n[INFO] check-008 passed\n[INFO] check-009 passed\n[INFO] check-010 passed\n[INFO] check-011 passed\n[INFO] check-012 passed\n[INFO] check-013 passed\n[INFO] check-014 passed\n[INFO] check-015 passed\n[INFO] check-016 passed\n[INFO] check-017 passed\n[INFO] check-018 passed\n[INFO] check-019 passed\n[INFO] check-020 passed\n[INFO] check-021 passed\n[ERROR] check-022 failed: disk usage at 97%, threshold is 90%\n[INFO] check-022 passed\n[INFO] check-023 passed\n[INFO] check-024 passed\n[INFO] check-025 passed\n[INFO] check-026 passed\n[INFO] check-027 passed\n[INFO] check-028 passed\n[INFO] check-029 passed\n[INFO] check-030 passed\n[INFO] check-031 passed\n[INFO] check-032 passed\n[INFO] check-033 passed\n[INFO] check-034 passed\n[INFO] check-035 passed\n[INFO] check-036 passed\n[INFO] check-037 passed\n[INFO] check-038 passed\n[INFO] check-039 passed\n[INFO] check-040 passed\n[INFO] check-041 passed\n[INFO] check-042 passed\n[INFO] check-043 passed\n[INFO] check-044 passed\n[INFO] check-045 passed\n[INFO] check-046 passed\n[INFO] check-047 passed\n[INFO] check-048 passed\n[INFO] check-049 passed",
+      "token_count": 208,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 0? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 1? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 2? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 3? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 4? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 5? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 6? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 7? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 8? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 9? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 10? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 11? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 12? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a monitoring issue, number 13? It's about the monitoring module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for monitoring issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which environment had the failing check, and which check failed?",
+      "token_count": 13,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What is the environment named?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "staging-west"
+    },
+    {
+      "question": "Which check failed, and why?",
+      "load_bearing_indices": [
+        3
+      ],
+      "expected_answer": "check-022 failed: disk usage at 97%, over the 90% threshold"
+    }
+  ]
+}

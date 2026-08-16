@@ -1,0 +1,274 @@
+{
+  "name": "long-tool-output-late-error",
+  "failure_mode": "long-tool-output",
+  "description": "A single large tool-output message contains one buried line that answers the eventual question -- same failure mode as long-tool-output, a different position/content combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here's the full test run output, what broke?",
+      "token_count": 10,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[PASS] test_case_000 (20ms)\n[PASS] test_case_001 (21ms)\n[PASS] test_case_002 (22ms)\n[PASS] test_case_003 (23ms)\n[PASS] test_case_004 (24ms)\n[PASS] test_case_005 (25ms)\n[PASS] test_case_006 (26ms)\n[PASS] test_case_007 (27ms)\n[PASS] test_case_008 (28ms)\n[PASS] test_case_009 (29ms)\n[PASS] test_case_010 (30ms)\n[PASS] test_case_011 (31ms)\n[PASS] test_case_012 (32ms)\n[PASS] test_case_013 (33ms)\n[PASS] test_case_014 (34ms)\n[PASS] test_case_015 (35ms)\n[PASS] test_case_016 (36ms)\n[PASS] test_case_017 (37ms)\n[PASS] test_case_018 (38ms)\n[PASS] test_case_019 (39ms)\n[PASS] test_case_020 (40ms)\n[PASS] test_case_021 (41ms)\n[PASS] test_case_022 (42ms)\n[PASS] test_case_023 (43ms)\n[PASS] test_case_024 (44ms)\n[PASS] test_case_025 (45ms)\n[PASS] test_case_026 (46ms)\n[PASS] test_case_027 (47ms)\n[PASS] test_case_028 (48ms)\n[PASS] test_case_029 (49ms)\n[PASS] test_case_030 (50ms)\n[PASS] test_case_031 (51ms)\n[PASS] test_case_032 (52ms)\n[PASS] test_case_033 (53ms)\n[PASS] test_case_034 (54ms)\n[PASS] test_case_035 (55ms)\n[PASS] test_case_036 (56ms)\n[PASS] test_case_037 (57ms)\n[PASS] test_case_038 (58ms)\n[PASS] test_case_039 (59ms)\n[PASS] test_case_040 (60ms)\n[PASS] test_case_041 (61ms)\n[PASS] test_case_042 (62ms)\n[PASS] test_case_043 (63ms)\n[PASS] test_case_044 (64ms)\n[PASS] test_case_045 (65ms)\n[PASS] test_case_046 (66ms)\n[PASS] test_case_047 (67ms)\n[PASS] test_case_048 (68ms)\n[PASS] test_case_049 (69ms)\n[PASS] test_case_050 (70ms)\n[PASS] test_case_051 (71ms)\n[PASS] test_case_052 (72ms)\n[PASS] test_case_053 (73ms)\n[PASS] test_case_054 (74ms)\n[PASS] test_case_055 (75ms)\n[PASS] test_case_056 (76ms)\n[PASS] test_case_057 (77ms)\n[PASS] test_case_058 (78ms)\n[PASS] test_case_059 (79ms)\n[PASS] test_case_060 (80ms)\n[PASS] test_case_061 (81ms)\n[PASS] test_case_062 (82ms)\n[PASS] test_case_063 (83ms)\n[PASS] test_case_064 (84ms)\n[PASS] test_case_065 (85ms)\n[PASS] test_case_066 (86ms)\n[PASS] test_case_067 (87ms)\n[PASS] test_case_068 (88ms)\n[PASS] test_case_069 (89ms)\n[PASS] test_case_070 (90ms)\n[PASS] test_case_071 (91ms)\n[PASS] test_case_072 (92ms)\n[PASS] test_case_073 (93ms)\n[PASS] test_case_074 (94ms)\n[PASS] test_case_075 (95ms)\n[PASS] test_case_076 (96ms)\n[PASS] test_case_077 (97ms)\n[PASS] test_case_078 (98ms)\n[PASS] test_case_079 (99ms)\n[PASS] test_case_080 (100ms)\n[PASS] test_case_081 (101ms)\n[PASS] test_case_082 (102ms)\n[PASS] test_case_083 (103ms)\n[PASS] test_case_084 (104ms)\n[PASS] test_case_085 (105ms)\n[PASS] test_case_086 (106ms)\n[PASS] test_case_087 (107ms)\n[PASS] test_case_088 (108ms)\n[PASS] test_case_089 (109ms)\n[PASS] test_case_090 (110ms)\n[PASS] test_case_091 (111ms)\n[PASS] test_case_092 (112ms)\n[PASS] test_case_093 (113ms)\n[PASS] test_case_094 (114ms)\n[FAIL] test_case_095: AssertionError -- expected status 200, got 503\n[PASS] test_case_095 (115ms)\n[PASS] test_case_096 (116ms)\n[PASS] test_case_097 (117ms)\n[PASS] test_case_098 (118ms)\n[PASS] test_case_099 (119ms)",
+      "token_count": 401,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 0? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 1? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 2? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 3? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 4? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 5? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 6? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 7? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 8? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 9? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 10? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 11? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 12? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 13? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 14? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 14, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 15? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 15, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 16? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 16, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 17? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 17, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 18? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 18, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a debugging issue, number 19? It's about the debugging module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for debugging issue 19, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which test case failed, and what was the assertion error?",
+      "token_count": 13,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which test case failed, and what was the assertion error?",
+      "load_bearing_indices": [
+        1
+      ],
+      "expected_answer": "test_case_095 failed: expected status 200, got 503"
+    }
+  ]
+}

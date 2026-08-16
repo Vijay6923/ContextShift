@@ -1,0 +1,178 @@
+{
+  "name": "long-tool-output-security-scan",
+  "failure_mode": "long-tool-output",
+  "description": "A single large tool-output message contains one buried line that answers the eventual question -- same failure mode as long-tool-output, a different position/content combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here's the dependency security scan output, anything critical?",
+      "token_count": 10,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[OK] package-000 no known vulnerabilities\n[OK] package-001 no known vulnerabilities\n[OK] package-002 no known vulnerabilities\n[OK] package-003 no known vulnerabilities\n[OK] package-004 no known vulnerabilities\n[OK] package-005 no known vulnerabilities\n[OK] package-006 no known vulnerabilities\n[OK] package-007 no known vulnerabilities\n[OK] package-008 no known vulnerabilities\n[OK] package-009 no known vulnerabilities\n[OK] package-010 no known vulnerabilities\n[OK] package-011 no known vulnerabilities\n[OK] package-012 no known vulnerabilities\n[OK] package-013 no known vulnerabilities\n[OK] package-014 no known vulnerabilities\n[OK] package-015 no known vulnerabilities\n[OK] package-016 no known vulnerabilities\n[OK] package-017 no known vulnerabilities\n[OK] package-018 no known vulnerabilities\n[OK] package-019 no known vulnerabilities\n[OK] package-020 no known vulnerabilities\n[OK] package-021 no known vulnerabilities\n[OK] package-022 no known vulnerabilities\n[OK] package-023 no known vulnerabilities\n[OK] package-024 no known vulnerabilities\n[OK] package-025 no known vulnerabilities\n[OK] package-026 no known vulnerabilities\n[OK] package-027 no known vulnerabilities\n[OK] package-028 no known vulnerabilities\n[OK] package-029 no known vulnerabilities\n[CRITICAL] package-030 'legacy-parser' has CVE-2024-99999: remote code execution\n[OK] package-030 no known vulnerabilities\n[OK] package-031 no known vulnerabilities\n[OK] package-032 no known vulnerabilities\n[OK] package-033 no known vulnerabilities\n[OK] package-034 no known vulnerabilities\n[OK] package-035 no known vulnerabilities\n[OK] package-036 no known vulnerabilities\n[OK] package-037 no known vulnerabilities\n[OK] package-038 no known vulnerabilities\n[OK] package-039 no known vulnerabilities\n[OK] package-040 no known vulnerabilities\n[OK] package-041 no known vulnerabilities\n[OK] package-042 no known vulnerabilities\n[OK] package-043 no known vulnerabilities\n[OK] package-044 no known vulnerabilities\n[OK] package-045 no known vulnerabilities\n[OK] package-046 no known vulnerabilities\n[OK] package-047 no known vulnerabilities\n[OK] package-048 no known vulnerabilities\n[OK] package-049 no known vulnerabilities\n[OK] package-050 no known vulnerabilities\n[OK] package-051 no known vulnerabilities\n[OK] package-052 no known vulnerabilities\n[OK] package-053 no known vulnerabilities\n[OK] package-054 no known vulnerabilities\n[OK] package-055 no known vulnerabilities\n[OK] package-056 no known vulnerabilities\n[OK] package-057 no known vulnerabilities\n[OK] package-058 no known vulnerabilities\n[OK] package-059 no known vulnerabilities",
+      "token_count": 400,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 0? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 1? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 2? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 3? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 4? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 5? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 6? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 7? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 8? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 9? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 10? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a compliance issue, number 11? It's about the compliance module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for compliance issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which package has a critical vulnerability, and what is it?",
+      "token_count": 13,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which package has a critical vulnerability, and what is it?",
+      "load_bearing_indices": [
+        1
+      ],
+      "expected_answer": "'legacy-parser' has CVE-2024-99999, a remote code execution vulnerability"
+    }
+  ]
+}

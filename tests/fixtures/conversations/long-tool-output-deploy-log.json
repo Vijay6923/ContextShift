@@ -1,0 +1,202 @@
+{
+  "name": "long-tool-output-deploy-log",
+  "failure_mode": "long-tool-output",
+  "description": "A single large tool-output message contains one buried line that answers the eventual question -- same failure mode as long-tool-output, a different position/content combination.",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Here's the deployment log from last night, did anything go wrong?",
+      "token_count": 14,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[INFO] instance-000 health check passed\n[INFO] instance-001 health check passed\n[INFO] instance-002 health check passed\n[INFO] instance-003 health check passed\n[INFO] instance-004 health check passed\n[INFO] instance-005 health check passed\n[INFO] instance-006 health check passed\n[INFO] instance-007 health check passed\n[INFO] instance-008 health check passed\n[INFO] instance-009 health check passed\n[INFO] instance-010 health check passed\n[INFO] instance-011 health check passed\n[INFO] instance-012 health check passed\n[INFO] instance-013 health check passed\n[INFO] instance-014 health check passed\n[INFO] instance-015 health check passed\n[INFO] instance-016 health check passed\n[INFO] instance-017 health check passed\n[INFO] instance-018 health check passed\n[INFO] instance-019 health check passed\n[INFO] instance-020 health check passed\n[INFO] instance-021 health check passed\n[INFO] instance-022 health check passed\n[INFO] instance-023 health check passed\n[INFO] instance-024 health check passed\n[INFO] instance-025 health check passed\n[INFO] instance-026 health check passed\n[INFO] instance-027 health check passed\n[INFO] instance-028 health check passed\n[INFO] instance-029 health check passed\n[INFO] instance-030 health check passed\n[INFO] instance-031 health check passed\n[INFO] instance-032 health check passed\n[INFO] instance-033 health check passed\n[INFO] instance-034 health check passed\n[INFO] instance-035 health check passed\n[INFO] instance-036 health check passed\n[INFO] instance-037 health check passed\n[INFO] instance-038 health check passed\n[INFO] instance-039 health check passed\n[INFO] instance-040 health check passed\n[INFO] instance-041 health check passed\n[INFO] instance-042 health check passed\n[INFO] instance-043 health check passed\n[INFO] instance-044 health check passed\n[INFO] instance-045 health check passed\n[INFO] instance-046 health check passed\n[INFO] instance-047 health check passed\n[INFO] instance-048 health check passed\n[INFO] instance-049 health check passed\n[ERROR] instance-050 failed health check: connection refused on port 8080\n[INFO] instance-050 health check passed\n[INFO] instance-051 health check passed\n[INFO] instance-052 health check passed\n[INFO] instance-053 health check passed\n[INFO] instance-054 health check passed\n[INFO] instance-055 health check passed\n[INFO] instance-056 health check passed\n[INFO] instance-057 health check passed\n[INFO] instance-058 health check passed\n[INFO] instance-059 health check passed\n[INFO] instance-060 health check passed\n[INFO] instance-061 health check passed\n[INFO] instance-062 health check passed\n[INFO] instance-063 health check passed\n[INFO] instance-064 health check passed\n[INFO] instance-065 health check passed\n[INFO] instance-066 health check passed\n[INFO] instance-067 health check passed\n[INFO] instance-068 health check passed\n[INFO] instance-069 health check passed\n[INFO] instance-070 health check passed\n[INFO] instance-071 health check passed\n[INFO] instance-072 health check passed\n[INFO] instance-073 health check passed\n[INFO] instance-074 health check passed\n[INFO] instance-075 health check passed\n[INFO] instance-076 health check passed\n[INFO] instance-077 health check passed\n[INFO] instance-078 health check passed\n[INFO] instance-079 health check passed\n[INFO] instance-080 health check passed\n[INFO] instance-081 health check passed\n[INFO] instance-082 health check passed\n[INFO] instance-083 health check passed\n[INFO] instance-084 health check passed\n[INFO] instance-085 health check passed\n[INFO] instance-086 health check passed\n[INFO] instance-087 health check passed\n[INFO] instance-088 health check passed\n[INFO] instance-089 health check passed",
+      "token_count": 598,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 0? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 0, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 1? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 1, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 2? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 2, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 3? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 3, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 4? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 4, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 5? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 5, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 6? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 6, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 7? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 7, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 8? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 8, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 9? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 9, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 10? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 10, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 11? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 11, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 12? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 12, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Can you help me with a ops issue, number 13? It's about the ops module.",
+      "token_count": 19,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "Sure -- for ops issue 13, check the config and confirm the module is imported correctly.",
+      "token_count": 20,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "Which instance failed its health check during deployment, and why?",
+      "token_count": 13,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "Which instance failed its health check during deployment, and why?",
+      "load_bearing_indices": [
+        1
+      ],
+      "expected_answer": "instance-050 failed: connection refused on port 8080"
+    }
+  ]
+}

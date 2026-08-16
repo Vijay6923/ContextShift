@@ -1,0 +1,287 @@
+{
+  "name": "multi-probe-interleaved-and-pinned",
+  "failure_mode": "pinned-instruction-under-pressure",
+  "description": "Two interleaved project threads combined with a pinned instruction -- two probes check the pinned instruction and one specific interleaved message both survive.",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Always flag any security-related change explicitly.",
+      "token_count": 7,
+      "is_pinned": true
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 0: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 0: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 1: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 1: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 2: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 2: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 3: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 3: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 4: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 4: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 5: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 5: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 6: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 6: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 7: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 7: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 8: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 8: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] update 9: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Nova] update 9: nothing new.",
+      "token_count": 6,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Nova] Noted.",
+      "token_count": 2,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "[Atlas] Security update -- rotated the database credentials.",
+      "token_count": 10,
+      "is_pinned": false
+    },
+    {
+      "role": "assistant",
+      "content": "[Atlas] Flagged: security-related change -- credentials rotated.",
+      "token_count": 9,
+      "is_pinned": false
+    },
+    {
+      "role": "user",
+      "content": "What security change happened on Atlas, and what's your standing instruction?",
+      "token_count": 14,
+      "is_pinned": false
+    }
+  ],
+  "probes": [
+    {
+      "question": "What security-related change happened on Project Atlas?",
+      "load_bearing_indices": [
+        41
+      ],
+      "expected_answer": "database credentials were rotated"
+    },
+    {
+      "question": "What standing instruction was the assistant given?",
+      "load_bearing_indices": [
+        0
+      ],
+      "expected_answer": "always flag any security-related change explicitly"
+    }
+  ]
+}
