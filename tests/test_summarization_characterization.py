@@ -1,6 +1,7 @@
 """
-Direct comparison between the legacy utils.summarizer.summarize_messages
-(still what the running application uses) and the new
+Direct comparison between the legacy tests.fixtures.legacy.summarizer.summarize_messages
+(the pre-refactor implementation, kept only as a characterization
+fixture -- see tests/fixtures/legacy/__init__.py) and the new
 contextshift.summarization.Summarizer, verifying they construct the
 identical prompt (system message + conversation transcript) and forward
 the same max_tokens.
@@ -19,7 +20,7 @@ comparison.
 from contextshift.core import Message
 from contextshift.summarization import Summarizer
 from contextshift.testing import FakeLLMProvider
-from utils import summarizer as legacy
+from tests.fixtures.legacy import summarizer as legacy
 
 SCENARIOS = {
     "typical_exchange": [
@@ -47,7 +48,7 @@ def test_new_summarizer_prompt_matches_legacy_across_scenarios(monkeypatch):
             captured_legacy["max_tokens"] = max_tokens
             return "A dense summary."
 
-        monkeypatch.setattr("utils.summarizer.call_groq", fake_call_groq)
+        monkeypatch.setattr("tests.fixtures.legacy.summarizer.call_groq", fake_call_groq)
 
         legacy_result = legacy.summarize_messages(messages)
 

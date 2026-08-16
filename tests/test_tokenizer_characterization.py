@@ -1,8 +1,9 @@
 """
-Direct side-by-side comparison of utils.token_manager.estimate_tokens
-(legacy, still what the running application uses) against
-contextshift.tokenizers.heuristic (new, not wired into the application
-yet), over a representative corpus of inputs.
+Direct side-by-side comparison of
+tests.fixtures.legacy.token_manager.estimate_tokens (the pre-refactor
+implementation, kept only as a characterization fixture) against
+contextshift.tokenizers.heuristic, over a representative corpus of
+inputs.
 
 This is deliberately not just "the new code has its own tests passing" --
 it's a behavioral-equivalence check between the two implementations, run
@@ -13,7 +14,7 @@ import pytest
 
 from contextshift.tokenizers.heuristic import HeuristicTokenizer
 from contextshift.tokenizers.heuristic import estimate_tokens as new_estimate_tokens
-from utils.token_manager import estimate_tokens as legacy_estimate_tokens
+from tests.fixtures.legacy.token_manager import estimate_tokens as legacy_estimate_tokens
 
 QUALITATIVE_CORPUS = [
     "",

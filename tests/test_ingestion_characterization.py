@@ -17,7 +17,7 @@ tests/test_gemini_vision_provider.py.
 import pytest
 
 from contextshift.ingestion.pdf import extract_text_from_pdf
-from utils import file_processor as legacy
+from tests.fixtures.legacy import file_processor as legacy
 
 
 class _FakePage:

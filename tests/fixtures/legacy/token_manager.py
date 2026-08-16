@@ -1,4 +1,4 @@
-from config import Config
+from tests.fixtures.legacy.config import Config
 
 def estimate_tokens(text: str) -> int:
     """Simple heuristic: words * 1.3"""

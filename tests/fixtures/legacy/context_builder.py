@@ -1,5 +1,5 @@
-from config import Config
-from utils import token_manager
+from tests.fixtures.legacy.config import Config
+from tests.fixtures.legacy import token_manager
 
 def build_context(messages: list) -> list:
     """

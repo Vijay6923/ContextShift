@@ -1,7 +1,8 @@
 """
-Direct comparison between the legacy utils.summarizer (call_groq,
-call_groq_stream) -- still what the running application uses -- and the
-new contextshift.llm.groq.GroqProvider, with requests.post mocked so
+Direct comparison between the legacy tests.fixtures.legacy.summarizer
+(call_groq, call_groq_stream -- the pre-refactor implementation, kept
+only as a characterization fixture) and the new
+contextshift.llm.groq.GroqProvider, with requests.post mocked so
 neither side makes a real network call.
 
 Both implementations call `requests.post` as an attribute of the same
@@ -16,10 +17,10 @@ import time
 import pytest
 import requests
 
-from config import Config
 from contextshift.core import Message
 from contextshift.llm.groq import GroqProvider
-from utils import summarizer as legacy
+from tests.fixtures.legacy import summarizer as legacy
+from tests.fixtures.legacy.config import Config
 
 
 @pytest.fixture(autouse=True)

@@ -8,7 +8,16 @@ test module, so module-level code here runs first.
 """
 import os
 import sqlite3
+import sys
 import tempfile
+from pathlib import Path
+
+# examples/flask-chat/ (this file's parent directory) has no __init__.py,
+# so pytest's rootdir-insertion only adds examples/flask-chat/tests/ to
+# sys.path -- not far enough up to make `app`, `models`, `config`, and
+# `adapters` (one directory up) importable. Every sibling test module in
+# this directory relies on this insertion happening here, first.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 _TEST_DB_DIR = tempfile.mkdtemp(prefix="contextshift-test-")
 _TEST_DB_PATH = f"{_TEST_DB_DIR}/test.db"

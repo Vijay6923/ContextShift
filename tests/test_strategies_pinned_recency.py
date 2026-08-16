@@ -2,7 +2,7 @@
 Direct behavioral tests of PinnedRecencyStrategy against the new
 ContextStrategy interface. These mirror the scenarios already
 characterized against the legacy algorithm in test_context_builder.py
-(untouched, still passing, still exercising utils/context_builder.py) --
+(untouched, still passing, still exercising tests/fixtures/legacy/context_builder.py) --
 this file asserts the same outcomes are reachable through the new
 interface, plus a few cases specific to the new, configurable
 `recent_buffer` and the new `excluded` field that legacy has no

@@ -1,6 +1,7 @@
 """
-Direct comparison between the legacy utils.context_builder.build_context
-(still what the running application uses) and the new
+Direct comparison between the legacy
+tests.fixtures.legacy.context_builder.build_context (the pre-refactor
+implementation, kept only as a characterization fixture) and the new
 contextshift.strategies.pinned_recency.PinnedRecencyStrategy, run against
 the exact same Message objects for each scenario.
 
@@ -26,12 +27,12 @@ production, on the same inputs.
 """
 import pytest
 
-from config import Config
 from contextshift.core import Message, TokenBudget
 from contextshift.strategies.pinned_recency import PinnedRecencyStrategy
-from utils import context_builder as legacy
+from tests.fixtures.legacy import context_builder as legacy
+from tests.fixtures.legacy.config import Config
 
-# Copied verbatim from utils/context_builder.py -- deliberately duplicated
+# Copied verbatim from tests/fixtures/legacy/context_builder.py -- deliberately duplicated
 # here rather than imported, since owning this exact string is precisely
 # what the new strategy does NOT do (see ADR 0004). Duplicating it is what
 # lets this test prove the two implementations agree on selection while

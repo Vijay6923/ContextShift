@@ -2,7 +2,8 @@
 
 ## Purpose
 
-ContextShift is not a chatbot. The chatbot (the Flask app in this repo) is a
+ContextShift is not a chatbot. The chatbot (the Flask app in
+[`examples/flask-chat/`](../examples/flask-chat/)) is a
 demonstration and example client for the actual project: **a framework
 for experimenting with and comparing LLM context-window management
 strategies** — sliding windows, pinning, summarization, semantic retrieval,
@@ -28,12 +29,13 @@ library.
 ## Layer diagram
 
 ```
-Application            app.py, models.py, config.py — Flask, SQLAlchemy,
-                        HTTP routing, persistence, the example chat UI
+Application            examples/flask-chat/{app,models,config}.py — Flask,
+                        SQLAlchemy, HTTP routing, persistence, the example
+                        chat UI
 
       ↓ (imports)
 
-Adapters                adapters.py — translates between application-specific
+Adapters                examples/flask-chat/adapters.py — translates between application-specific
                         types (SQLAlchemy ORM rows, Config) and library-neutral
                         types (contextshift.core.Message). Lives on the
                         application side of the boundary.
@@ -108,9 +110,9 @@ a second time, inside the library itself.
 ## Dependency rules
 
 1. **Dependencies flow one direction only**, top to bottom in the diagram
-   above. `contextshift/` never imports from `app.py`, `models.py`,
-   `config.py`, or `adapters.py` — the library has zero awareness that a
-   Flask application exists, let alone this one.
+   above. `contextshift/` never imports from `examples/flask-chat/app.py`,
+   `models.py`, `config.py`, or `adapters.py` — the library has zero
+   awareness that a Flask application exists, let alone this one.
 2. **`contextshift/` has zero dependency on Flask or SQLAlchemy**, or on
    any other application/web framework. Its only third-party dependencies
    are the ones a subpackage genuinely needs (e.g. `requests` for the Groq

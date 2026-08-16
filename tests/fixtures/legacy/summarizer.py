@@ -1,7 +1,7 @@
 import json
 import time
 import requests
-from config import Config
+from tests.fixtures.legacy.config import Config
 
 _MAX_RETRIES = 3
 _BASE_BACKOFF = 5  # seconds

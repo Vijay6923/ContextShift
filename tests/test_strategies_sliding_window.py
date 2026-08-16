@@ -2,7 +2,7 @@
 Direct behavioral tests of SlidingWindowStrategy.
 
 No legacy implementation exists to characterize against (unlike
-PinnedRecencyStrategy, which was ported from utils/context_builder.py)
+PinnedRecencyStrategy, which was ported from tests/fixtures/legacy/context_builder.py)
 -- this is a new strategy, not a port, per
 docs/decisions/0012-strategy-framework-and-benchmark-review.md (Section
 2). In place of a legacy comparison, the scenarios below assert exact,

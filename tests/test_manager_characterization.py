@@ -25,12 +25,12 @@ test_strategy_characterization.py and test_llm_characterization.py:
 owning this string is precisely what ContextManager does NOT do (ADR
 0004, ADR 0011).
 """
-from config import Config
 from contextshift import ContextManager
 from contextshift.core import Message, TokenBudget
 from contextshift.strategies import PinnedRecencyStrategy
 from contextshift.testing import FakeLLMProvider
 from contextshift.tokenizers import HeuristicTokenizer
+from tests.fixtures.legacy.config import Config
 
 _CHAT_SYSTEM_PROMPT = (
     "You are a helpful assistant. The conversation history below may "
