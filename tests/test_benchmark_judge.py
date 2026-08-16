@@ -104,7 +104,34 @@ def test_run_judged_benchmark_scores_incorrect_answers():
     assert result.raw_runs[0].correct is False
 
 
-def test_run_judged_benchmark_skips_probes_without_expected_answer():
+def test_run_judged_benchmark_skips_individual_probes_without_expected_answer():
+    # A *mix* of scoreable and needle-only probes -- the None one must
+    # be skipped (not counted, not sent to the provider) while the real
+    # one is still judged normally.
+    fixture = _fixture(
+        "f",
+        [_msg("user", "hi")],
+        [
+            Probe(question="needle-only", load_bearing_indices=(0,), expected_answer=None),
+            Probe(question="q", load_bearing_indices=(0,), expected_answer="hi"),
+        ],
+    )
+    provider = FakeLLMProvider(complete_response="hi")
+
+    [result] = run_judged_benchmark([fixture], BUDGET, [RecencyStrategy()], provider, SubstringJudge(), runs=1)
+
+    assert len(result.raw_runs) == 1
+    assert result.raw_runs[0].question == "q"
+    assert result.accuracy_mean == 100.0
+
+
+def test_run_judged_benchmark_raises_when_no_probe_anywhere_has_an_expected_answer():
+    # If every probe across every fixture is needle-only, there is
+    # nothing to ask a provider or judge -- this must not silently
+    # report accuracy_mean=0.0 (indistinguishable from "asked and got
+    # every answer wrong"). See the docstring on run_judged_benchmark
+    # for why this diverges from needle.py's "0 out of 0 == 100%"
+    # convention rather than reusing it.
     fixture = _fixture(
         "f",
         [_msg("user", "hi")],
@@ -112,10 +139,8 @@ def test_run_judged_benchmark_skips_probes_without_expected_answer():
     )
     provider = FakeLLMProvider(complete_response="anything")
 
-    [result] = run_judged_benchmark([fixture], BUDGET, [RecencyStrategy()], provider, SubstringJudge(), runs=1)
-
-    # No scoreable probes -- nothing asked, nothing to be right or wrong about.
-    assert result.raw_runs == ()
+    with pytest.raises(ValueError, match="expected_answer"):
+        run_judged_benchmark([fixture], BUDGET, [RecencyStrategy()], provider, SubstringJudge(), runs=1)
 
 
 def test_run_judged_benchmark_repeats_runs_and_reports_stdev_of_zero_for_a_deterministic_fake():

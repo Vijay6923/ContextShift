@@ -130,6 +130,18 @@ def run_judged_benchmark(
     needle retention only (contextshift.benchmark.needle), not this
     tier, and are not silently scored as wrong.
 
+    Raises if not a single probe across `fixtures` has an
+    `expected_answer` set, rather than reporting `accuracy_mean=0.0`
+    for every strategy. Zero scoreable probes means nothing was ever
+    asked or judged -- reporting 0% would be indistinguishable from
+    "asked and got every answer wrong," which is a different, false
+    claim. This is why `needle.py`'s and `runner.py`'s "0 out of 0 ==
+    100%, nothing to lose" convention is deliberately *not* reused
+    here: that convention answers "how much survived," where a vacuous
+    "everything" is the right vacuous truth; this function answers
+    "how accurate were the answers," where a vacuous number in either
+    direction (0% or 100%) misrepresents "no data" as a real result.
+
     This is the only function in contextshift.benchmark that makes a
     network call. Nothing else in this package does, and this function
     never runs unless a caller explicitly supplies a provider and a
@@ -139,6 +151,12 @@ def run_judged_benchmark(
         raise ValueError(f"runs must be at least 1, got {runs}")
     if not fixtures:
         raise ValueError("run_judged_benchmark requires at least one fixture")
+    if not any(probe.expected_answer is not None for fixture in fixtures for probe in fixture.probes):
+        raise ValueError(
+            "run_judged_benchmark requires at least one probe with expected_answer set -- "
+            "every probe across every fixture has expected_answer=None, so there is nothing "
+            "to ask a provider or judge."
+        )
 
     results: list[JudgedResult] = []
 
