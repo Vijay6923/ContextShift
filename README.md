@@ -270,6 +270,8 @@ tests/                   Test suite for contextshift/ itself — no Flask,
 - [`docs/benchmarks/`](docs/benchmarks/) — committed, literal output of
   every benchmark suite, regenerable with
   `python -m contextshift.benchmark`.
+- [`docs/lessons.md`](docs/lessons.md) — short, dated notes on mistakes
+  worth not repeating.
 
 All of the above is also published as a browsable site via
 [`mkdocs.yml`](mkdocs.yml) (Material for MkDocs) — build it locally with
