@@ -9,6 +9,6 @@ from app import app
 # Export the app for Vercel
 # Vercel's Python runtime expects a variable named 'app'
 # which is why we import it as 'app'. The import itself is the point --
-# pyflakes has no way to know that and will call it unused, which is
-# why this file is deliberately excluded from this repo's pyflakes
-# invocation (see README.md's "Running the Tests" section).
+# a static linter has no way to know that and would call it unused,
+# which is why examples/flask-chat/ is excluded from this repo's ruff
+# scope entirely (see pyproject.toml's [tool.ruff] extend-exclude).

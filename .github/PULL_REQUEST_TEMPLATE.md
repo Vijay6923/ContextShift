@@ -8,7 +8,6 @@ any.
 
 - [ ] `pytest` passes locally (full suite: `contextshift/` +
       `examples/flask-chat/`)
-- [ ] `pyflakes contextshift/ tests/ examples/flask-chat/app.py examples/flask-chat/adapters.py examples/flask-chat/models.py examples/flask-chat/config.py` is clean
 - [ ] `ruff check .` is clean
 - [ ] `mypy --strict contextshift/` is clean
 - [ ] Tests were added or updated for the behavior this changes

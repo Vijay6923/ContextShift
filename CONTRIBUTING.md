@@ -40,13 +40,13 @@ Flask app's own tests (its core dependencies are already part of
 
 ```bash
 pytest                      # full suite: contextshift/ + examples/flask-chat/
-pyflakes contextshift/ tests/ examples/flask-chat/app.py examples/flask-chat/adapters.py examples/flask-chat/models.py examples/flask-chat/config.py
 ruff check .
 mypy --strict contextshift/
 ```
 
-All four are expected to pass clean before a pull request is opened.
-`mypy --strict` is scoped to `contextshift/`
+All three are expected to pass clean before a pull request is opened —
+exactly what `.github/workflows/ci.yml` runs, so a clean local run
+means CI will be clean too. `mypy --strict` is scoped to `contextshift/`
 only — the example Flask
 app is not held to the same typing standard, since it predates the
 library and exists to demonstrate usage, not to showcase typing

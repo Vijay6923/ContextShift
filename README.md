@@ -290,7 +290,6 @@ runs at [context-shift.vercel.app](https://context-shift.vercel.app/).
 ```bash
 pip install -r requirements-dev.txt
 pytest
-pyflakes contextshift/ tests/ examples/flask-chat/app.py examples/flask-chat/adapters.py examples/flask-chat/models.py examples/flask-chat/config.py
 ruff check .
 mypy --strict contextshift/
 ```

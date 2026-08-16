@@ -1,9 +1,13 @@
-# Installs contextshift itself (editable) plus pytest (see
-# pyproject.toml's [project.optional-dependencies].dev).
-# pyproject.toml's core [project.dependencies] already covers
-# everything examples/flask-chat/ needs (Flask, Flask-Cors,
-# Flask-SQLAlchemy, python-dotenv, requests, PyPDF2, Pillow,
-# google-genai) -- this file exists only so
+# Installs contextshift itself (editable) plus dev tooling
+# (pytest, pytest-cov, ruff, mypy -- see pyproject.toml's
+# [project.optional-dependencies].dev) and the tiktoken/anthropic
+# extras -- tests/test_tokenizers_tiktoken.py, test_tokenizers_anthropic.py,
+# and test_tokenizer_bench.py construct real TiktokenTokenizer/
+# AnthropicTokenizer instances, so the full test suite needs both
+# installed, not just importable. pyproject.toml's core
+# [project.dependencies] already covers everything examples/flask-chat/
+# needs (Flask, Flask-Cors, Flask-SQLAlchemy, python-dotenv, requests,
+# PyPDF2, Pillow, google-genai) -- this file exists only so
 # `pip install -r requirements-dev.txt` remains the one command that
 # sets up a full contributor environment, library and example app alike.
--e .[dev]
+-e .[dev,tiktoken,anthropic]
