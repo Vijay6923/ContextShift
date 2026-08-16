@@ -101,10 +101,16 @@ class GroqProvider:
                     )
                 return content
 
-            except requests.exceptions.RequestException as e:
+            except (requests.exceptions.RequestException, KeyError, IndexError, TypeError) as e:
+                # KeyError/IndexError/TypeError: a 200 response whose body
+                # doesn't have the expected {"choices": [{"message": {...}}]}
+                # shape (e.g. an error payload, or "choices": []) -- without
+                # this, such a response bypassed the retry loop entirely and
+                # crashed with a bare, unhandled exception instead of the
+                # same friendly, retried failure path a network error gets.
                 print(f"[GROQ API ERROR] attempt {attempt}: {str(e)}")
                 if attempt == _MAX_RETRIES:
-                    if "429" in str(e):
+                    if isinstance(e, requests.exceptions.RequestException) and "429" in str(e):
                         raise Exception("Groq rate limit reached. Please wait a moment and try again.")
                     raise Exception(f"Failed to call Groq API: {str(e)}")
                 time.sleep(_BASE_BACKOFF * attempt)

@@ -125,6 +125,35 @@ def test_complete_raises_on_null_content_instead_of_returning_the_string_none(mo
         _new_provider().complete(NEW_MESSAGES, max_tokens=100)
 
 
+def test_complete_retries_then_raises_cleanly_on_a_malformed_200_response(monkeypatch):
+    # Regression test: a 200 response missing the expected
+    # {"choices": [...]} shape used to raise a bare KeyError that
+    # bypassed the retry loop and every other error-handling path
+    # entirely. Now it gets the same retried-then-friendly-exception
+    # treatment as a network error.
+    _queue_responses(
+        monkeypatch,
+        [_FakeResponse(status_code=200, json_data={"error": "internal server error"}) for _ in range(3)],
+    )
+
+    with pytest.raises(Exception, match="Failed to call Groq API"):
+        _new_provider().complete(NEW_MESSAGES, max_tokens=100)
+
+
+def test_complete_retries_on_malformed_response_then_succeeds(monkeypatch):
+    _queue_responses(
+        monkeypatch,
+        [
+            _FakeResponse(status_code=200, json_data={"error": "internal server error"}),
+            _FakeResponse(status_code=200, json_data={"choices": [{"message": {"content": "Berlin."}}]}),
+        ],
+    )
+
+    result = _new_provider().complete(NEW_MESSAGES, max_tokens=100)
+
+    assert result == "Berlin."
+
+
 def test_complete_retries_on_429_then_succeeds_matching_legacy(monkeypatch):
     def responses():
         return [
