@@ -228,6 +228,32 @@ def test_to_csv_of_empty_results_is_just_the_header():
     assert len(rows) == 1
 
 
+def test_to_csv_includes_needle_columns_including_raw_counts_when_present():
+    result = BenchmarkResult(
+        strategy_name="X",
+        messages_kept=1,
+        messages_discarded=0,
+        tokens_kept=10,
+        tokens_discarded=0,
+        percentage_retained=100.0,
+        latency_seconds=0.0,
+        needle_retention=25.0,
+        needle_retained_count=1,
+        needle_total_count=4,
+        probes_satisfied="1 / 4",
+    )
+
+    rows = list(csv.reader(io.StringIO(to_csv([result]))))
+
+    assert rows[0][-4:] == [
+        "needle_retention",
+        "needle_retained_count",
+        "needle_total_count",
+        "probes_satisfied",
+    ]
+    assert rows[1][-4:] == ["25.00", "1", "4", "1 / 4"]
+
+
 # -- Markdown export --------------------------------------------------------
 
 
@@ -250,6 +276,50 @@ def test_to_markdown_produces_a_table_with_header_separator_and_one_row_per_resu
 def test_to_markdown_of_empty_results_is_header_and_separator_only():
     markdown = to_markdown([])
     assert len(markdown.splitlines()) == 2
+
+
+def test_to_markdown_shows_raw_counts_alongside_the_needle_retention_percentage():
+    # A bare "45.45%" invites the wrong reading ("nearly half") -- the
+    # raw counts are what let a reader see it's actually "5 out of 11."
+    result = BenchmarkResult(
+        strategy_name="X",
+        messages_kept=1,
+        messages_discarded=0,
+        tokens_kept=10,
+        tokens_discarded=0,
+        percentage_retained=100.0,
+        latency_seconds=0.0,
+        needle_retention=45.4545,
+        needle_retained_count=5,
+        needle_total_count=11,
+        probes_satisfied="5 / 11",
+    )
+
+    line = to_markdown([result]).splitlines()[2]
+
+    assert "5 / 11 (45.45%)" in line
+
+
+def test_to_markdown_falls_back_to_a_bare_percentage_without_raw_counts():
+    # A BenchmarkResult constructed with needle_retention but no counts
+    # (e.g. built by hand rather than via run_needle_benchmark()) still
+    # renders something sensible instead of crashing or showing "None".
+    result = BenchmarkResult(
+        strategy_name="X",
+        messages_kept=1,
+        messages_discarded=0,
+        tokens_kept=10,
+        tokens_discarded=0,
+        percentage_retained=100.0,
+        latency_seconds=0.0,
+        needle_retention=45.45,
+        probes_satisfied="5 / 11",
+    )
+
+    line = to_markdown([result]).splitlines()[2]
+
+    assert "45.45%" in line
+    assert "None" not in line
 
 
 # -- BenchmarkResult is a plain, inspectable value type ----------------------

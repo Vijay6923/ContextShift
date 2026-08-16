@@ -40,3 +40,4 @@ history of *why* stays intact.
 - [0010 — Multimodal architecture review](0010-multimodal-architecture-review.md)
 - [0011 — Framework v2 design review](0011-framework-v2-design-review.md) (proposed; Phases 1-4 implemented -- see its own "Phase implementation status" section)
 - [0012 — Strategy framework and benchmark review](0012-strategy-framework-and-benchmark-review.md) (proposed; SlidingWindowStrategy, RecencyStrategy, and the benchmark framework implemented since)
+- [0013 — Needle-retention benchmark](0013-needle-retention-benchmark.md)
