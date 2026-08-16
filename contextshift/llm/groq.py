@@ -86,7 +86,20 @@ class GroqProvider:
                     continue
 
                 response.raise_for_status()
-                return str(response.json()["choices"][0]["message"]["content"])
+                content = response.json()["choices"][0]["message"]["content"]
+                if not isinstance(content, str):
+                    # A well-formed 200 response can still carry a null (or
+                    # otherwise non-string) content field -- a tool-call-only
+                    # completion, for instance. str(content) would silently
+                    # turn that into the literal text "None"; raising instead
+                    # makes the failure visible at the call site rather than
+                    # flowing a fake answer into a summary or chat history.
+                    raise ValueError(
+                        f"Groq API returned a non-string content field ({content!r}) -- "
+                        "the response may be a tool-call-only completion, which this "
+                        "provider does not support."
+                    )
+                return content
 
             except requests.exceptions.RequestException as e:
                 print(f"[GROQ API ERROR] attempt {attempt}: {str(e)}")

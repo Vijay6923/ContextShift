@@ -107,6 +107,24 @@ def test_complete_happy_path_matches_legacy(monkeypatch):
     assert sent_payload["temperature"] == 0.7
 
 
+def test_complete_raises_on_null_content_instead_of_returning_the_string_none(monkeypatch):
+    # Deliberately NOT a "_matching_legacy" test: the legacy call_groq
+    # returns response.json()[...]["content"] completely unwrapped, so
+    # it would happily return None itself here -- an intentional
+    # divergence from legacy, not a comparison. A real Groq response
+    # can carry content: null (e.g. a tool-call-only completion); this
+    # asserts GroqProvider fails loudly instead of silently returning
+    # the literal string "None" (see docs/lessons.md for how this bug
+    # got introduced in the first place).
+    _queue_responses(
+        monkeypatch,
+        [_FakeResponse(status_code=200, json_data={"choices": [{"message": {"content": None}}]})],
+    )
+
+    with pytest.raises(ValueError, match="non-string content"):
+        _new_provider().complete(NEW_MESSAGES, max_tokens=100)
+
+
 def test_complete_retries_on_429_then_succeeds_matching_legacy(monkeypatch):
     def responses():
         return [
