@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install contextshift + dev dependencies
+        run: pip install -e ".[dev,tiktoken,anthropic]"
+
+      # Runs both tests/ (the library -- no network, no Flask, no
+      # database) and examples/flask-chat/tests/ (the example app) in
+      # one pass, the same as a contributor running `pytest` locally
+      # from the repository root.
+      - name: Run test suite with coverage
+        run: pytest --cov=contextshift --cov-report=term-missing --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        if: matrix.python-version == '3.12'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          fail_ci_if_error: false
+
+  benchmark-regression:
+    name: Benchmark suite regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install contextshift + dev dependencies
+        run: pip install -e ".[dev,tiktoken,anthropic]"
+
+      # Named separately from the main test job so a broken fixture or
+      # a strategy that stops differentiating on the needle-retention
+      # suite (see ADR 0013) shows up as its own, clearly-labeled CI
+      # check rather than one line inside a much larger pytest run.
+      - name: Needle-retention fixture suite
+        run: pytest tests/test_needle_fixtures_suite.py tests/test_needle_summarization_integration.py -v
+
+      - name: Tokenizer accuracy benchmark
+        run: pytest tests/test_tokenizer_bench.py -v
+
+      - name: docs/benchmarks/ matches a fresh run
+        run: pytest tests/test_benchmark_docs_not_stale.py tests/test_benchmark_cli.py -v
+
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install contextshift + dev dependencies
+        run: pip install -e ".[dev,tiktoken,anthropic]"
+
+      - name: ruff check
+        run: ruff check .
+
+  typecheck:
+    name: Type check (mypy --strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install contextshift + dev dependencies
+        run: pip install -e ".[dev,tiktoken,anthropic]"
+
+      # Scoped to contextshift/ only -- examples/flask-chat/ predates
+      # this library and isn't held to the same typing standard, the
+      # same scoping CONTRIBUTING.md documents for local development.
+      - name: mypy --strict
+        run: mypy --strict contextshift/

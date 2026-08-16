@@ -37,14 +37,14 @@ def prepare_image_for_vision(file_bytes: bytes, mime_type: str) -> tuple[bytes, 
     try:
         from PIL import Image
 
-        img = Image.open(io.BytesIO(file_bytes))
+        img: Image.Image = Image.open(io.BytesIO(file_bytes))
 
         # Convert palette/RGBA to RGB for JPEG compatibility.
         if img.mode in ("RGBA", "P", "LA"):
             img = img.convert("RGB")
 
         if max(img.width, img.height) > MAX_DIMENSION_PX:
-            img.thumbnail((MAX_DIMENSION_PX, MAX_DIMENSION_PX), Image.LANCZOS)
+            img.thumbnail((MAX_DIMENSION_PX, MAX_DIMENSION_PX), Image.Resampling.LANCZOS)
 
         buffer = io.BytesIO()
         img.save(buffer, format="JPEG", quality=JPEG_QUALITY, optimize=True)

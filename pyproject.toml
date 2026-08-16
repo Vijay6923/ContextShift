@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
@@ -35,7 +36,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "pytest-cov", "ruff", "mypy", "types-requests"]
 tiktoken = ["tiktoken>=0.5"]
 anthropic = ["anthropic>=0.25"]
 
@@ -44,3 +45,25 @@ include = ["contextshift*"]
 
 [tool.setuptools.package-data]
 contextshift = ["py.typed"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+# examples/flask-chat/ predates this library and demonstrates usage
+# rather than the library's own code -- not held to the same lint
+# standard (see CONTRIBUTING.md). tests/fixtures/legacy/ is the
+# pre-refactor reference implementation, kept verbatim on purpose so
+# characterization tests compare against genuinely untouched legacy
+# behavior -- restyling it would defeat that point.
+extend-exclude = ["examples/flask-chat", "tests/fixtures/legacy"]
+
+[tool.ruff.lint]
+# E/F: pyflakes-equivalent correctness checks (unused imports, undefined
+# names) -- the same class of issue pyflakes has always caught locally
+# in this project. I: import sorting/formatting.
+select = ["E", "F", "I"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["contextshift"]

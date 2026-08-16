@@ -1,5 +1,9 @@
 # ContextShift
 
+[![CI](https://github.com/Vijay6923/ContextShift/actions/workflows/ci.yml/badge.svg)](https://github.com/Vijay6923/ContextShift/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Vijay6923/ContextShift/branch/main/graph/badge.svg)](https://codecov.io/gh/Vijay6923/ContextShift)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **A Python framework for context engineering: pluggable, benchmarkable
 strategies for deciding what an LLM sees under a token budget.**
 
@@ -276,12 +280,17 @@ runs at [context-shift.vercel.app](https://context-shift.vercel.app/).
 pip install -r requirements-dev.txt
 pytest
 pyflakes contextshift/ tests/ examples/flask-chat/app.py examples/flask-chat/adapters.py examples/flask-chat/models.py examples/flask-chat/config.py
+ruff check .
+mypy --strict contextshift/
 ```
 
 A plain `pytest` from the repository root runs both the library's own
 suite (`tests/` — no Flask, no database, no network) and the example
 app's route-level suite
 ([`examples/flask-chat/tests/`](examples/flask-chat/tests/)) together.
+`ruff` and `mypy --strict` are exactly what CI runs
+(`.github/workflows/ci.yml`), so a clean local run means CI will be
+clean too.
 
 ## Contributing
 

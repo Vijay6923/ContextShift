@@ -86,7 +86,7 @@ class GroqProvider:
                     continue
 
                 response.raise_for_status()
-                return response.json()["choices"][0]["message"]["content"]
+                return str(response.json()["choices"][0]["message"]["content"])
 
             except requests.exceptions.RequestException as e:
                 print(f"[GROQ API ERROR] attempt {attempt}: {str(e)}")

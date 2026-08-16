@@ -1,6 +1,8 @@
 """Google Gemini vision client."""
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 from google import genai
 from google.genai import types
 from google.genai.errors import APIError
@@ -86,13 +88,23 @@ class GeminiVisionProvider:
             ),
         )
 
+        contents: Sequence[str | types.Part] = [
+            types.Part.from_bytes(data=processed_bytes, mime_type=processed_mime_type),
+            prompt_text,
+        ]
+
         try:
             response = client.models.generate_content(
                 model=self._model,
-                contents=[
-                    types.Part.from_bytes(data=processed_bytes, mime_type=processed_mime_type),
-                    prompt_text,
-                ],
+                # google-genai's own stub declares `contents` as a closed
+                # union of specific `list[...]` shapes rather than
+                # `Sequence[...]` (list is invariant) -- a mixed
+                # str/Part list is exactly what the SDK's own docs show
+                # as a valid call, verified directly against a real
+                # request in this project's test suite
+                # (test_gemini_vision_provider.py), so this is a stub
+                # gap, not a real type error.
+                contents=contents,  # type: ignore[arg-type]
                 config=types.GenerateContentConfig(
                     max_output_tokens=_MAX_OUTPUT_TOKENS,
                     temperature=_TEMPERATURE,
