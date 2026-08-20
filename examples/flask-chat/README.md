@@ -21,7 +21,7 @@ relative to this directory:
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env   # then fill in GROQ_API_KEY and GEMINI_API_KEY
+cp .env.example .env   # then fill in OPENROUTER_API_KEY and GEMINI_API_KEY
 python app.py
 ```
 
@@ -30,7 +30,8 @@ Open `http://localhost:5000`. A live deployment also runs at
 
 | Variable | Required | Used for |
 |---|---|---|
-| `GROQ_API_KEY` | Yes | Chat and summarization, via `GroqProvider` |
+| `OPENROUTER_API_KEY` | Yes | Chat and summarization, via `OpenRouterProvider` |
+| `OPENROUTER_MODEL` | No (default `meta-llama/llama-3.1-8b-instruct`) | Which OpenRouter model to chat with |
 | `GEMINI_API_KEY` | Only for image upload | Image understanding, via `GeminiVisionProvider` |
 | `FLASK_DEBUG` | No (default `true`) | Flask debug/reload mode |
 | `FLASK_PORT` | No (default `5000`) | Port the app listens on |

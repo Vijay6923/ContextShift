@@ -1,7 +1,7 @@
 """
 Baseline safety net for the pre-refactor Flask app (migration Step 0).
 
-This file must set DATABASE_URL / GROQ_API_KEY *before* `app` (and therefore
+This file must set DATABASE_URL / OPENROUTER_API_KEY *before* `app` (and therefore
 `config.Config`) is imported anywhere in the test session, since Config reads
 these at class-body evaluation time. pytest imports conftest.py ahead of any
 test module, so module-level code here runs first.
@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 _TEST_DB_DIR = tempfile.mkdtemp(prefix="contextshift-test-")
 _TEST_DB_PATH = f"{_TEST_DB_DIR}/test.db"
 os.environ["DATABASE_URL"] = f"sqlite:///{_TEST_DB_PATH}"
-os.environ.setdefault("GROQ_API_KEY", "test-key-not-real")
+os.environ.setdefault("OPENROUTER_API_KEY", "test-key-not-real")
 os.environ["FLASK_DEBUG"] = "false"
 
 import pytest  # noqa: E402

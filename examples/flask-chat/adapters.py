@@ -24,7 +24,7 @@ from config import Config
 from contextshift import ContextManager
 from contextshift.core import Message as CoreMessage
 from contextshift.core import TokenBudget
-from contextshift.llm import GroqProvider
+from contextshift.llm import OpenRouterProvider
 from contextshift.strategies import PinnedRecencyStrategy, total_tokens
 from contextshift.summarization import Summarizer
 from contextshift.tokenizers import HeuristicTokenizer
@@ -63,19 +63,23 @@ def build_tokenizer() -> HeuristicTokenizer:
     return HeuristicTokenizer()
 
 
-def build_provider() -> GroqProvider:
+def build_provider() -> OpenRouterProvider:
     """
-    Construct a GroqProvider from application config.
+    Construct an OpenRouterProvider from application config.
 
     Deliberately called fresh at each use site within a route, never
-    constructed once at module import time. GroqProvider validates
+    constructed once at module import time. OpenRouterProvider validates
     `api_key` at construction (ADR 0006); constructing it eagerly at
     import time would mean the app refuses to boot at all if
-    `GROQ_API_KEY` is unset. Calling this lazily, from inside each route
-    that needs it, means the app boots fine either way and only the
-    specific routes that need Groq fail if the key is missing.
+    `OPENROUTER_API_KEY` is unset. Calling this lazily, from inside each
+    route that needs it, means the app boots fine either way and only the
+    specific routes that need OpenRouter fail if the key is missing.
     """
-    return GroqProvider(api_key=Config.GROQ_API_KEY, model=Config.GROQ_MODEL, base_url=Config.GROQ_BASE_URL)
+    return OpenRouterProvider(
+        api_key=Config.OPENROUTER_API_KEY,
+        model=Config.OPENROUTER_MODEL,
+        base_url=Config.OPENROUTER_BASE_URL,
+    )
 
 
 def build_vision_provider() -> GeminiVisionProvider:
@@ -100,9 +104,9 @@ def build_context_manager() -> ContextManager:
 
     Deliberately called fresh at each use site, never constructed once
     at module import time -- for the same reason as build_provider(),
-    which it wraps: GroqProvider validates `api_key` at construction, so
-    building this eagerly at import time would mean the app refuses to
-    boot at all if `GROQ_API_KEY` is unset.
+    which it wraps: OpenRouterProvider validates `api_key` at
+    construction, so building this eagerly at import time would mean the
+    app refuses to boot at all if `OPENROUTER_API_KEY` is unset.
 
     `system_prompt` is the application's own text, not the library's
     (ADR 0004, ADR 0006, ADR 0011 Non-goals): this is the one place in
