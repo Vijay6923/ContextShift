@@ -88,7 +88,7 @@ def test_compute_token_stats_matches_expected_shape():
 
 
 def test_build_provider_reads_config_and_requires_api_key(monkeypatch):
-    monkeypatch.setattr(Config, "GROQ_API_KEY", "")
+    monkeypatch.setattr(Config, "OPENROUTER_API_KEY", "")
     with pytest.raises(ValueError):
         adapters.build_provider()
 
@@ -97,4 +97,4 @@ def test_build_summarizer_wraps_a_provider():
     summarizer = adapters.build_summarizer()
     assert summarizer is not None
     # Constructing one must not raise as long as a real API key is
-    # configured (conftest sets GROQ_API_KEY to a dummy non-empty value).
+    # configured (conftest sets OPENROUTER_API_KEY to a dummy non-empty value).
